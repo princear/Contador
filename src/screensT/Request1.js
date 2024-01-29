@@ -62,10 +62,7 @@ const Request = () => {
       setLoader(false);
     }, 2000);
   }, []);
-
-
-
-  //console.log(requestInfoData, 'requestInfoData')
+  console.log(requestInfoData, 'requestInfoData')
   return (
     <SafeAreaView>
       <Loader flag={loader} />
@@ -76,8 +73,8 @@ const Request = () => {
         </View> */}
         <View
 
-          style={{ backgroundColor: '#d5e3e5' }}
-        >
+style={{ backgroundColor: '#d5e3e5' }}
+>
           <View
             style={{
               width: '40%',
@@ -409,7 +406,7 @@ const Request = () => {
             })()}
           </View>
 
-          <View style={[styles.mainTab, { marginBottom: 10 }]}>
+          <View style={[styles.mainTab, { marginBottom: 10}]}>
             <View style={{ width: wp(55), height: hp(10) }}>
               {(() => {
                 if (showwhat == 'Experience') {
@@ -606,7 +603,7 @@ const Request = () => {
                 borderWidth: 1,
                 borderRadius: 10,
                 marginTop: 5,
-                height: hp(6),
+                height:hp(6),
                 padding: 5,
               }}>
               <View
@@ -674,7 +671,7 @@ const Request = () => {
 
                           alignItems: 'center',
                         }}>
-                        <Text style={{ color: Color.darkGreen, fontSize: 14, fontWeight: '600' }}>
+                        <Text style={{ color: Color.darkGreen, fontSize: 14,fontWeight:'600'}}>
                           Action Id
                         </Text>
                       </View>
@@ -701,7 +698,7 @@ const Request = () => {
 
                           alignItems: 'center',
                         }}>
-                        <Text style={{ color: Color.darkGreen, fontSize: 14, fontWeight: '600' }}>
+                        <Text style={{ color: Color.darkGreen,  fontSize: 14,fontWeight:'600'}}>
                           Created On
                         </Text>
                       </View>
@@ -711,11 +708,11 @@ const Request = () => {
 
                           alignItems: 'center',
                         }}>
-                        <Text style={{ color: Color.darkGreen, fontSize: 14, fontWeight: '600' }}>
+                        <Text style={{ color: Color.darkGreen, fontSize: 14,fontWeight:'600' }}>
                           Subject
                         </Text>
                       </View>
-
+                      
                     </View>
                     <View>
                       {/* <View style={styles.subContainer}> */}
@@ -732,11 +729,11 @@ const Request = () => {
                           keyExtractor={(item, index) => index}
                           renderItem={({ item, index }) => (
                             <TouchableOpacity
-                              onPress={() => {
-                                navigation.navigate('ViewRequest', {
-                                  actionId: item?.actionModel?.id
-                                })
-                              }}
+                            onPress={() => {
+                                    navigation.navigate('ViewRequest', {
+                                      actionId: item?.actionModel?.id
+                                    })
+                                  }}
                               style={{
                                 width: wp(90),
                                 backgroundColor: '#fff',
@@ -749,47 +746,47 @@ const Request = () => {
                                 flexDirection: 'row',
                                 height: wp(15),
                               }}>
+                            
 
 
 
-
-
-                              <View
-                                style={{
-                                  width: wp(25),
-                                  alignItems: 'center',
-                                }}>
-                                <Text style={{ color: '#2F4050', fontSize: 13 }}>
-                                  {item?.actionStaffModel?.actionId ? item?.actionStaffModel?.actionId : 'N/A'}
-                                </Text>
-                              </View>
-
-
-                              <View
-                                style={{
-                                  width: wp(25),
-
-                                  alignItems: 'center',
-                                }}>
-                                <Text style={{ color: '#2F4050', fontSize: 12 }}>
-                                  {
-                                    moment(item?.actionModel?.creationDate).format('MM-DD-YYYY')}
-                                </Text>
-                              </View>
-                              <View
-                                style={{
-                                  width: wp(35),
-
-                                  alignItems: 'center',
-                                }}>
-                                <Text
+                             
+                                <View
                                   style={{
-                                    color: '#2F4050', fontSize: 12
+                                    width: wp(25),
+                                    alignItems: 'center',
                                   }}>
-                                  {item?.actionModel?.subject}
-                                </Text>
-                              </View>
+                                  <Text style={{ color: '#2F4050', fontSize: 13 }}>
+                                    {item?.actionStaffModel?.actionId ? item?.actionStaffModel?.actionId : 'N/A'}
+                                  </Text>
+                                </View>
 
+
+                                <View
+                                  style={{
+                                    width: wp(25),
+
+                                    alignItems: 'center',
+                                  }}>
+                                  <Text style={{ color: '#2F4050', fontSize: 12 }}>
+                                    {
+                                      moment(item?.actionModel?.creationDate).format('MM-DD-YYYY')}
+                                  </Text>
+                                </View>
+                                <View
+                                  style={{
+                                    width: wp(35),
+
+                                    alignItems: 'center',
+                                  }}>
+                                  <Text
+                                    style={{
+                                      color: '#2F4050', fontSize: 12
+                                    }}>
+                                    {item?.actionModel?.subject}
+                                  </Text>
+                                </View>
+                                
                             </TouchableOpacity>
                           )}
                         />

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   Text, Linking,
@@ -8,9 +8,6 @@ import {
   Button,
   Alert
 } from 'react-native';
-import { jwtDecode } from "jwt-decode";
-import { decode } from 'base-64';
-
 import { LoginUser } from '../Redux/Actions/TaxLeaf';
 import AsyncStorage from '@react-native-community/async-storage';
 // import AzureAuth from 'react-native-azure-auth';
@@ -24,9 +21,7 @@ import {
 } from 'react-native-responsive-screen';
 import { useIsFocused, useNavigation } from '@react-navigation/native';
 import { Loader } from '../Component/Loader';
-import { authorize, revoke } from 'react-native-app-auth';
-import { WebView } from 'react-native-webview';
-
+import { authorize } from 'react-native-app-auth';
 
 
 // import { authorize, refresh, prefetchConfiguration } from 'react-native-app-auth';
@@ -42,7 +37,6 @@ import { WebView } from 'react-native-webview';
 
 const Login = () => {
 
-  const webViewRef = useRef(null);
 
   //   // console.log('clientId:', 'your-client-id');
   //   // console.log('tenant:', 'your-tenant-id');
@@ -56,40 +50,28 @@ const Login = () => {
 
 
   const bgImage = require('../Assets/img/login-mainbg.jpg');
-   const [email, setEmail] = useState("julietam.geraci@gmail.com");
-   //const [email, setEmail] = useState("aalok@eastsons.com");
-//  const [email, setEmail] = useState("prince@eastsons.com");
-  //const [email, setEmail] = useState("angiecotes@hotmail.com");
-
-  //const [email, setEmail] = useState("julietam.geraci@gmail.com");
-  //const [email, setEmail] = useState("Julieta.gracias@taxleaf.com");
-  
+  const [email, setEmail] = useState();
   const onChangeEmail = text => {
     setEmail(text);
   };
 
 
   const AuthConfig = {
-    // issuer: 'https://login.microsoftonline.com/9728fcf8-f04b-4271-b352-022a33fbfcc4', // Replace with your Azure AD tenant ID
-    // clientId: '17f808bd-072c-4b60-8ca9-e86199b17f79',
-    // redirectUrl: 'msauth://com.taxleaf/VzSiQcXRmi2kyjzcA%2BmYLEtbGVs%3D',
-    // scopes: ['openid', 'profile', 'email'], // Include 'email' scope to request user's email
-    // responseType: 'id_token token',
-    // additionalParameters: {
-    //   prompt: 'select_account',
-    //   login_hint: 'user@example.com',
-    //   state: 'random-state-value',
-    //   nonce: 'random-nonce-value',
-    //   // Add any other parameters as needed
-    // },
-
-
     appId: "17f808bd-072c-4b60-8ca9-e86199b17f79",
     //appId: '766090b1-948f-4eb3-ad69-9fc723b4e7d8',
 
     tenantId: "9728fcf8-f04b-4271-b352-022a33fbfcc4",
-    scopes: ['openid', 'profile', 'email', 'offline_access', 'User.Read.All', 'User.ReadWrite'], // Include 'email' scope to request user's email
-    responseType: 'id_token token',
+    appScopes: [
+
+      'User.Read',
+      'User.Write',
+      'User.ReadWriteAll',
+      'openid',
+      'offline_Access',
+      'email.read'
+
+
+    ],
   };
 
   const config = {
@@ -100,33 +82,18 @@ const Login = () => {
     // redirectUrl: Platform.OS === 'ios' ? 'urn:ietf:wg:oauth:2.0:oob' : 'msauth://com.taxleaf/VzSiQcXRmi2kyjzcA%2BmYLEtbGVs%3D',
     redirectUrl: 'msauth://com.taxleaf/VzSiQcXRmi2kyjzcA%2BmYLEtbGVs%3D',
     //redirectUrl: 'https://stagingclientportal.taxleaf.com/MicrosoftConnect',
-    scopes: AuthConfig.scopes,
-    //response_mode: 'query',
-    //responseType: 'id_token token',
-    additionalParameters: {
-      prompt: 'login',
-      // login_hint: 'user@example.com',
-      //state: 'random-state-value',
-      //nonce: 'random-nonce-value',
-      // Add any other parameters as needed
-    },
+    scopes: AuthConfig.appScopes,
+    response_mode: 'query',
+    additionalParameters: { prompt: 'select_account' },
     dangerouslyAllowInsecureHttpRequests: true,
     // serviceConfiguration: {
-    //   authorizationEndpoint: 'https://your-oidc-provider.com/oauth2/authorize',
-    //   tokenEndpoint: 'https://your-oidc-provider.com/oauth2/token',
-    //   revocationEndpoint: 'https://your-oidc-provider.com/oauth2/revoke',
+    //   authorizationEndpoint: 'https://login.microsoftonline.com/' + AuthConfig.tenantId + '/oauth2/v2.0/authorize',
+    //   tokenEndpoint: 'https://login.microsoftonline.com/' + AuthConfig.tenantId + '/oauth2/v2.0/token',
+    //   //response_type: 'id_token',
     // },
-    serviceConfiguration: {
-      authorizationEndpoint: 'https://login.microsoftonline.com/' + AuthConfig.tenantId + '/oauth2/v2.0/authorize',
-      revocationEndpoint: 'https://login.microsoftonline.com/' + AuthConfig.tenantId + '/revoke',
-      tokenEndpoint: 'https://login.microsoftonline.com/' + AuthConfig.tenantId + '/oauth2/v2.0/token',
-      responseType: 'id_token token',
-    }
-
-  }
 
 
-  //};
+  };
 
 
 
@@ -158,43 +125,21 @@ const Login = () => {
 
 
   const loginWithOffice365 = async () => {
-    console.log(config, 'OOOOOOOO')
-    //if (email) {
-
-    setLoader(true)
-    // dispatch(LoginUser(email, navigation))
 
     console.log("Before authorize");
     try {
       console.log('LLLLLLLLLLJJJJJJJJJJJJJ')
       let tempResult = await authorize(config);
-
-      //  const userEmail = tempResult.additionalParameters;
-      //  console.log('User email:', userEmail);
-      // console.log("After authorize", tempResult);
+      console.log("After authorize", tempResult);
 
       if (tempResult) {
         setLoader(true)
-
-        const idToken = tempResult.idToken;
-        const decodedToken = JSON.parse(decode(idToken.split('.')[1]));
-
-        //const decodedToken = jwtDecode(name);
-
-        // Extract user's email
-        const userEmail = decodedToken.email;
-
-        console.log('User Email:', userEmail, decodedToken);
-
-
-        dispatch(LoginUser(userEmail, navigation));
-        // dispatch(LoginUser(email, navigation));
+        dispatch(LoginUser("prince@eastsons.com", navigation));
         // AsyncStorage.setItem('login', JSON.stringify(tempResult.accessToken));
         // navigation.navigate('Auth');
         setTimeout(() => {
           setLoader(false)
         }, 2000);
-
 
       }
       else {
@@ -202,46 +147,13 @@ const Login = () => {
       }
 
 
+
       setResult(tempResult);
       // ...
     } catch (error) {
       console.error('Authentication failed:', error);
-
-      setLoader(false)
-
     }
-
-    // }
-    // else {
-    //   Alert.alert('Please Enter Email Address')
-    // }
-
   }
-
-
-  const signOut = async () => {
-
-    console.log(name, 'IIIIIIIIIIIII')
-    const decodedToken = JSON.parse(decode(name.split('.')[1]));
-
-    //const decodedToken = jwtDecode(name);
-
-    // Extract user's email
-    const userEmail = decodedToken.email;
-
-    console.log('User Email:', userEmail);
-    // try {
-    //   // Revoke the token(s) and perform any additional sign-out actions
-    //   let logoutToken = await revoke(config, { tokenToRevoke: 'accessToken' });
-    //   console.log(logoutToken, 'JJJJJJJJJJJJJJJJJJJJ')
-    //   // Navigate to your app's sign-in screen or perform any other action
-    //   // For example, you can use React Navigation to navigate to the login screen
-    //   //  navigation.navigate('Login');
-    // } catch (error) {
-    //   console.error('Sign-out error:', error);
-    // }
-  };
-
   //   let scopes = ['User.Read', 'User.ReadWrite']
   //   const azureAuth = new AzureAuth({
   //     //clientId: '17f808bd-072c-4b60-8ca9-e86199b17f79',
@@ -299,49 +211,49 @@ const Login = () => {
   //   //     console.error('Sign Out Error', error);
   //   //   }
   //   // };
-  const authenticate = async () => {
-    // try {
-    // Try to get cached token or refresh an expired ones
-    //   let tokens = await azureAuth.auth.acquireTokenSilent({ scope: scopes.join(' '), userId: this.state.userId })
-    //   if (!tokens) {
-    //     // No cached tokens or the requested scope defines new not yet consented permissions
-    //     // Open a window for user interaction
-    //     tokens = await azureAuth.webAuth.authorize({ scope: 'Mail.Read' })
-    //   }
-    //   let mails = await azureAuth.auth.msGraphRequest({ token: tokens.accessToken, path: '/me/mailFolders/Inbox/messages' })
-    // } catch (error) {
-    //   console.log(error)
-    // }
+  //   const authenticate = async () => {
+  //     // try {
+  //     // Try to get cached token or refresh an expired ones
+  //     //   let tokens = await azureAuth.auth.acquireTokenSilent({ scope: scopes.join(' '), userId: this.state.userId })
+  //     //   if (!tokens) {
+  //     //     // No cached tokens or the requested scope defines new not yet consented permissions
+  //     //     // Open a window for user interaction
+  //     //     tokens = await azureAuth.webAuth.authorize({ scope: 'Mail.Read' })
+  //     //   }
+  //     //   let mails = await azureAuth.auth.msGraphRequest({ token: tokens.accessToken, path: '/me/mailFolders/Inbox/messages' })
+  //     // } catch (error) {
+  //     //   console.log(error)
+  //     // }
 
-    //     // try {
-    //     //   // Try to get cached token or refresh an expired ones
-    //     //   let tokens = await azureAuth.auth.acquireTokenSilent({ scope: 'User.Read', userId:  })
-    //     //   if (!tokens) {
-    //     //     // No cached tokens or the requested scope defines new not yet consented permissions
-    //     //     // Open a window for user interaction
-    //     //     tokens = await azureAuth.webAuth.authorize({ scope: 'User.Read' })
-    //     //   }
-    //     //   let mails = await azureAuth.auth.msGraphRequest({ token: tokens.accessToken, path: '/me/mailFolders/Inbox/messages' })
-    //     // } catch (error) {
-    //     //   console.log(error)
-    //     // }
+  //     // try {
+  //     //   // Try to get cached token or refresh an expired ones
+  //     //   let tokens = await azureAuth.auth.acquireTokenSilent({ scope: 'User.Read', userId:  })
+  //     //   if (!tokens) {
+  //     //     // No cached tokens or the requested scope defines new not yet consented permissions
+  //     //     // Open a window for user interaction
+  //     //     tokens = await azureAuth.webAuth.authorize({ scope: 'User.Read' })
+  //     //   }
+  //     //   let mails = await azureAuth.auth.msGraphRequest({ token: tokens.accessToken, path: '/me/mailFolders/Inbox/messages' })
+  //     // } catch (error) {
+  //     //   console.log(error)
+  //     // }
 
-    // try {
-    //   console.log("OUUUUUUUUUUUUUUU")
-    //   let tokens = await azureAuth.webAuth.authorize({ scope: scopes.join(' ') })
-    //   console.log(token, 'PPPPPPPP')
-    //   setResult(tokens.accessToken)
-    //   console.log(result, 'LLLLLLLLLL')
-    //   // this.setState({ accessToken: tokens.accessToken });
-    //   let info = await azureAuth.auth.msGraphRequest({ token: tokens.accessToken, path: '/me' })
-    //   setName(info.displayName)
-    //   setId(tokens.userId)
-    //   console.log(id, name, 'KKKKKKKKKKK')
+  //     // try {
+  //     //   console.log("OUUUUUUUUUUUUUUU")
+  //     //   let tokens = await azureAuth.webAuth.authorize({ scope: scopes.join(' ') })
+  //     //   console.log(token, 'PPPPPPPP')
+  //     //   setResult(tokens.accessToken)
+  //     //   console.log(result, 'LLLLLLLLLL')
+  //     //   // this.setState({ accessToken: tokens.accessToken });
+  //     //   let info = await azureAuth.auth.msGraphRequest({ token: tokens.accessToken, path: '/me' })
+  //     //   setName(info.displayName)
+  //     //   setId(tokens.userId)
+  //     //   console.log(id, name, 'KKKKKKKKKKK')
 
-    //     //   // this.setState({ user: info.displayName, userId: tokens.userId })
-    //     // } catch (error) {
-    //     //   console.log(error, 'OOOOOO')
-  }
+  //     //   // this.setState({ user: info.displayName, userId: tokens.userId })
+  //     // } catch (error) {
+  //     //   console.log(error, 'OOOOOO')
+  //     // }
 
 
 
@@ -403,13 +315,11 @@ const Login = () => {
     <>
       <ImageBackground source={bgImage} style={styles.bgImg} resizeMode="cover">
         <Loader flag={loader} />
-
-
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            {/* <View
+            <View
               style={{
-                // marginBottom: 20,
+                marginBottom: 20,
                 width: wp(90),
                 alignSelf: 'center',
               }}>
@@ -417,7 +327,7 @@ const Login = () => {
                 source={require('../Assets/img/logo.png')}
                 style={styles.logo}
               />
-            </View> */}
+            </View>
             <View>
               {/* <AzureLoginView
                 azureInstance={azureInstance}
@@ -441,9 +351,11 @@ const Login = () => {
               </TouchableOpacity> */}
 
 
+
+
             </View>
             <View style={styles.formContainer}>
-               {/* <TextInput
+              <TextInput
                 placeholder="Enter Email"
                 placeholderTextColor={'lightgrey'}
                 style={[styles.input, { height: 50 }]}
@@ -451,56 +363,33 @@ const Login = () => {
                 onChangeText={text => {
                   onChangeEmail(text);
                 }}
-              />  */}
+              />
 
-              <View
-                style={{
-                  // marginBottom: 20,
-                  width: wp(90),
-                  alignSelf: 'center',
-                }}>
-                <Image
-                  source={require('../Assets/img/Contador_Logo1.png')}
-                  style={styles.logo}
-                />
-              </View>
               <TouchableOpacity
-                style={[styles.buttonContainer, styles.loginButton]}
-                onPress={() => loginWithOffice365()}>
-                <Text style={styles.loginText}>Login with Office365</Text>
-              </TouchableOpacity>
-               {/* <TouchableOpacity
                 onPress={() => onLogin()}
-                //  onPress={() => loginWithOffice365()}
                 // onPress={() => authenticate()}
                 style={[styles.button, styles.buttonClose]}
               // onPress={() => setModalVisible(!modalVisible)}
               >
                 <Text style={styles.textStyle}>Login</Text>
-              </TouchableOpacity>  */}
+              </TouchableOpacity>
 
 
             </View>
-            
             <View style={{
+
               marginTop: 10,
               justifyContent: 'center',
               alignItems: 'center',
               //  backgroundColor: '#DCDCDC',
             }}>
 
-           {/* <TouchableOpacity
+
+              <TouchableOpacity
                 style={[styles.buttonContainer, styles.loginButton]}
                 onPress={() => loginWithOffice365()}>
                 <Text style={styles.loginText}>Login with Office365</Text>
-              </TouchableOpacity> */}
-
-             {/* <TouchableOpacity
-                style={[styles.buttonContainer, styles.loginButton]}
-                onPress={() => signOut()}>
-                <Text style={styles.loginText}>Logout</Text>
-              </TouchableOpacity> */}
-
+              </TouchableOpacity>
             </View>
           </View>
         </View>
@@ -533,16 +422,7 @@ const Login = () => {
         {/* <Text style={styles.footerText}>
           © 2023 taxleaf.com - All Rights Reserved Login
         </Text> */}
-        {/* <WebView
-          ref={webViewRef}
-          source={{ uri: 'https://login.microsoftonline.com' }}
-          style={{ flex: 1, height: 300 }}
-          onNavigationStateChange={(navState) => {
-            // Handle navigation state changes if needed
-            console.log('Navigation State:', navState);
-          }}
-        /> */}
-      </ImageBackground>
+      </ImageBackground >
       {/* <View>
         <Image
           source={require('../Assets/img/bigbubble.png')}
@@ -571,13 +451,10 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   logo: {
-    marginTop: 20,
-    marginBottom: 20,
-    width: 180,
-    height: 80,
+    width: 150,
+    height: 50,
     resizeMode: 'contain',
     alignSelf: 'center',
-    // backgroundColor: "red",
   },
   text: {
     color: '#676A6C',
@@ -592,16 +469,15 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     height: 45,
-
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 20,
     width: 250,
-    borderRadius: 10,
+    borderRadius: 30,
   },
   loginButton: {
-    backgroundColor: '#1c84c6',
+    backgroundColor: '#3659b8',
   },
   loginText: {
     color: 'white',
@@ -614,18 +490,15 @@ const styles = StyleSheet.create({
   },
 
   formContainer: {
-    marginTop: 10,
-    //  backgroundColor: '#2F4050',
-    width: wp(80),
-    // height: wp(40),
-    alignSelf: "center",
-    // justifyContent: 'center',
-    alignItems: "center",
-    // padding: 10,
+    backgroundColor: '#2F4050',
+    width: wp(90),
+    height: wp(40),
+    justifyContent: 'center',
+    padding: 10,
     alignSelf: 'center',
-    // borderRadius: 20,
-    //borderTopLeftRadius: 20,
-    //borderTopRightRadius: 20,
+    borderRadius: 20,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
   },
   input: {
     height: 40,
@@ -653,11 +526,10 @@ const styles = StyleSheet.create({
   },
   modalView: {
     //margin: 20,
-    width: wp(80),
-    alignSelf: "center",
+
     backgroundColor: 'white',
-    borderRadius: 20,
-    // padding: 35,
+    //borderRadius: 20,
+    padding: 35,
 
     shadowColor: '#000',
     shadowOffset: {

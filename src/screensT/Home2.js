@@ -31,12 +31,11 @@ import Icon4 from 'react-native-vector-icons/FontAwesome6';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { dashboardlist } from '../Redux/Actions/Dashboard';
 import { white } from 'react-native-paper/lib/typescript/styles/themes/v2/colors';
-import HeaderIcons from '../Component/HeaderIcons';
+import HeadTabs from './HeadTabs';
 
 const HomeScreen = () => {
   const width = Dimensions.get('window').width;
-  const [showwhat1, setshowwhat1] = useState('');
-  const [showwhat2, setshowwhat2] = useState('');
+
   const [infoData, setInfoData] = useState({});
   const [dashboardList, setDashboardList] = useState([]);
   const [dashboardMessageList, setDashboardMessageList] = useState([]);
@@ -49,35 +48,11 @@ const HomeScreen = () => {
   const navigation = useNavigation();
   const jsonData = MY_INFO.guestInfo;
   const officeInfo = MY_INFO.officeInfo;
-  //   useEffect(() => {
-  //     console.log(MY_INFO,'Hooooooooo')
+  //const LoginUser = LOGIN_DATA.staffview;
 
-  //    Alert.alert('Hello World')
-  //     dispatch(ManagerInfo(jsonData?.clientId, jsonData?.clientType, navigation));
-  // console.log(MY_INFO,'Hooooooooo')
-  //   }, []);
-  const showwhatfunc1 = data => {
-    setshowwhat1(data);
-    console.log(data);
-  };
-  const showwhatfunc2 = data => {
-    setshowwhat2(data);
-    console.log(data);
-  };
-  useEffect(() => {
-    if (showwhat1) {
-      setshowwhat2('')
-
-    }
-  }, [showwhat1])
-  useEffect(() => {
-    if (showwhat2) {
-      setshowwhat1('')
-
-    }
-  }, [showwhat2])
-  console.log(showwhat1, 'showWhat');
-  console.log(dashboardMessageList?.length, 'messageList')
+  //console.log(LOGIN_DATA, 'HOMELOGIN_DATALOGIN_DATALOGIN_DATALOGIN_DATALOGIN_DATAHOMELOGIN_DATALOGIN_DATALOGIN_DATALOGIN_DATALOGIN_DATAHOMELOGIN_DATALOGIN_DATALOGIN_DATALOGIN_DATALOGIN_DATA')
+  //console.log(jsonData, 'jsonDatajsonDatajsonDatajsonDatajsonDatajsonDatajsonData')
+  // console.log(MANAGER_INFO, 'MANAGER_INFOMANAGER_INFOMANAGER_INFOMANAGER_INFOMANAGER_INFO')
 
   const data = [
     {
@@ -129,7 +104,7 @@ const HomeScreen = () => {
   const [loader, setLoader] = useState(false);
   useEffect(() => {
     setLoader(true);
-    dispatch(clientInfo(LOGIN_DATA.staffview.user, navigation));
+    dispatch(clientInfo(LOGIN_DATA.staffview?.user, navigation));
     dispatch(ManagerInfo(jsonData?.clientId, jsonData?.clientType, navigation));
     dispatch(
       dashboardlist(
@@ -147,6 +122,10 @@ const HomeScreen = () => {
       setLoader(false);
     }, 2000);
   }, []);
+
+
+
+
   useEffect(() => {
     setInfoData(MANAGER_INFO);
     setDashboardList(DASHBOARD_LIST);
@@ -167,21 +146,7 @@ const HomeScreen = () => {
     setDashboardList(DASHBOARD_LIST);
     setDashboardMessageList(DASHBOARD_MESSAGE_LIST);
   }, []);
-  useEffect(() => {
-    setInfoData(MANAGER_INFO);
-    setDashboardList(DASHBOARD_LIST);
-    setDashboardMessageList(DASHBOARD_MESSAGE_LIST);
-    dispatch(
-      dashboardlist(
-        jsonData?.clientId,
-        jsonData?.clientType,
-        officeInfo?.id,
-        navigation,
-      ),
-    );
-    dispatch(ManagerInfo(jsonData?.clientId, jsonData?.clientType, navigation));
 
-  }, [showwhat1]);
 
 
   useEffect(() => {
@@ -192,12 +157,13 @@ const HomeScreen = () => {
     // setTimeout(() => {
     //   setLoader(false);
     // }, 2000);
-  }, [MY_INFO, MANAGER_INFO, DASHBOARD_LIST, DASHBOARD_MESSAGE_LIST]);
+  }, []);
+  //}, [MY_INFO, MANAGER_INFO, DASHBOARD_LIST, DASHBOARD_MESSAGE_LIST]);
 
-  console.log(
-    dashboardList,
-    'newsandupdatelistnewsandupdatelistnewsandupdatelistnewsandupdatelistnewsandupdatelist',
-  );
+  // console.log(
+  //   dashboardList,
+  //   'newsandupdatelistnewsandupdatelistnewsandupdatelistnewsandupdatelistnewsandupdatelist',
+  // );
 
   const desiredNewsType = 'Holidays ';
   const TaxNewsType = 'Tax Deadlines';
@@ -209,7 +175,7 @@ const HomeScreen = () => {
     dashboardList &&
     dashboardList.filter(item => item.newsType === TaxNewsType);
 
-  console.log(TaxfilteredList, 'TaxfilteredListt');
+  // console.log(TaxfilteredList, 'TaxfilteredListt');
 
   const renderItem = ({ item }) => (
     <TouchableOpacity
@@ -219,34 +185,38 @@ const HomeScreen = () => {
       <View style={styles.cardShadow}>
         <Image
           source={item.img}
-          style={
-            item.id == 1 || item.id == 2
-              ? styles.Slidericons1
-              : styles.Slidericons
-          }
+          style={styles.Slidericons1}
+        // style={
+        //   item.id == 1 || item.id == 2
+        //     ? styles.Slidericons1
+        //     : styles.Slidericons
+        // }
         />
       </View>
       <View>
         <Text style={styles.postText}>{item.Title}</Text>
       </View>
-      <View style={{ padding: 5 }}>
-        <Text numberOfLines={3} style={styles.sliderText}>
+      <View style={{ padding: 1 }}>
+        <Text style={styles.sliderText}>
           {item.subHead}
         </Text>
         <Text style={styles.info}>{item.footHead}</Text>
         <TouchableOpacity style={styles.btn}>
-          <Icon1
-            style={[
-              styles.icon,
-              {
-                color: '#fff',
-              },
-            ]}
-            name="phone-in-talk"
-            size={20}
-            color="#fff"
-          />
-          <Text style={{ color: '#fff', marginLeft: 10 }}>987654</Text>
+          <View style={{ width: wp(10), }}>
+            <Icon1
+              style={[
+                styles.icon,
+                {
+                  color: '#fff',
+                },
+              ]}
+              name="phone-in-talk"
+              size={25}
+              color="#fff"
+            />
+          </View>
+
+          <Text style={{ color: '#fff', fontWeight: '700', width: wp(30), fontSize: 14 }}>888-Y-TAXLEAF</Text>
         </TouchableOpacity>
       </View>
     </TouchableOpacity>
@@ -258,36 +228,48 @@ const HomeScreen = () => {
           style={styles.bgImg}
           resizeMode="cover"> */}
       <Loader flag={loader} />
-      <ScrollView>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
+      >
         {/* <Text style={styles.heading}>
           Thank you for being our client since 2023
         </Text> */}
-        <HeaderIcons />
 
+        <HeadTabs />
 
         <View style={{ flex: 1, marginTop: 20, marginLeft: 20 }}>
+
           <Carousel
             loop
             width={width}
-            height={width}
+            height={wp(90)}
             autoPlay={true}
             data={data}
             scrollAnimationDuration={3000}
-            onSnapToItem={index => console.log('current index:', index)}
+            // onSnapToItem={index => console.log('current index:', index)}
             renderItem={renderItem}
+            style={{
+              borderRadius: 20,
+              // backgroundColor: 'red'
+              // Adjust the value as needed
+              //overflow: 'hidden',
+            }}
+
           />
+
         </View>
 
         <View style={styles.slideContainer}>
           <Image
-            source={require('../Assets/profileBlank.png')}
+            source={require('../Assets/profileBlank1.png')}
             style={styles.profileImg}
           />
           <Text style={styles.headText}>
             {MANAGER_INFO?.managerInfo?.firstName}{' '}
             {MANAGER_INFO?.managerInfo?.lastName}
           </Text>
-          <Text style={styles.headText1}>Get in Touch !</Text>
+          <Text style={styles.headText1}>Get in Touch!</Text>
           <ScrollView nestedScrollEnabled={true}>
             <View style={styles.infoHead}>
               <Text style={styles.infoHeadText}> Office Information</Text>
@@ -326,9 +308,9 @@ const HomeScreen = () => {
           </ScrollView>
         </View>
         <View style={{ height: wp(5) }}></View>
-      </ScrollView>
+      </ScrollView >
       {/* </ImageBackground> */}
-    </View>
+    </View >
   );
 };
 
@@ -337,7 +319,7 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#d5e3e5'
+    backgroundColor: Color.screenBg
   },
   heading: {
     fontSize: 16,
@@ -358,13 +340,15 @@ const styles = StyleSheet.create({
   slideContainer: {
     backgroundColor: '#fff',
     width: wp(90),
+
     justifyContent: 'center',
     alignSelf: 'center',
+
     /// height: 420,
     opacity: 2,
     paddingBottom: 20,
-    borderRadius: 10,
-    marginTop: 20,
+    borderRadius: 20,
+    // marginTop: 1,
     // width:'62%'
   },
   tabsContainer: {
@@ -380,57 +364,60 @@ const styles = StyleSheet.create({
     // width:'62%'
   },
   Slidericons: {
-    width: '80%',
-    height: 160,
-    resizeMode: 'contain',
+    width: wp(60),
+    height: wp(40),
+    marginTop: 10,
 
-    // marginTop: 10,
+    resizeMode: 'contain',
     // marginLeft: 20,
     alignSelf: 'center',
   },
   Slidericons1: {
-    width: '60%',
-    height: 140,
+    width: wp(60),
+    height: wp(40),
+    marginTop: 10,
+
     resizeMode: 'contain',
     // marginLeft: 20,
     alignSelf: 'center',
   },
   postText: {
     alignSelf: 'center',
-    color: Color.geen,
-    fontSize: 20,
-    fontWeight: '600',
+    color: Color.green,
+    fontSize: 21,
+    fontWeight: '700',
     // marginTop: 20,
   },
   sliderText: {
-    color: Color.darkGreen,
-    fontSize: 14,
+    color: Color.headerIconBG,
+    fontSize: 12,
     textAlign: 'center',
-    marginTop: 10,
+    marginTop: 2,
     fontWeight: '700'
   },
   cardSlider: {
-    flex: 1,
+    // flex: 1,
     //borderWidth: 1,
+    borderRadius: 20,
     backgroundColor: '#fff',
     width: wp(90),
     justifyContent: 'center',
   },
   info: {
-    color: Color.geen,
+    color: Color.green,
     alignSelf: 'center',
-    fontSize: 14,
-    marginTop: 10,
+    fontSize: 16,
+    marginTop: 2,
     fontWeight: '700'
   },
   btn: {
-    width: wp(40),
+    width: wp(45),
     alignSelf: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
     marginBottom: 30,
     marginTop: 10,
-    backgroundColor: Color.darkGreen,
+    backgroundColor: Color.headerIconBG,
     borderRadius: 30,
     padding: 10,
     alignItems: 'center',
@@ -451,11 +438,12 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   headText1: {
-    color: Color.darkGreen,
-    marginTop: 30,
-    fontWeight: '600',
+    color: Color.green,
+    marginTop: 10,
+    fontWeight: '700',
     fontSize: 20,
-    marginLeft: 30,
+    textAlign: "center",
+    //marginLeft: 30,
   },
   infoHead: {
     backgroundColor: Color.geen,
@@ -557,7 +545,7 @@ const styles = StyleSheet.create({
   cardShadow: {
     // backgroundColor: 'red',
     // height: 300,
-    paddingTop: 20,
+    paddingTop: 0,
   },
   bgImg: {
     height: hp(85)

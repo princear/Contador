@@ -52,7 +52,7 @@ const SplashScreen = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            <Image source={require('../Assets/img/Contador_Logo1.png')} style={styles.logo} />
+            <Image source={require('../Assets/img/logo.png')} style={styles.logo} />
         </View>
     );
 };

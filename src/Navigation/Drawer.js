@@ -107,7 +107,7 @@ const Drawer = () => {
     <SafeAreaView style={styles.container}>
       <Loader flag={loader} />
       <View style={styles.headImg}>
-        <Image source={require('../Assets/img/logo.png')} style={styles.logo} />
+        <Image source={require('../Assets/img/Contador_Logo1.png')} style={styles.logo} />
       </View>
 
       {/* <View style={{textAlign: 'center'}}>
@@ -369,12 +369,13 @@ const styles = StyleSheet.create({
     backgroundColor: 'yellow',
   },
   logo: {
-    width: '55%',
-    height: 60,
+    width: '60%',
+    height: 80,
     alignSelf: 'center',
+    resizeMode:'contain'
   },
   headImg: {
-    backgroundColor: '#F3F3F3',
+    backgroundColor: '#fff',
     padding: 10,
     //flex:1
   },

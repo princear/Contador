@@ -7,25 +7,25 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
-import React, {useState, useEffect} from 'react';
-import {LOGIN_DATA} from '../Redux/Actions/types';
-import {DataTable} from 'react-native-paper';
+import React, { useState, useEffect } from 'react';
+import { LOGIN_DATA } from '../Redux/Actions/types';
+import { DataTable } from 'react-native-paper';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {useDispatch, useSelector} from 'react-redux';
-import {clientInfo} from '../Redux/Actions/TaxLeaf';
-import {useIsFocused, useNavigation} from '@react-navigation/native';
-import {Loader} from '../Component/Loader';
+import { useDispatch, useSelector } from 'react-redux';
+import { clientInfo } from '../Redux/Actions/TaxLeaf';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
+import { Loader } from '../Component/Loader';
 import CustomHeader from '../Component/CustomHeader';
-import {Color} from '../Style';
+import { Color } from '../Style';
 import CustomBottomTab from '../Component/CustomBottomTab';
 
 const MyInfo = () => {
-  const {MY_INFO} = useSelector(state => state.TaxLeafReducer);
-  const {LOGIN_DATA} = useSelector(state => state.TaxLeafReducer);
-  console.log(LOGIN_DATA.staffview.user, 'Login_DataLogin_DataLogin_Data');
+  const { MY_INFO } = useSelector(state => state.TaxLeafReducer);
+  const { LOGIN_DATA } = useSelector(state => state.TaxLeafReducer);
+  console.log(LOGIN_DATA.staffview?.user, 'Login_DataLogin_DataLogin_Data');
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const jsonData = MY_INFO.staffview;
@@ -35,7 +35,7 @@ const MyInfo = () => {
   const [loader, setLoader] = useState(false);
   useEffect(() => {
     setLoader(true);
-    dispatch(clientInfo(LOGIN_DATA.staffview.user, navigation));
+    dispatch(clientInfo(LOGIN_DATA, navigation));
     setInfoData(MY_INFO);
     setTimeout(() => {
       setLoader(false);
@@ -57,7 +57,7 @@ const MyInfo = () => {
   // console.log(infoData, 'infoDatainfoDatainfoDatainfoDatainfoDatainfoData');
 
   return (
-    <View style={{flex: 1}}>
+    <View style={{ flex: 1 }}>
       <Loader flag={loader} />
       <CustomHeader />
       <ScrollView>
@@ -76,7 +76,7 @@ const MyInfo = () => {
             //  marginLeft: 20,
             //marginTop: 20,
           }}>
-          <View style={{textAlign: 'center'}}>
+          <View style={{ textAlign: 'center' }}>
             <Image
               source={require('../Assets/profileBlank.png')}
               style={{
@@ -121,7 +121,7 @@ const MyInfo = () => {
                 backgroundColor: Color.geen,
               }}>
               <Text style={styles.LIstText2}>
-                <Text style={{fontSize: 15, fontWeight: '600', color: '#fff'}}>
+                <Text style={{ fontSize: 15, fontWeight: '600', color: '#fff' }}>
                   Personal Info
                 </Text>
               </Text>
@@ -287,7 +287,7 @@ const MyInfo = () => {
         </View> */}
         </View>
 
-        <View style={{height: wp(10)}}></View>
+        <View style={{ height: wp(10) }}></View>
       </ScrollView>
       <CustomBottomTab />
     </View>

@@ -23,12 +23,15 @@ import { Dropdown } from 'react-native-element-dropdown';
 import CustomHeader from '../Component/CustomHeader';
 import CustomBottomTab from '../Component/CustomBottomTab';
 import { Color } from '../Style';
-import { folderNameList, documentInfobyFolder } from '../Redux/Actions/TaxLeaf';
+import { folderNameList, documentInfobyFolder, uploadFile, generateFileToken } from '../Redux/Actions/TaxLeaf';
 import { Loader } from '../Component/Loader';
 import { useDispatch, useSelector } from 'react-redux';
 import { useIsFocused, useNavigation } from '@react-navigation/native';
 import moment from 'moment';
 import DocumentPicker from 'react-native-document-picker'
+import MyInfo from './MyInfo';
+import RNFS from 'react-native-fs';
+import HeadTabs from './HeadTabs';
 
 let iconNm = require('../Assets/img/icons/msg.png');
 let usericon = require('../Assets/img/icons/user-icon.png');
@@ -41,38 +44,76 @@ const FileCabinet = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [value, setValue] = useState(null);
   const [value1, setValue1] = useState(null);
+  const [period, setPeriod] = useState(null);
+  const [year, setYear] = useState(null);
+  const [yearText, setYearText] = useState(null);
+  const [description, setDescription] = useState(null);
 
   const [isFocus, setIsFocus] = useState(false);
   const [loader, setLoader] = useState(false);
   const [filteredReq, setFilteredReq] = useState();
   const [docTypeById, setDocTypeById] = useState();
-
+  const [base64File, setBase64File] = useState();
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const { MY_INFO } = useSelector(state => state.TaxLeafReducer);
   const { FOLDER_LIST } = useSelector(state => state.TaxLeafReducer);
   const { DOCUMENT_INFO_FOLDER } = useSelector(state => state.TaxLeafReducer)
-  // console.log(DOCUMENT_INFO_FOLDER.length, 'DOCUMENT_INFO_FOLDER')
-  const bgImage = require('../Assets/img/guest_shape.png');
-  console.log(docTypeById, 'docTypeById')
-  console.log(value, 'kkkkkk')
-  console.log(FOLDER_LIST, 'FOLDER_LIST')
-  console.log(DOCUMENT_INFO_FOLDER, 'DOCUMENT_INFO_FOLDER')
-  const jsonData = MY_INFO.guestInfo;
-  const dataArray = docTypeById ? Object.values(docTypeById) : [];
-  console.log(Array.isArray(dataArray), 'isArray');
-  const [fileResponse, setFileResponse] = useState([]);
+  const { FILE_UPLOAD_TOKEN } = useSelector(state => state.TaxLeafReducer)
 
+  console.log(FILE_UPLOAD_TOKEN, 'FILE_UPLOAD_TOKEN')
+  const bgImage = require('../Assets/img/guest_shape.png');
+  // console.log(docTypeById, 'docTypeById')
+  // console.log(value, 'kkkkkk')
+  // console.log(FOLDER_LIST, 'FOLDER_LIST')
+  // console.log(DOCUMENT_INFO_FOLDER, 'DOCUMENT_INFO_FOLDER')
+  // console.log(value1, 'value1')
+  const jsonData = MY_INFO.guestInfo;
+  const dataArray = DOCUMENT_INFO_FOLDER ? Object.values(DOCUMENT_INFO_FOLDER) : [];
+  const isYearPresent = value1?.variables.includes("year");
+  const isPeriodPresent = value1?.variables.includes("period");
+  const isdescriptionPresent = value1?.variables.includes("description");
+  const documentsLibraryId = FILE_UPLOAD_TOKEN?.librarylist?.find(library => library?.name === 'Documents')?.id;
+
+  console.log(documentsLibraryId, 'documentsLibraryId')
+  // console.log(MY_INFO, 'jsonData')
+
+  // console.log(base64File,'baseeee')
+
+
+  // console.log(Array.isArray(dataArray), 'isArray');
+  const [fileResponse, setFileResponse] = useState();
+  async function convertUriToBase64(uri) {
+    try {
+      // Use RNFS to read the file content
+      const fileContent = await RNFS.readFile(uri, 'base64');
+
+      return fileContent;
+    } catch (error) {
+      console.error('Error converting URI to base64:', error);
+      return null;
+    }
+  }
   const handleDocumentSelection = useCallback(async () => {
     try {
       const response = await DocumentPicker.pick({
         presentationStyle: 'fullScreen',
       });
+      // console.log(response, 'fileee')
       setFileResponse(response);
-    } catch (err) {
+      if (response) {
+        convertUriToBase64(response[0]?.uri)
+          .then(base64 => {
+            //  console.log('Base64:', base64)
+            setBase64File(base64)
+          })
+      }
+    }
+    catch (err) {
       console.warn(err);
     }
   }, []);
+  // console.log(fileResponse[0]?.uri, 'fileResponse')
   const renderLabel = () => {
     if (value || isFocus) {
       return (
@@ -84,9 +125,9 @@ const FileCabinet = () => {
     return null;
   };
 
-  console.log(filteredReq, 'filteredReq');
+  // console.log(filteredReq, 'filteredReq');
 
-  console.log(selectedData, 'selll');
+  // console.log(selectedData, 'selll');
   const data = [
     {
       id: 1,
@@ -129,15 +170,62 @@ const FileCabinet = () => {
       myFiles: 2,
     },
   ];
-  const data1 = [
-    { label: 'Item 1', value: '1' },
-    { label: 'Item 2', value: '2' },
-    { label: 'Item 3', value: '3' },
-    { label: 'Item 4', value: '4' },
-    { label: 'Item 5', value: '5' },
-    { label: 'Item 6', value: '6' },
-    { label: 'Item 7', value: '7' },
-    { label: 'Item 8', value: '8' },
+  const dataPeriod = [
+    { label: 'JAN', value: '0' },
+    { label: 'FEB', value: '1' },
+    { label: 'MAR', value: '2' },
+    { label: 'APR', value: '3' },
+    { label: 'MAY', value: '4' },
+    { label: 'JUN', value: '5' },
+    { label: 'JUL', value: '6' },
+    { label: 'AUG', value: '7' },
+    { label: 'SEP', value: '8' },
+    { label: 'OCT', value: '9' },
+    { label: 'NOV', value: '10' },
+    { label: 'DEC', value: '11' },
+    { label: 'Q1 (JAN-MAR)', value: '12' },
+    { label: 'Q2 (APR-JUN)', value: '13' },
+    { label: 'Q3 (JUL-SEP)', value: '14' },
+    { label: 'Q4 (OCT-DEC)', value: '15' },
+
+  ];
+
+  const dataYear = [
+    { label: '2001', value: '1' },
+    { label: '2002', value: '2' },
+    { label: '2003', value: '3' },
+    { label: '2004', value: '4' },
+    { label: '2005', value: '5' },
+    { label: '2006', value: '6' },
+    { label: '2007', value: '7' },
+    { label: '2008', value: '8' },
+    { label: '2009', value: '9' },
+    { label: '2010', value: '10' },
+    { label: '2011', value: '11' },
+    { label: '2012', value: '12' },
+    { label: '2013', value: '13' },
+    { label: '2014', value: '14' },
+    { label: '2015', value: '15' },
+    { label: '2016', value: '16' },
+    { label: '2017', value: '17' },
+    { label: '2018', value: '18' },
+    { label: '2019', value: '19' },
+    { label: '2020', value: '20' },
+    { label: '2021', value: '21' },
+    { label: '2022', value: '22' },
+    { label: '2023', value: '23' },
+    { label: '2024', value: '24' },
+    { label: '2025', value: '25' },
+    { label: '2026', value: '26' },
+    { label: '2027', value: '27' },
+    { label: '2028', value: '28' },
+    { label: '2029', value: '29' },
+    { label: '2030', value: '30' },
+    { label: '2031', value: '31' },
+    { label: '2032', value: '32' },
+    { label: '2033', value: '33' },
+    { label: '2034', value: '34' },
+    { label: '2035', value: '35' },
   ];
   const handleRow = item => {
     setIdRow(item.id);
@@ -171,18 +259,19 @@ const FileCabinet = () => {
       });
 
       setFilteredReq(filteredFolders)
-      console.log(filteredFolders, 'filteredFolders')
+      // console.log(filteredFolders, 'filteredFolders')
     }
   }, [FOLDER_LIST])
 
 
   const documentTypes = (item) => {
+    console.log(item, 'itemitemitemitemitem')
     setLoader(true);
     // Alert.alert(item?.documentTypeIds)
-    dispatch(
-      documentInfobyFolder(item?.documentTypeIds, navigation)
-    )
-    setDocTypeById(DOCUMENT_INFO_FOLDER)
+    setdocumentId(item?.documentTypeIds)
+    // dispatch(
+    //   documentInfobyFolder(item?.documentTypeIds, navigation)
+    // )
     setTimeout(() => {
       setLoader(false);
     }, 2000);
@@ -201,15 +290,43 @@ const FileCabinet = () => {
     // setInfoData(CLIENT_LIST);
   }, [documentId]);
 
+  const submitUpload = () => {
+    dispatch(
+      uploadFile(MY_INFO, value?.azureRenameFolderName1, value1?.documentType, year, period, description, base64File, FILE_UPLOAD_TOKEN?.accessToken, documentsLibraryId, navigation),
+    );
+    // cancelModal()
+  }
+  useEffect(() => {
+    documentTypes(value)
+  }, [value])
+
+  const cancelModal = () => {
+    setModalVisible(!modalVisible)
+    setValue(null)
+    setValue1(null)
+    setFileResponse()
+  }
+
+  useEffect(() => {
+    dispatch(
+      generateFileToken()
+    )
+  }, [])
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View
 
         style={{ backgroundColor: '#d5e3e5' }}
       >
-        <ScrollView>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}
+        >
 
           <Loader flag={loader} />
+
+          <HeadTabs />
 
           {/* <CustomHeader /> */}
           <View style={{ opacity: modalVisible == true ? 0.2 : null }}>
@@ -445,15 +562,15 @@ const FileCabinet = () => {
                   }}>
                   <Text style={styles.Subheading}>Upload File</Text>
                   <TouchableOpacity
-                    onPress={() => setModalVisible(!modalVisible)}
+                    onPress={() => cancelModal()}
                     style={{
                       backgroundColor: '#8AB645',
                       height: wp(10),
                       width: wp(10),
                       borderRadius: 40,
                       position: 'absolute',
-                      right: -20,
-                      top: -45,
+                      right: -10,
+                      top: -25,
                       justifyContent: 'center',
                       alignItems: 'center',
                     }}>
@@ -479,6 +596,7 @@ const FileCabinet = () => {
                       style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
                       placeholderStyle={styles.placeholderStyle}
                       selectedTextStyle={styles.selectedTextStyle}
+                      itemTextStyle={styles.selectedTextStyle}
                       iconStyle={styles.iconStyle}
                       data={filteredReq}
                       maxHeight={200}
@@ -488,10 +606,11 @@ const FileCabinet = () => {
                       value={value?.azureRenameFolderName1}
                       onFocus={() => setIsFocus(true)}
                       onBlur={() => setIsFocus(false)}
+                      // onConfirmSelectItem={(item)=>{documentTypes(item)}}
                       onChange={item => {
                         setValue(item);
                         setIsFocus(false);
-                        documentTypes(item)
+                        // documentTypes(item)
 
                       }}
                     //   renderLeftIcon={() => (
@@ -514,42 +633,122 @@ const FileCabinet = () => {
                       style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
                       placeholderStyle={styles.placeholderStyle}
                       selectedTextStyle={styles.selectedTextStyle}
+                      itemTextStyle={styles.selectedTextStyle}
                       iconStyle={styles.iconStyle}
                       data={dataArray}
                       maxHeight={200}
                       labelField="documentType"
                       valueField="documentType"
                       placeholder={!isFocus ? 'Select item' : '...'}
-                      value={value1}
+                      value={value1?.documentType}
                       onFocus={() => setIsFocus(true)}
                       onBlur={() => setIsFocus(false)}
                       onChange={item => {
-                        setValue1(item.documentType);
+                        setValue1(item);
                         setIsFocus(false);
                       }}
 
                     />
                   </View>
+                  {
+                    isPeriodPresent == true ?
+                      <View style={{ marginBottom: 10 }}>
+                        <Text
+                          style={{ alignSelf: 'flex-start', padding: 5, color: '#fff' }}>
+                          Period*
+                        </Text>
+
+                        <Dropdown
+                          style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
+                          placeholderStyle={styles.placeholderStyle}
+                          selectedTextStyle={styles.selectedTextStyle}
+                          itemTextStyle={styles.selectedTextStyle}
+                          iconStyle={styles.iconStyle}
+                          data={dataPeriod}
+                          maxHeight={200}
+                          labelField="label"
+                          valueField="label"
+                          placeholder={!isFocus ? 'Select item' : '...'}
+                          value={period}
+                          onFocus={() => setIsFocus(true)}
+                          onBlur={() => setIsFocus(false)}
+                          onChange={item => {
+                            setPeriod(item.label);
+                            setIsFocus(false);
+                          }}
+
+                        />
+                      </View>
+                      : null
+                  }
+                  {
+                    isYearPresent == true ?
+                      <View style={{ marginBottom: 10 }}>
+                        <Text
+                          style={{ alignSelf: 'flex-start', padding: 5, color: '#fff' }}>
+                          Year*
+                        </Text>
+
+                        <Dropdown
+                          style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
+                          placeholderStyle={styles.placeholderStyle}
+                          selectedTextStyle={styles.selectedTextStyle}
+                          itemTextStyle={styles.selectedTextStyle}
+                          iconStyle={styles.iconStyle}
+                          data={dataYear}
+                          maxHeight={200}
+                          labelField="label"
+                          valueField="label"
+                          placeholder={!isFocus ? 'Select item' : '...'}
+                          value={yearText}
+                          onFocus={() => setIsFocus(true)}
+                          onBlur={() => setIsFocus(false)}
+                          onChange={item => {
+                            setYear(item.value);
+                            setYearText(item.label)
+                            setIsFocus(false);
+                          }}
+
+                        />
+                      </View>
+                      : null
+                  }
+
+                  {
+                    isdescriptionPresent == true ?
+                      <View style={{ marginBottom: 10 }}>
+                        <Text
+                          style={{ alignSelf: 'flex-start', padding: 5, color: '#fff' }}>
+                          Description*
+                        </Text>
+
+                        <TextInput
+                          style={styles.input}
+                          onChangeText={(text) => { setDescription(text) }}
+                        />
+                      </View>
+                      : null
+                  }
+
                   <View style={{ marginBottom: 10 }}>
                     <Text
                       style={{ alignSelf: 'flex-start', padding: 5, color: '#fff' }}>
                       Attachments*
                     </Text>
-                    {fileResponse.map((file, index) => (
-                      <Text
-                        key={index.toString()}
-                        style={styles.uri}
-                        numberOfLines={1}
-                        ellipsizeMode={'middle'}>
-                        {file?.uri}
-                      </Text>
-                    ))}
+                    <Text
+                      // key={index.toString()}
+                      style={styles.uri}
+                      numberOfLines={1}
+                      ellipsizeMode={'middle'}>
+                      {fileResponse ? fileResponse[0]?.name : null}
+                    </Text>
+                    <Text></Text>
                     <Button title="Select 📑" onPress={handleDocumentSelection} />
                   </View>
                   <View style={{ marginBottom: 10 }}>
                     <TouchableOpacity
                       style={[styles.button, styles.buttonClose]}
-                    // onPress={() => setModalVisible(!modalVisible)}
+                      onPress={() => submitUpload()}
                     >
                       <Text style={styles.textStyle}>Upload</Text>
                     </TouchableOpacity>
@@ -693,7 +892,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   selectedTextStyle: {
-    fontSize: 16,
+    fontSize: 12,
   },
   iconStyle: {
     width: 20,
@@ -706,5 +905,19 @@ const styles = StyleSheet.create({
   textStyle: {
     color: '#fff',
     textAlign: 'center',
+  },
+  uri: {
+    color: '#fff'
+  },
+  input: {
+    height: 60,
+    margin: 12,
+    borderWidth: 1,
+    borderRadius: 10,
+    padding: 10,
+    width: '100%',
+    backgroundColor: '#fff',
+    alignSelf: 'center',
+    borderColor: 'gray',
   },
 });

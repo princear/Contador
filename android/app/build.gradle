@@ -75,12 +75,12 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.taxleaf"
+    namespace "com.contador"
     defaultConfig {
       //  applicationId "com.taxleaf.taxleaf"
-        applicationId "com.taxleaf"
+        applicationId "com.contador"
         manifestPlaceholders = [
-      appAuthRedirectScheme: 'com.taxleaf'
+      appAuthRedirectScheme: 'com.contador'
     ]
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
