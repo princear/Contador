@@ -707,21 +707,10 @@ console.log(isProfessionChecked)
                             );
                         } else if (position == 1) {
                             return (
-                                <ScrollView>
+                              
                                     <View style={styles.subContainer1}>
                                     <View style={styles.HeadingContainer}>
-                                            {/* <Icon1
-                                        style={[
-                                            styles.icon,
-                                            {
-                                                color: '#2F4050',
-                                                marginTop:3
-                                            },
-                                        ]}
-                                        name="user"
-                                        size={40}
-                                        color="#fff"
-                                    /> */}
+                                          
                                             <Text style={styles.subHead}>Referral Source and Medium</Text>
                                             <Text style={styles.subHead}>STEP 2</Text>
                                         </View>
@@ -832,7 +821,7 @@ console.log(isProfessionChecked)
 
 
                                     </View>
-                                </ScrollView>
+                              
                             );
                         } else if (position == 2) {
                             return (
@@ -854,7 +843,7 @@ console.log(isProfessionChecked)
                                         <Text style={styles.subHead}>Payment Method</Text>
                                         <Text style={styles.subHead}>STEP 3</Text>
                                     </View>
-                                    <View style={{ backgroundColor: '#f4f8f9', height: hp(30), width: '100%', alignItems: 'center', borderBottomLeftRadius: 10, borderBottomRightRadius: 10 }}>
+                                    <View style={{ backgroundColor: '#f4f8f9', height: hp(30), width: wp(100), alignItems: 'center', borderBottomLeftRadius: 10, borderBottomRightRadius: 10 }}>
                                         <TextInput
                                             placeholder='Bank Name'
                                             value={bankname}
@@ -986,25 +975,14 @@ console.log(isProfessionChecked)
                             );
                         } else if (position == 3) {
                             return (
-                                <ScrollView>
+                              
                                     <View style={styles.subContainer1}>
                                     <View style={styles.HeadingContainer}>
-                                            {/* <Icon1
-                                        style={[
-                                            styles.icon,
-                                            {
-                                                color: '#2F4050',
-                                                marginTop:3
-                                            },
-                                        ]}
-                                        name="user"
-                                        size={40}
-                                        color="#fff"
-                                    /> */}
+                                          
                                             <Text style={styles.subHead}>Associations</Text>
                                             <Text style={styles.subHead}>STEP 4</Text>
                                         </View>
-                                        <View style={{height:hp(70), backgroundColor: '#fff', height: hp(35), width: '100%', alignItems: 'center', borderBottomLeftRadius: 10, borderBottomRightRadius: 10 }}>
+                                        <View style={{height:hp(70), backgroundColor: '#fff', height: hp(35), width: wp(100), alignItems: 'center', borderBottomLeftRadius: 10, borderBottomRightRadius: 10 }}>
                                         <FlatList
                     data={infoData}
                     // numColumns={5}
@@ -1206,7 +1184,7 @@ console.log(isProfessionChecked)
                                             </TouchableOpacity>
                                         </View>
                                     </View>
-                                </ScrollView>
+                               
                             );
                         } 
                         else if (position == 4) {
@@ -1218,7 +1196,7 @@ console.log(isProfessionChecked)
                                             <Text style={styles.subHead}>Current Profession</Text>
                                             <Text style={styles.subHead}>STEP 5</Text>
                                         </View>
-                <View style={{height:hp(35),paddingBottom:15, backgroundColor: '#fff', borderBottomRightRadius: 10, borderBottomLeftRadius: 10 }}>
+                <View style={{height:hp(35),paddingBottom:15, backgroundColor: '#fff',width:wp(100),alignItems: 'center', borderBottomRightRadius: 10, borderBottomLeftRadius: 10 }}>
                                           
                   
                    {professionOption != 2 ?
@@ -1418,7 +1396,7 @@ console.log(isProfessionChecked)
                             );
                         } else {
                             return (
-                                <ScrollView>
+                             
                                     <View style={styles.subContainerInterest}>
                                     <View style={styles.HeadingContainer}>
                                            
@@ -1427,7 +1405,7 @@ console.log(isProfessionChecked)
                                         </View>
 
 
-                                        <View style={{height:hp(35),paddingBottom:15, backgroundColor: '#fff', borderBottomRightRadius: 10, borderBottomLeftRadius: 10 }}>
+                                        <View style={{height:hp(35),paddingBottom:15, backgroundColor: '#fff',width:wp(100), borderBottomRightRadius: 10, borderBottomLeftRadius: 10 }}>
                                         
                
                                         {InterestOption != 2 ?
@@ -1586,7 +1564,7 @@ console.log(isProfessionChecked)
                                         </View>
 
                                     </View>
-                                </ScrollView>
+                              
                             );
                         }
                     })()}
@@ -1597,6 +1575,7 @@ console.log(isProfessionChecked)
           
             </KeyboardAvoidingView>
         </ImageBackground>
+       
       
         </SafeAreaView>
 
@@ -1702,7 +1681,7 @@ const styles = StyleSheet.create({
          height:40, 
          backgroundColor: Color.green,
           width: wp(100),
-            paddingHorizontal: 10
+        paddingHorizontal: 20
     },
     subContainerProf: {
         // backgroundColor: 'red',
@@ -1824,11 +1803,12 @@ const styles = StyleSheet.create({
         borderRadius: 25,
         color: '#fff',
         // padding: 5,
-       marginLeft:10,
+       
         width:wp(90),
       //  alignSelf:"center",
         //alignSelf:"center",
         height: hp(4),
+        alignSelf:"center",
         // marginRight: 10,
         flexDirection: 'row',
        // justifyContent:"center"
@@ -1842,8 +1822,8 @@ const styles = StyleSheet.create({
         fontFamily:'Poppins-SemiBold',
         padding: 5,
         width: wp(90),
-    marginLeft:10,
-     fontSize:14,
+        alignSelf:"center",
+        fontSize:14,
         // marginRight: 10,
       // alignSelf:"center",
         textAlign: 'center',
@@ -1887,7 +1867,7 @@ const styles = StyleSheet.create({
         marginBottom: 20,
          height: hp(30),
         justifyContent: 'center',
-        width: '100%',
+        width: wp(100),
         alignItems: 'center',
         backgroundColor: '#fff',
         borderBottomLeftRadius: 10,

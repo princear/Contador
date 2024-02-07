@@ -67,11 +67,11 @@ const ClientDetails = ({ route }) => {
     // }, 2000);
   }, [CLIENT_DETAIL]);
 
-  // console.log(
-  //   infoData,
-  //   'infoDatainfoDatainfoDatainfoDatainfoData',
-  //   infoData?.individualInfo?.lastName,
-  // );
+  console.log(
+    infoData,
+    'infoDatainfoDatainfoDatainfoDatainfoData',
+    infoData?.individualInfo?.lastName,
+  );
 
   const showwhatfunc1 = data => {
     setshowwhat1(data);
@@ -312,6 +312,7 @@ const ClientDetails = ({ route }) => {
             <Text style={styles.LIstText2}>
               <Text style={{ fontSize: 14, fontFamily: 'Poppins-Bold' }}>Client ID:</Text>{' '}
               {ClientData.subClientInfo.subClientName}
+              
             </Text>
           </View>
           <View style={styles.partition}></View>
@@ -361,7 +362,7 @@ const ClientDetails = ({ route }) => {
               
               }}
               >
-              <Text style={styles.LIstText22}>{infoData?.paymentDetails?.totalOrders}</Text>
+              <Text style={styles.LIstText22}>{infoData?.paymentDetails?.totalOrders ? infoData?.paymentDetails?.totalOrders : 0}</Text>
 
               </View>
           </View>
@@ -369,7 +370,7 @@ const ClientDetails = ({ route }) => {
           <View style={{ height: 40, padding: 10 }}>
             <Text style={styles.LIstText2}>
               <Text style={{ fontSize: 14, fontFamily: 'Poppins-Bold' }}>Billed Amount:</Text>{' '}
-              <Text style={styles.LIstText2}>${Math.floor(Number(infoData?.paymentDetails?.billedAmount)).toFixed(2)}</Text>
+              <Text style={styles.LIstText2}>${infoData?.paymentDetails?.billedAmount ? Math.floor(Number(infoData?.paymentDetails?.billedAmount)).toFixed(2) : "0.00"}</Text>
 
             </Text>
           </View>
@@ -377,7 +378,7 @@ const ClientDetails = ({ route }) => {
           <View style={{ height: 40, padding: 10 }}>
             <Text style={styles.LIstText2}>
               <Text style={{ fontSize: 14, fontFamily: 'Poppins-Bold' }}>Pending Amount:</Text>{' '}
-              <Text style={styles.LIstText2}>${Math.floor(Number(infoData?.paymentDetails?.pendingAmount)).toFixed(2)}</Text>
+              <Text style={styles.LIstText2}>${infoData?.paymentDetails?.pendingAmount ? Math.floor(Number(infoData?.paymentDetails?.pendingAmount)).toFixed(2) : "0.00"}</Text>
 
             </Text>
           </View>
@@ -487,36 +488,47 @@ const ClientDetails = ({ route }) => {
             <Text style={styles.LIstText3}>Client ID:</Text>
 
             <Text style={styles.LIstText4}>
-              {ClientData.subClientInfo.subClientName}
-            </Text>
-
-
-          </View>
-          <View style={styles.partition1}></View>
-          <View style={{ height: 40, padding: 10, flexDirection: 'row', backgroundColor: Color.greenback }}>
-            <Text style={styles.LIstText3}>
-              <Text style={{ fontSize: 14, fontFamily: 'Poppins-Bold' }}>Company Name:</Text>{' '}
-            </Text>
-            <Text style={styles.LIstText4}>
-
+              {/* {ClientData.subClientInfo.subClientName} */}
               {ClientData.subClientInfo.subClientPracticeId}
             </Text>
 
+
           </View>
+          <View style={styles.partition1}></View>        
+        
+          <View style={{ height: 40, padding: 10, flexDirection: 'row', backgroundColor: Color.greenback }}>
+            <Text style={styles.LIstText3}>
+
+            {/* <Text style={{ fontSize: 14, fontFamily: 'Poppins-Bold' }}>Company Name:</Text>{' '} */}
+              <Text style={{ fontSize: 14, fontFamily: 'Poppins-Bold' }}>Individual Name:</Text>{' '}
+         
+            </Text>
+            <Text style={styles.LIstText4}>
+
+              {/* {ClientData.subClientInfo.subClientPracticeId} */}
+              {infoData?.individualInfo?.lastName+", "+infoData?.individualInfo?.firstName}
+            </Text>
+
+          </View>
+
           <View style={styles.partition1}></View>
           <View style={{ height: 40, flexDirection: 'row', padding: 10, backgroundColor: Color.greenback }}>
             <Text style={styles.LIstText3}>
-              <Text style={{ fontSize: 14, fontFamily: 'Poppins-Bold' }}>Type Of Company:</Text>{' '}
+            {/* <Text style={{ fontSize: 14, fontFamily: 'Poppins-Bold' }}>Type Of Company:</Text>{' '} */}
+              <Text style={{ fontSize: 14, fontFamily: 'Poppins-Bold' }}>SSN/ITIN:</Text>{' '}
             </Text>
 
             <Text style={styles.LIstText4}>
-              {ClientData.officeInfo.name}
+              {/* {ClientData.officeInfo.name} */}
+              {infoData?.individualInfo?.ssnItin}
+
             </Text>
           </View>
           <View style={styles.partition1}></View>
           <View style={{ height: 40, padding: 10, flexDirection: 'row', padding: 10, backgroundColor: Color.greenback }}>
 
-            <Text style={styles.LIstText3}>Fiscal Year End:</Text>
+          {/* <Text style={styles.LIstText3}>Fiscal Year End:</Text> */}
+            <Text style={styles.LIstText3}>Date of Birth:</Text>
 
             <Text style={styles.LIstText4}>
               {infoData?.individualInfo?.birthDate}
@@ -526,21 +538,26 @@ const ClientDetails = ({ route }) => {
           <View style={styles.partition1}></View>
           <View style={{  padding: 10, flexDirection: 'row', padding: 10, backgroundColor: Color.greenback }}>
 
-            <Text style={styles.LIstText3}>Federal ID:</Text>
+          {/* <Text style={styles.LIstText3}>Federal ID:</Text> */}
+            <Text style={styles.LIstText3}>Language:</Text>
 
             <Text style={styles.LIstText4}>
-              {ClientData.managerInfo.firstName}{' '}
-              {ClientData.managerInfo.lastName}
+              {/* {ClientData.managerInfo.firstName}{' '}
+              {ClientData.managerInfo.lastName} */}
+               {infoData?.languageInfo?.language1}
             </Text>
           </View>
           <View style={styles.partition1}></View>
           <View style={{  padding: 10, flexDirection: 'row', backgroundColor: Color.greenback }}>
             <Text style={styles.LIstText4}>
-              <Text style={{ fontSize: 14, fontFamily: 'Poppins-Bold' }}>State of Corporation:</Text>
+            {/* <Text style={{ fontSize: 14, fontFamily: 'Poppins-Bold' }}>State of Corporation:</Text> */}
+              <Text style={{ fontSize: 14, fontFamily: 'Poppins-Bold' }}>Residency:</Text>
             </Text>
             <Text style={styles.LIstText4}>
-              {ClientData.managerInfo.firstName}{' '}
-              {ClientData.managerInfo.lastName}
+              {/* {ClientData.managerInfo.firstName}{' '}
+              {ClientData.managerInfo.lastName} */}
+               {infoData?.residenseInfo?.countryName}
+
             </Text>
           </View>
           <View style={styles.partition1}></View>
@@ -549,8 +566,10 @@ const ClientDetails = ({ route }) => {
             <Text style={styles.LIstText3}>Citizenship:</Text>
 
             <Text style={styles.LIstText4}>
-              {ClientData.managerInfo.firstName}{' '}
-              {ClientData.managerInfo.lastName}
+              {/* {ClientData.managerInfo.firstName}{' '}
+              {ClientData.managerInfo.lastName} */}
+               {infoData?.citizenInfo?.countryName}
+
             </Text>
           </View>
 
@@ -809,7 +828,7 @@ const ClientDetails = ({ route }) => {
             <Text style={styles.LIstText3}>Office:</Text>
 
 
-            <Text
+            {/* <Text
               style={styles.LIstText4}
               onPress={() =>
                 Linking.openURL(
@@ -820,6 +839,12 @@ const ClientDetails = ({ route }) => {
 
               {ClientData.officeInfo.email}
 
+            </Text> */}
+             <Text
+              style={styles.LIstText4}
+            >
+
+              {ClientData.officeInfo.name}
             </Text>
 
 

@@ -9,7 +9,7 @@ import { Color } from '../Style';
 const CustomHeader = () => {
   const navigation = useNavigation();
   let iconNm = require('../Assets/img/icons/hamburger-green.png');
-  let logo = require('../Assets/img/Contador_Logo1.png');
+  let logo = require('../Assets/img/contadoramerica.png');
   let bell = require('../Assets/img/icons/bell-green.png');
   let profile = require('../Assets/img/icons/profile-green.png');
 

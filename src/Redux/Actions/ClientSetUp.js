@@ -151,7 +151,8 @@ import {
         });
   
         //   Alert.alert(response.response[0])
-        Alert.alert(response.massage);
+       // Alert.alert(response.massage);
+        Alert.alert("Saved");
         resolve(response);
         navigation.navigate('Auth');
   

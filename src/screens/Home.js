@@ -142,7 +142,7 @@ const HomeScreen = () => {
     const cleanedPhoneNumber = phoneNumber.replace(/\D/g, '');
 
     // Format the phone number (assuming it's a 10-digit number)
-    const formattedPhoneNumber = `(${cleanedPhoneNumber.substring(0, 3)})-${cleanedPhoneNumber.substring(3, 6)}-${cleanedPhoneNumber.substring(6, 10)}`;
+    const formattedPhoneNumber = `(${cleanedPhoneNumber.substring(0, 3)}) ${cleanedPhoneNumber.substring(3, 6)}-${cleanedPhoneNumber.substring(6, 10)}`;
 
     return formattedPhoneNumber;
   };
