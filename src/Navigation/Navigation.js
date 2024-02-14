@@ -44,6 +44,7 @@ import InvoiceDetails from '../screens/InvoiceDetails';
 import MainClientDetails from '../screens/MainClientDetail';
 import ClientSteps from '../screens/ClientSteps'; 
 import Paypal from '../screens/Paypal';
+import AssoFileCabinet from '../screens/AssoFileCabinet';
 
 
 enableScreens();
@@ -424,6 +425,13 @@ function ClientScreenStack() {
       <Stack.Screen
         name="MainClientDetails"
         component={MainClientDetails}
+        options={{
+          headerShown: false,
+        }}
+      />
+        <Stack.Screen
+        name="AssoFileCabinet"
+        component={AssoFileCabinet}
         options={{
           headerShown: false,
         }}

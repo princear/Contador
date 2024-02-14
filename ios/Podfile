@@ -4,7 +4,7 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 
 platform :ios, min_ios_version_supported
 
-target 'TaxLeaf' do
+target 'Contador' do
   config = use_native_modules!
  
   use_react_native!(
@@ -23,7 +23,7 @@ target 'TaxLeaf' do
  # pod 'Permission-LocationWhenInUse', :path => "#{permissions_path}/LocationWhenInUse/Permission-LocationWhenInUse.podspec"
  # pod 'Permission-Notifications', :path => "#{permissions_path}/Notifications"
  
-  target 'TaxLeafTests' do
+  target 'ContadorTests' do
     inherit! :complete
     # Pods for testing
   end

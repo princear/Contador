@@ -7,11 +7,11 @@
 #define TIMEOUT_SECONDS 600
 #define TEXT_TO_LOOK_FOR @"Welcome to React"
 
-@interface TaxLeafTests : XCTestCase
+@interface ContadorTests : XCTestCase
 
 @end
 
-@implementation TaxLeafTests
+@implementation ContadorTests
 
 - (BOOL)findSubviewInView:(UIView *)view matching:(BOOL (^)(UIView *view))test
 {

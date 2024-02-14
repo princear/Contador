@@ -142,7 +142,7 @@ const HomeScreen = () => {
     const cleanedPhoneNumber = phoneNumber.replace(/\D/g, '');
 
     // Format the phone number (assuming it's a 10-digit number)
-    const formattedPhoneNumber = `(${cleanedPhoneNumber.substring(0, 3)}) ${cleanedPhoneNumber.substring(3, 6)}-${cleanedPhoneNumber.substring(6, 10)}`;
+    const formattedPhoneNumber = `(${cleanedPhoneNumber.substring(0, 3)})${cleanedPhoneNumber.substring(3, 6)}-${cleanedPhoneNumber.substring(6, 10)}`;
 
     return formattedPhoneNumber;
   };
@@ -249,10 +249,18 @@ const HomeScreen = () => {
                 size={20}
                 color="#000"
               /> */}
-                <Image
+              <TouchableOpacity
+               onPress={() =>
+                Linking.openURL(`tel:${officeInfo?.phone}`)
+              }
+              >
+              <Image
+                
                   source={ require('../Assets/img/icons/phone-icon.png')}
                   style={  [styles.icons,]}
                 />
+              </TouchableOpacity>
+              
               <Text style={styles.ofcInfotxt1}
                 onPress={() =>
                   Linking.openURL(`tel:${officeInfo?.phone}`)
@@ -266,10 +274,20 @@ const HomeScreen = () => {
 
             <View style={{ flexDirection: "row", width: wp(80), alignSelf: "center" }}>
               {/* <Icon style={styles.icon} name="mail" size={20} color="#000" /> */}
+              <TouchableOpacity
+               onPress={() =>
+                Linking.openURL(
+                  `mailto:${officeInfo?.email}?subject=SendMail&body=Description`,
+                )
+              }
+              >
               <Image
+              
                   source={ require('../Assets/img/icons/email-icon.png')}
                   style={  [styles.icons,]}
                 />
+              </TouchableOpacity>
+             
               <Text style={styles.ofcInfotxt1}
                onPress={() =>
                 Linking.openURL(
@@ -294,10 +312,19 @@ const HomeScreen = () => {
                 size={20}
                 color="#000"
               /> */}
-                <Image
+              <TouchableOpacity
+               onPress={() =>
+                Linking.openURL(`tel:${manager?.phone}`)
+              }
+              >
+              <Image
+                 
                   source={ require('../Assets/img/icons/phone-icon.png')}
                   style={  [styles.icons,]}
                 />
+
+              </TouchableOpacity>
+               
               <Text style={styles.ofcInfotxt1}
                onPress={() =>
                 Linking.openURL(`tel:${manager?.phone}`)
@@ -311,10 +338,21 @@ const HomeScreen = () => {
             </View>
             <View style={{ flexDirection: "row", width: wp(80), alignSelf: "center" }}>
               {/* <Icon style={styles.icon} name="mail" size={20} color="#000" /> */}
+              <TouchableOpacity
+               onPress={() =>
+                Linking.openURL(
+                  `mailto:${manager?.user}?subject=SendMail&body=Description`,
+                )
+              }
+              >
               <Image
+              
                   source={ require('../Assets/img/icons/email-icon.png')}
                   style={  [styles.icons,]}
                 />
+
+              </TouchableOpacity>
+            
               <Text style={styles.ofcInfotxt1}
               
               onPress={() =>

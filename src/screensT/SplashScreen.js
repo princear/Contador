@@ -35,7 +35,9 @@ const SplashScreen = ({ navigation }) => {
                     type: LOGIN_DATA,
                     payload: response,
                 });
-                navigation.replace("Auth");
+               // navigation.replace("Auth");
+                navigation.replace("Login");
+
             } else {
                 //navigation.replace("YourProfle");
                 navigation.replace("Login");

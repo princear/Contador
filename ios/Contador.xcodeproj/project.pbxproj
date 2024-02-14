@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		00E356F31AD99517003FC87E /* TaxLeafTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* TaxLeafTests.m */; };
-		046618D677061891DF21A07C /* libPods-TaxLeaf-TaxLeafTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D219B6C384448C875FA4BFC5 /* libPods-TaxLeaf-TaxLeafTests.a */; };
+		00E356F31AD99517003FC87E /* ContadorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* ContadorTests.m */; };
+		0E0ABCA9B8C8F72862876165 /* libPods-Contador-ContadorTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 699F38FD3EEBDF2329F9F5C1 /* libPods-Contador-ContadorTests.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
@@ -37,8 +37,8 @@
 		536DDA6B2B46E17B000162AF /* Poppins-LightItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 536DDA532B46E17B000162AF /* Poppins-LightItalic.otf */; };
 		536DDA6C2B46E17B000162AF /* Poppins-ExtraLightItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 536DDA542B46E17B000162AF /* Poppins-ExtraLightItalic.otf */; };
 		536DDAA02B46E737000162AF /* Poppins-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 536DDA9F2B46E737000162AF /* Poppins-Bold.otf */; };
-		706FBF7D337AE27EE49C6AC3 /* libPods-TaxLeaf.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DF3B3C5F65E676E3536594D /* libPods-TaxLeaf.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		DE7E6C5DD361B48FE1BF0E95 /* libPods-Contador.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 20237FE1F58E0F0EB284861E /* libPods-Contador.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,20 +47,22 @@
 			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
-			remoteInfo = TaxLeaf;
+			remoteInfo = Contador;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		00E356EE1AD99517003FC87E /* TaxLeafTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TaxLeafTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		00E356EE1AD99517003FC87E /* ContadorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ContadorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		00E356F21AD99517003FC87E /* TaxLeafTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TaxLeafTests.m; sourceTree = "<group>"; };
-		13B07F961A680F5B00A75B9A /* TaxLeaf.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TaxLeaf.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = TaxLeaf/AppDelegate.h; sourceTree = "<group>"; };
-		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = TaxLeaf/AppDelegate.mm; sourceTree = "<group>"; };
-		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = TaxLeaf/Images.xcassets; sourceTree = "<group>"; };
-		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = TaxLeaf/Info.plist; sourceTree = "<group>"; };
-		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = TaxLeaf/main.m; sourceTree = "<group>"; };
+		00E356F21AD99517003FC87E /* ContadorTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ContadorTests.m; sourceTree = "<group>"; };
+		13B07F961A680F5B00A75B9A /* Contador.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Contador.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Contador/AppDelegate.h; sourceTree = "<group>"; };
+		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = Contador/AppDelegate.mm; sourceTree = "<group>"; };
+		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Contador/Images.xcassets; sourceTree = "<group>"; };
+		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Contador/Info.plist; sourceTree = "<group>"; };
+		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Contador/main.m; sourceTree = "<group>"; };
+		1A1835815226F3B9A5E18AAE /* Pods-Contador-ContadorTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Contador-ContadorTests.debug.xcconfig"; path = "Target Support Files/Pods-Contador-ContadorTests/Pods-Contador-ContadorTests.debug.xcconfig"; sourceTree = "<group>"; };
+		20237FE1F58E0F0EB284861E /* libPods-Contador.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Contador.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		536DDA3D2B46E177000162AF /* Poppins-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Poppins-Black.otf"; path = "../assets/fonts/Poppins-Black.otf"; sourceTree = "<group>"; };
 		536DDA3E2B46E177000162AF /* Poppins-ExtraLight.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Poppins-ExtraLight.otf"; path = "../assets/fonts/Poppins-ExtraLight.otf"; sourceTree = "<group>"; };
 		536DDA3F2B46E177000162AF /* Poppins-ExtraBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Poppins-ExtraBold.otf"; path = "../assets/fonts/Poppins-ExtraBold.otf"; sourceTree = "<group>"; };
@@ -86,14 +88,12 @@
 		536DDA532B46E17B000162AF /* Poppins-LightItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Poppins-LightItalic.otf"; path = "../assets/fonts/Poppins-LightItalic.otf"; sourceTree = "<group>"; };
 		536DDA542B46E17B000162AF /* Poppins-ExtraLightItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Poppins-ExtraLightItalic.otf"; path = "../assets/fonts/Poppins-ExtraLightItalic.otf"; sourceTree = "<group>"; };
 		536DDA9F2B46E737000162AF /* Poppins-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Poppins-Bold.otf"; path = "../assets/fonts/Poppins-Bold.otf"; sourceTree = "<group>"; };
-		5DF3B3C5F65E676E3536594D /* libPods-TaxLeaf.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TaxLeaf.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = TaxLeaf/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		90DE402AE664F1359B3EB878 /* Pods-TaxLeaf.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TaxLeaf.debug.xcconfig"; path = "Target Support Files/Pods-TaxLeaf/Pods-TaxLeaf.debug.xcconfig"; sourceTree = "<group>"; };
-		C78F3DC0E1D45F792B3F8CF6 /* Pods-TaxLeaf-TaxLeafTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TaxLeaf-TaxLeafTests.release.xcconfig"; path = "Target Support Files/Pods-TaxLeaf-TaxLeafTests/Pods-TaxLeaf-TaxLeafTests.release.xcconfig"; sourceTree = "<group>"; };
-		D219B6C384448C875FA4BFC5 /* libPods-TaxLeaf-TaxLeafTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TaxLeaf-TaxLeafTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		DE5E89C8251FF9ACB5E21AA4 /* Pods-TaxLeaf-TaxLeafTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TaxLeaf-TaxLeafTests.debug.xcconfig"; path = "Target Support Files/Pods-TaxLeaf-TaxLeafTests/Pods-TaxLeaf-TaxLeafTests.debug.xcconfig"; sourceTree = "<group>"; };
+		699F38FD3EEBDF2329F9F5C1 /* libPods-Contador-ContadorTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Contador-ContadorTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = Contador/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		86C219B84D67218BE8FD1FE6 /* Pods-Contador.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Contador.release.xcconfig"; path = "Target Support Files/Pods-Contador/Pods-Contador.release.xcconfig"; sourceTree = "<group>"; };
+		C68C480797F3D088C42639D7 /* Pods-Contador.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Contador.debug.xcconfig"; path = "Target Support Files/Pods-Contador/Pods-Contador.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		F7080CF82C0CEEDDFE987ED6 /* Pods-TaxLeaf.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TaxLeaf.release.xcconfig"; path = "Target Support Files/Pods-TaxLeaf/Pods-TaxLeaf.release.xcconfig"; sourceTree = "<group>"; };
+		FFC16A328FF308DF1640FBB4 /* Pods-Contador-ContadorTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Contador-ContadorTests.release.xcconfig"; path = "Target Support Files/Pods-Contador-ContadorTests/Pods-Contador-ContadorTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,7 +101,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				046618D677061891DF21A07C /* libPods-TaxLeaf-TaxLeafTests.a in Frameworks */,
+				0E0ABCA9B8C8F72862876165 /* libPods-Contador-ContadorTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -109,20 +109,20 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				706FBF7D337AE27EE49C6AC3 /* libPods-TaxLeaf.a in Frameworks */,
+				DE7E6C5DD361B48FE1BF0E95 /* libPods-Contador.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		00E356EF1AD99517003FC87E /* TaxLeafTests */ = {
+		00E356EF1AD99517003FC87E /* ContadorTests */ = {
 			isa = PBXGroup;
 			children = (
-				00E356F21AD99517003FC87E /* TaxLeafTests.m */,
+				00E356F21AD99517003FC87E /* ContadorTests.m */,
 				00E356F01AD99517003FC87E /* Supporting Files */,
 			);
-			path = TaxLeafTests;
+			path = ContadorTests;
 			sourceTree = "<group>";
 		};
 		00E356F01AD99517003FC87E /* Supporting Files */ = {
@@ -133,7 +133,7 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		13B07FAE1A68108700A75B9A /* TaxLeaf */ = {
+		13B07FAE1A68108700A75B9A /* Contador */ = {
 			isa = PBXGroup;
 			children = (
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -143,15 +143,15 @@
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
-			name = TaxLeaf;
+			name = Contador;
 			sourceTree = "<group>";
 		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				5DF3B3C5F65E676E3536594D /* libPods-TaxLeaf.a */,
-				D219B6C384448C875FA4BFC5 /* libPods-TaxLeaf-TaxLeafTests.a */,
+				20237FE1F58E0F0EB284861E /* libPods-Contador.a */,
+				699F38FD3EEBDF2329F9F5C1 /* libPods-Contador-ContadorTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -166,9 +166,9 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				13B07FAE1A68108700A75B9A /* TaxLeaf */,
+				13B07FAE1A68108700A75B9A /* Contador */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
-				00E356EF1AD99517003FC87E /* TaxLeafTests */,
+				00E356EF1AD99517003FC87E /* ContadorTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
@@ -182,8 +182,8 @@
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				13B07F961A680F5B00A75B9A /* TaxLeaf.app */,
-				00E356EE1AD99517003FC87E /* TaxLeafTests.xctest */,
+				13B07F961A680F5B00A75B9A /* Contador.app */,
+				00E356EE1AD99517003FC87E /* ContadorTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -191,10 +191,10 @@
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				90DE402AE664F1359B3EB878 /* Pods-TaxLeaf.debug.xcconfig */,
-				F7080CF82C0CEEDDFE987ED6 /* Pods-TaxLeaf.release.xcconfig */,
-				DE5E89C8251FF9ACB5E21AA4 /* Pods-TaxLeaf-TaxLeafTests.debug.xcconfig */,
-				C78F3DC0E1D45F792B3F8CF6 /* Pods-TaxLeaf-TaxLeafTests.release.xcconfig */,
+				C68C480797F3D088C42639D7 /* Pods-Contador.debug.xcconfig */,
+				86C219B84D67218BE8FD1FE6 /* Pods-Contador.release.xcconfig */,
+				1A1835815226F3B9A5E18AAE /* Pods-Contador-ContadorTests.debug.xcconfig */,
+				FFC16A328FF308DF1640FBB4 /* Pods-Contador-ContadorTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -234,45 +234,45 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		00E356ED1AD99517003FC87E /* TaxLeafTests */ = {
+		00E356ED1AD99517003FC87E /* ContadorTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "TaxLeafTests" */;
+			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "ContadorTests" */;
 			buildPhases = (
-				268F10934F205BD39A3B4539 /* [CP] Check Pods Manifest.lock */,
+				FDBFB89EAAF6D9DE5FAF2A1B /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				2FD421938866D98C8DA420EA /* [CP] Copy Pods Resources */,
+				A9DCACE73FF30E6BA7524AD5 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				00E356F51AD99517003FC87E /* PBXTargetDependency */,
 			);
-			name = TaxLeafTests;
-			productName = TaxLeafTests;
-			productReference = 00E356EE1AD99517003FC87E /* TaxLeafTests.xctest */;
+			name = ContadorTests;
+			productName = ContadorTests;
+			productReference = 00E356EE1AD99517003FC87E /* ContadorTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		13B07F861A680F5B00A75B9A /* TaxLeaf */ = {
+		13B07F861A680F5B00A75B9A /* Contador */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "TaxLeaf" */;
+			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Contador" */;
 			buildPhases = (
-				3B183D1769C3A8102623DB22 /* [CP] Check Pods Manifest.lock */,
+				584F0472C9CDDEF129BD67E0 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				4DF8442B48487A7B42CF7A72 /* [CP] Copy Pods Resources */,
+				21F458F1A1658C1E3CB3AB42 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = TaxLeaf;
-			productName = TaxLeaf;
-			productReference = 13B07F961A680F5B00A75B9A /* TaxLeaf.app */;
+			name = Contador;
+			productName = Contador;
+			productReference = 13B07F961A680F5B00A75B9A /* Contador.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -292,7 +292,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "TaxLeaf" */;
+			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Contador" */;
 			compatibilityVersion = "Xcode 12.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -305,8 +305,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				13B07F861A680F5B00A75B9A /* TaxLeaf */,
-				00E356ED1AD99517003FC87E /* TaxLeafTests */,
+				13B07F861A680F5B00A75B9A /* Contador */,
+				00E356ED1AD99517003FC87E /* ContadorTests */,
 			);
 		};
 /* End PBXProject section */
@@ -372,7 +372,24 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"../node_modules/react-native/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"../node_modules/react-native/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"$WITH_ENVIRONMENT $REACT_NATIVE_XCODE\"\n";
 		};
-		268F10934F205BD39A3B4539 /* [CP] Check Pods Manifest.lock */ = {
+		21F458F1A1658C1E3CB3AB42 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Contador/Pods-Contador-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Contador/Pods-Contador-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Contador/Pods-Contador-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		584F0472C9CDDEF129BD67E0 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -387,67 +404,28 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-TaxLeaf-TaxLeafTests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-Contador-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		2FD421938866D98C8DA420EA /* [CP] Copy Pods Resources */ = {
+		A9DCACE73FF30E6BA7524AD5 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-TaxLeaf-TaxLeafTests/Pods-TaxLeaf-TaxLeafTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-Contador-ContadorTests/Pods-Contador-ContadorTests-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-TaxLeaf-TaxLeafTests/Pods-TaxLeaf-TaxLeafTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-Contador-ContadorTests/Pods-Contador-ContadorTests-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TaxLeaf-TaxLeafTests/Pods-TaxLeaf-TaxLeafTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		3B183D1769C3A8102623DB22 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-TaxLeaf-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		4DF8442B48487A7B42CF7A72 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-TaxLeaf/Pods-TaxLeaf-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-TaxLeaf/Pods-TaxLeaf-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TaxLeaf/Pods-TaxLeaf-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Contador-ContadorTests/Pods-Contador-ContadorTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
@@ -469,6 +447,28 @@
 			shellScript = "export RCT_METRO_PORT=\"${RCT_METRO_PORT:=8081}\"\necho \"export RCT_METRO_PORT=${RCT_METRO_PORT}\" > \"${SRCROOT}/../node_modules/react-native/scripts/.packager.env\"\nif [ -z \"${RCT_NO_LAUNCH_PACKAGER+xxx}\" ] ; then\n  if nc -w 5 -z localhost ${RCT_METRO_PORT} ; then\n    if ! curl -s \"http://localhost:${RCT_METRO_PORT}/status\" | grep -q \"packager-status:running\" ; then\n      echo \"Port ${RCT_METRO_PORT} already in use, packager is either not running or not running correctly\"\n      exit 2\n    fi\n  else\n    open \"$SRCROOT/../node_modules/react-native/scripts/launchPackager.command\" || echo \"Can't start packager automatically\"\n  fi\nfi\n";
 			showEnvVarsInLog = 0;
 		};
+		FDBFB89EAAF6D9DE5FAF2A1B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Contador-ContadorTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -476,7 +476,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				00E356F31AD99517003FC87E /* TaxLeafTests.m in Sources */,
+				00E356F31AD99517003FC87E /* ContadorTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -494,7 +494,7 @@
 /* Begin PBXTargetDependency section */
 		00E356F51AD99517003FC87E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 13B07F861A680F5B00A75B9A /* TaxLeaf */;
+			target = 13B07F861A680F5B00A75B9A /* Contador */;
 			targetProxy = 00E356F41AD99517003FC87E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -502,7 +502,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DE5E89C8251FF9ACB5E21AA4 /* Pods-TaxLeaf-TaxLeafTests.debug.xcconfig */;
+			baseConfigurationReference = 1A1835815226F3B9A5E18AAE /* Pods-Contador-ContadorTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				DEVELOPMENT_TEAM = TCMSWUT38G;
@@ -510,7 +510,7 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = TaxLeafTests/Info.plist;
+				INFOPLIST_FILE = ContadorTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -522,20 +522,20 @@
 					"-lc++",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.taxleaf.taxleaf;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Contador.Contador;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TaxLeaf.app/TaxLeaf";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Contador.app/Contador";
 			};
 			name = Debug;
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C78F3DC0E1D45F792B3F8CF6 /* Pods-TaxLeaf-TaxLeafTests.release.xcconfig */;
+			baseConfigurationReference = FFC16A328FF308DF1640FBB4 /* Pods-Contador-ContadorTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				DEVELOPMENT_TEAM = TCMSWUT38G;
-				INFOPLIST_FILE = TaxLeafTests/Info.plist;
+				INFOPLIST_FILE = ContadorTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -547,26 +547,26 @@
 					"-lc++",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.taxleaf.taxleaf;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Contador.Contador;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TaxLeaf.app/TaxLeaf";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Contador.app/Contador";
 			};
 			name = Release;
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 90DE402AE664F1359B3EB878 /* Pods-TaxLeaf.debug.xcconfig */;
+			baseConfigurationReference = C68C480797F3D088C42639D7 /* Pods-Contador.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = TCMSWUT38G;
 				ENABLE_BITCODE = NO;
-				INFOPLIST_FILE = TaxLeaf/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = Taxleaf;
+				INFOPLIST_FILE = Contador/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Contador;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -578,8 +578,8 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.taxleaf.taxleaf;
-				PRODUCT_NAME = TaxLeaf;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Contador.Contador;
+				PRODUCT_NAME = Contador;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -589,17 +589,17 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F7080CF82C0CEEDDFE987ED6 /* Pods-TaxLeaf.release.xcconfig */;
+			baseConfigurationReference = 86C219B84D67218BE8FD1FE6 /* Pods-Contador.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = TCMSWUT38G;
-				INFOPLIST_FILE = TaxLeaf/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = Taxleaf;
+				INFOPLIST_FILE = Contador/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Contador;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -611,8 +611,8 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.taxleaf.taxleaf;
-				PRODUCT_NAME = TaxLeaf;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Contador.Contador;
+				PRODUCT_NAME = Contador;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -768,7 +768,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "TaxLeafTests" */ = {
+		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "ContadorTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				00E356F61AD99517003FC87E /* Debug */,
@@ -777,7 +777,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "TaxLeaf" */ = {
+		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Contador" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
@@ -786,7 +786,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "TaxLeaf" */ = {
+		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Contador" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,

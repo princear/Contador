@@ -2435,8 +2435,8 @@ const styles = StyleSheet.create({
 
         textAlign: 'center',
         paddingTop: 3,
-        fontSize: 8,
-        fontFamily: 'Poppins-SemiBold',
+        fontSize: 10,
+        fontFamily: 'Poppins-Bold',
     },
     mobiletoch: {
         // backgroundColor: showwhat == "My Schools" ? "#2F5597" : "lightgray",
@@ -2465,6 +2465,7 @@ const styles = StyleSheet.create({
     subHead: {
         //marginLeft: 30,
       //  marginTop: 20,
+     
       fontFamily:'Poppins-Bold',
       color:Color.headerIconBG,
         textAlign: "center"

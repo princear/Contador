@@ -42,7 +42,7 @@ const CreateNewAction = () => {
   const navigation = useNavigation();
 
   const [showwhat1, setshowwhat1] = useState('Message');
-  const [value, setValue] = useState(null);
+  const [value, setValue] = useState('');
   const [isFocus, setIsFocus] = useState(false);
   const [error, setError] = useState('');
 
@@ -69,9 +69,9 @@ const CreateNewAction = () => {
   const jsonData = MY_INFO.guestInfo;
   //const contentInsideDiv = EDITOR_TEXT?.replace(/<\/?div>/g, '');
   const contentInsideDiv = EDITOR_TEXT;
-  console.log(contentInsideDiv, 'contentInsideDivcontentInsideDivcontentInsideDivcontentInsideDiv')
+  //console.log(contentInsideDiv, 'contentInsideDivcontentInsideDivcontentInsideDivcontentInsideDiv')
 
-  console.log(MY_INFO, 'MY_INFO')
+  //console.log(MY_INFO, 'MY_INFO')
 
   const showwhatfunc1 = data => {
     setshowwhat1(data);
@@ -82,7 +82,7 @@ const CreateNewAction = () => {
     setDatePicker(true);
   };
   console.log(selectedId, 'selectedIdRadio')
-  console.log(MANAGER_INFO, 'MANAGER_INFO')
+  //console.log(MANAGER_INFO, 'MANAGER_INFO')
   console.log(actionSubject, 'actionSubject')
   console.log(value, 'valueIMP')
   console.log(date, 'date')
@@ -207,26 +207,38 @@ const CreateNewAction = () => {
 
   };
 
-  const handleValidation = () => {
-    if (!value) {
-      setError('Please select an option');
-      return false;
-    }
-    setError('');
-    return true;
-  };
-
   const handleDropdownChange = (item) => {
     console.log(item,'IIIII')
     setValue(item.value);
     setIsFocus(false);
+    handleValidation();
     setError(''); // Clear the error message when a value is selected
   };
 
+
+  console.log(value,'valuevaluevaluevaluevaluevalue')
+
   const handleBlur = () => {
+
+    
     setIsFocus(false);
-    handleValidation(); // Validate on blur
+  //  handleValidation(); // Validate on blur
   };
+
+  const handleValidation = () => {
+    console.log(value,'handleValidationhandleValidationhandleValidationhandleValidation')
+    if (value == '') {
+      setError('Please select an option');
+      return false;
+    }
+    else{
+      setError('');
+      return true;
+    }
+    
+  };
+
+
 
 
   const CustomRadioButton = ({ label, selected, onPress, selectedInnerColor, unselectedInnerColor }) => {
@@ -392,7 +404,7 @@ const CreateNewAction = () => {
          
           <View style={styles.slideContainer}>
             <View style={{marginTop:20}}>
-             
+             <Text style={{color:'#fff',fontFamily:'Poppins-SemiBold', paddingHorizontal: 22,fontSize:12}}>Priority*</Text>
               <Dropdown
                 style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
                 placeholderStyle={styles.placeholderStyle}
@@ -404,7 +416,7 @@ const CreateNewAction = () => {
 
                 labelField="label"
                 valueField="value"
-                placeholder={!isFocus ? 'Priority' : '...'}
+                placeholder={!isFocus ? 'Select an option' : '...'}
                 value={value}
                 onFocus={() => setIsFocus(true)}
               //  onBlur={() => setIsFocus(false)}

@@ -718,6 +718,94 @@ export const uploadFile = (MY_INFO, FolderName, documentType, fileext, year, per
   });
 };
 
+
+
+export const AssouploadFile = (MY_INFO,Aclient,AclientType, FolderName, documentType, fileext, year, period, description, base64File, accessToken, documentsLibraryId, periodValue, UploadedByName, UploadedBy, navigation) => dispatch => {
+  // dispatch({
+  //   type: 'LOADING',
+  //   payload: true,
+  // });
+  return new Promise(async (resolve, reject) => {
+
+
+    let data = {
+      "FileListModel": [
+        {
+          "FileModel": {
+            "Brand": MY_INFO?.staffview?.clientBrand,
+            "OfficeId": MY_INFO?.officeInfo?.officeId,
+            "ClientType": AclientType,
+            "ClientId": Aclient,
+            "SharepointFolderName": FolderName,
+            "DocumentType": documentType,
+            "FileType": fileext,
+            "Period": periodValue,
+            "PeriodText": period,
+            "Year": year.toString(),
+            "Description": description,
+            "UploadedByName": UploadedByName,
+            "UploadedBy": UploadedBy.toString()
+          },
+          "FileData": base64File
+        }
+      ],
+      "result": {
+        "accessToken": accessToken,
+        "LibraryId": documentsLibraryId
+      }
+    }
+
+    console.log(data, 'datadatadatadatadatadatadata')
+    console.log(data?.FileListModel[0]?.FileModel, 'uplaodPayload')
+    const response = await logistical.post('/FileCabinet/UploadFiles', data);
+    // console.log(response, 'UploadFilesResp');
+
+    if (response && response?.statusCode == 200) {
+      // AsyncStorage.setItem('login', JSON.stringify(response.token));
+
+      // dispatch({
+      //   type: DOCUMENT_INFO_FOLDER,
+      //   payload: response.documentInfo,
+      // });
+
+
+      resolve(response);
+
+      Alert.alert(response.massage)
+      navigation.navigate('FileCabinet');
+
+      // dispatch({
+      //   type: 'LOADING',
+      //   payload: false,
+      // });
+    } else {
+     // Alert.alert('Folder does not exist');
+      Alert.alert(
+        'Alert',
+        'Folder does not exist',
+        [
+          {
+            text: 'OK',
+            onPress: () => console.log('OK Pressed'),
+          },
+        ],
+        {
+          // Custom styles for the Alert component
+          containerStyle: styles.alertContainer,
+          titleStyle: styles.alertTitle,
+          messageStyle: styles.alertMessage,
+        }
+      );
+      //Alert.alert(response.massage);
+      // dispatch({
+      //   type: 'LOADING',
+      //   payload: false,
+      // });
+      reject(response);
+    }
+  });
+};
+
 // export const uploadFile = (MY_INFO, FolderName, documentType, year, period, description, base64File, accessToken, documentsLibraryId, navigation) => dispatch => {
 //   // dispatch({
 //   //   type: 'LOADING',
@@ -876,6 +964,8 @@ export const generateFileToken = (documentId, navigation) => dispatch => {
 };
 
 export const getFileInfo = (client, clientType, navigation) => dispatch => {
+
+
   // dispatch({
   //   type: 'LOADING',
   //   payload: true,
@@ -887,7 +977,7 @@ export const getFileInfo = (client, clientType, navigation) => dispatch => {
         {
           "guestInfo": {
             "client": client,
-            "clientType": clientType
+            "clientType":  clientType == "company" ? "Business" : clientType
           }
         }
       ]
