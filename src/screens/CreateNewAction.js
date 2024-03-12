@@ -16,9 +16,9 @@ import RadioGroup from 'react-native-radio-buttons-group';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 import { useIsFocused, useNavigation } from '@react-navigation/native';
-import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
- 
- 
+import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
+
+
 
 import {
   widthPercentageToDP as wp,
@@ -110,8 +110,8 @@ const CreateNewAction = () => {
         ' ' +
         '(Manager)',
       value: 'option1',
-    
-     
+
+
     },
     {
       id: '2',
@@ -122,11 +122,11 @@ const CreateNewAction = () => {
         ' ' +
         '(Partner)',
       value: 'option2',
-     
-     
+
+
     },
   ];
-   
+
   const radioButtons = useMemo(
     () => [
       {
@@ -138,8 +138,8 @@ const CreateNewAction = () => {
           ' ' +
           '(Manager)',
         value: 'option1',
-      
-       
+
+
       },
       {
         id: '2',
@@ -150,8 +150,8 @@ const CreateNewAction = () => {
           ' ' +
           '(Partner)',
         value: 'option2',
-       
-       
+
+
       },
     ],
     [],
@@ -167,48 +167,48 @@ const CreateNewAction = () => {
 
     if (handleValidation()) {
       // Proceed with your form submission or other actions
-   
-    let data = {
-      "actionTime": "2023-10-20T05:05:54.895Z",
-      "actionModel": {
-        "createdOffice": MY_INFO?.officeInfo?.id,
-        "assignTo": 1,
-        "clientId": jsonData?.client,
-        "subject": actionSubject,
-        "message": descriptionText,
-        "priority": parseInt(value, 10),
-        "status": parseInt(jsonData?.status, 10),
-        "addedByUser": MY_INFO?.staffview?.id,
-        "dueDate": moment(date).format('YYYY-MM-DD'),
-        "isCreatedFromAction": "n",
-        "clientIdForGuest": jsonData?.clientId.toString(),
-        "assignWhom": selectedOption == 1 ? 'Manager' : 'Partner'
-      },
-      "actionStaffModel": {
-        "staffId": selectedId == 1 ? managerInfo.id : partnerInfo?.id
-      },
-      "actionClientListModel": {
-      },
-      "actionNoteListModel": [
-        {
-          "note": "E"
-        }, {
-          "note": "F"
-        }
-      ]
-    }
 
-    
-    console.log(data, 'datatatatatatatdatatatatatatatdatatatatatatat', data1)
-    dispatch(RequestSubmit(data, navigation));
-    console.log('Form submitted with value:', value);
-  }
+      let data = {
+        "actionTime": "2024-02-03T05:05:54.895Z",
+        "actionModel": {
+          "createdOffice": MY_INFO?.officeInfo?.id,
+          "assignTo": 1,
+          "clientId": jsonData?.client,
+          "subject": actionSubject,
+          "message": descriptionText,
+          "priority": parseInt(value, 10),
+          "status": parseInt(jsonData?.status, 10),
+          "addedByUser": MY_INFO?.staffview?.id,
+          "dueDate": moment(date).format('YYYY-MM-DD'),
+          "isCreatedFromAction": "n",
+          "clientIdForGuest": jsonData?.clientId.toString(),
+          "assignWhom": selectedOption == 1 ? 'Manager' : 'Partner'
+        },
+        "actionStaffModel": {
+          "staffId": selectedId == 1 ? managerInfo.id : partnerInfo?.id
+        },
+        "actionClientListModel": {
+        },
+        "actionNoteListModel": [
+          {
+            "note": "E"
+          }, {
+            "note": "F"
+          }
+        ]
+      }
+
+
+      console.log(data, 'datatatatatatatdatatatatatatatdatatatatatatat', data1)
+      dispatch(RequestSubmit(data, navigation));
+      console.log('Form submitted with value:', value);
+    }
 
 
   };
 
   const handleDropdownChange = (item) => {
-    console.log(item,'IIIII')
+    console.log(item, 'IIIII')
     setValue(item.value);
     setIsFocus(false);
     handleValidation();
@@ -216,26 +216,26 @@ const CreateNewAction = () => {
   };
 
 
-  console.log(value,'valuevaluevaluevaluevaluevalue')
+  console.log(value, 'valuevaluevaluevaluevaluevalue')
 
   const handleBlur = () => {
 
-    
+
     setIsFocus(false);
-  //  handleValidation(); // Validate on blur
+    //  handleValidation(); // Validate on blur
   };
 
   const handleValidation = () => {
-    console.log(value,'handleValidationhandleValidationhandleValidationhandleValidation')
+    console.log(value, 'handleValidationhandleValidationhandleValidationhandleValidation')
     if (value == '') {
       setError('Please select an option');
       return false;
     }
-    else{
+    else {
       setError('');
       return true;
     }
-    
+
   };
 
 
@@ -250,14 +250,14 @@ const CreateNewAction = () => {
             height: 15,
             borderRadius: 10,
             borderWidth: 3,
-            backgroundColor:selected ? Color.green: '#fff' ,
+            backgroundColor: selected ? Color.green : '#fff',
             borderColor: '#fff',
-           
-          //  backgroundColor: selected ? selectedInnerColor : 'transparent',
+
+            //  backgroundColor: selected ? selectedInnerColor : 'transparent',
             marginRight: 10,
           }}
         />
-        <Text style={{color:Color.white,fontSize:10,fontFamily:'Poppins-SemiBold'}}>{label}</Text>
+        <Text style={{ color: Color.white, fontSize: 10, fontFamily: 'Poppins-SemiBold' }}>{label}</Text>
       </TouchableOpacity>
     );
   };
@@ -265,7 +265,7 @@ const CreateNewAction = () => {
   const handleRadioChange = (value) => {
     setSelectedOption(value);
   };
- 
+
 
   console.log(selectedOption)
 
@@ -277,47 +277,47 @@ const CreateNewAction = () => {
         style={{ backgroundColor: Color.bgColor }}
       >
         <ScrollView>
-          <HeadTabs/>
+          <HeadTabs />
           <Text style={styles.heading}>Create New Action</Text>
 
           <View style={styles.slideContainerFrom}>
-            <Text style={{color:Color.white,fontFamily:'Poppins-SemiBold', textAlign: 'center', fontSize: 16, marginTop: 10 }}>
+            <Text style={{ color: Color.white, fontFamily: 'Poppins-SemiBold', textAlign: 'center', fontSize: 16, marginTop: 10 }}>
               From
             </Text>
-          
-           
+
+
             <TextInput
               placeholder="First Name"
               style={[styles.input]}
               editable={false}
               value={staffview?.firstName + ' ' + staffview?.lastName}
             />
-          
+
             <TextInput
               placeholder="First Name"
               style={[styles.input]}
               editable={false}
               value={officeInfo?.name}
             />
-           
-        
+
+
           </View>
           <View style={styles.slideContainerTo}>
-            <Text style={{color:Color.white,fontFamily:'Poppins-SemiBold', textAlign: 'center', fontSize: 16, marginTop: 10 }}>
+            <Text style={{ color: Color.white, fontFamily: 'Poppins-SemiBold', textAlign: 'center', fontSize: 16, marginTop: 10 }}>
               To
             </Text>
             <View style={styles.part}></View>
             <View
               style={{
-               width:wp(80),
+                width: wp(80),
                 alignSelf: 'center',
                 //alignItems: 'center',
                 justifyContent: 'center',
               }}>
 
 
-              
-{/* <RadioForm
+
+              {/* <RadioForm
         radio_props={radio_props}
         initial={0}
         onPress={(value) => {
@@ -331,49 +331,49 @@ const CreateNewAction = () => {
         labelStyle={{fontSize: 12, color: '#fff'}}
       /> */}
 
-      <CustomRadioButton
-        label={   managerInfo?.firstName +
-          ' ' +
-          managerInfo?.lastName 
-          //+
-        //  ' ' +
-        //  '(Manager)'
-        }
-        selected={selectedOption === 1}
-        onPress={() => handleRadioChange(1)}
-        selectedInnerColor={Color.green}    // Set the inner color for the selected button
-        unselectedInnerColor="#fff"  // Set the inner color for the unselected button
-      />
-      <View style={{height:5}}></View>
+              <CustomRadioButton
+                label={managerInfo?.firstName +
+                  ' ' +
+                  managerInfo?.lastName
+                  //+
+                  //  ' ' +
+                  //  '(Manager)'
+                }
+                selected={selectedOption === 1}
+                onPress={() => handleRadioChange(1)}
+                selectedInnerColor={Color.green}    // Set the inner color for the selected button
+                unselectedInnerColor="#fff"  // Set the inner color for the unselected button
+              />
+              <View style={{ height: 5 }}></View>
 
-      { managerInfo?.firstName == partnerInfo?.firstName ? 
-      
-      null
-      :
-      <CustomRadioButton
-      label={ partnerInfo?.firstName +
-        ' ' +
-        partnerInfo?.lastName 
-        //+
-        //' ' +
-        //'(Partner)'
-      }
-      selected={selectedOption === 2}
-      onPress={() => handleRadioChange(2)}
-      selectedInnerColor={Color.green}  // Set the inner color for the selected button
-      unselectedInnerColor="#fff"
-      // Set the inner color for the unselected button
-    />
-      
-      }
-      
-    
-             
+              {managerInfo?.firstName == partnerInfo?.firstName ?
+
+                null
+                :
+                <CustomRadioButton
+                  label={partnerInfo?.firstName +
+                    ' ' +
+                    partnerInfo?.lastName
+                    //+
+                    //' ' +
+                    //'(Partner)'
+                  }
+                  selected={selectedOption === 2}
+                  onPress={() => handleRadioChange(2)}
+                  selectedInnerColor={Color.green}  // Set the inner color for the selected button
+                  unselectedInnerColor="#fff"
+                // Set the inner color for the unselected button
+                />
+
+              }
+
+
+
             </View>
           </View>
 
-          <View style={{height:hp(28),paddingTop:10, width: wp(90),backgroundColor:"#c3d2d7", alignSelf: 'center' }}>
-           
+          <View style={{ height: hp(28), paddingTop: 10, width: wp(90), backgroundColor: "#c3d2d7", alignSelf: 'center' }}>
+
             <TextInput
               onChangeText={(text) => setActionSubject(text)}
               // placeholder='First Name'
@@ -382,29 +382,31 @@ const CreateNewAction = () => {
             />
 
             <View style={styles.slideContainerEdit}>
-           
 
-           <TextInput
-             numberOfLines={5}
-             multiline={true}
-              placeholder="Action Message"
-             // placeholderTextColor={'lightgrey'}
-             style={{color:Color.HeaderBackground,fontFamily:'Poppins-SemiBold',   fontSize:12,
-               paddingTop: 10, textAlignVertical: 'top' }}
-             value={descriptionText}
-             onChangeText={text => {
-               setDescriptionText(text);
-             }}
-           />
-        
-         </View>
+
+              <TextInput
+                numberOfLines={5}
+                multiline={true}
+                placeholder="Action Message"
+                // placeholderTextColor={'lightgrey'}
+                style={{
+                  color: Color.HeaderBackground, fontFamily: 'Poppins-SemiBold', fontSize: 12,
+                  paddingTop: 10, textAlignVertical: 'top'
+                }}
+                value={descriptionText}
+                onChangeText={text => {
+                  setDescriptionText(text);
+                }}
+              />
+
+            </View>
 
           </View>
-       
-         
+
+
           <View style={styles.slideContainer}>
-            <View style={{marginTop:20}}>
-             <Text style={{color:'#fff',fontFamily:'Poppins-SemiBold', paddingHorizontal: 22,fontSize:12}}>Priority*</Text>
+            <View style={{ marginTop: 20 }}>
+              <Text style={{ color: '#fff', fontFamily: 'Poppins-SemiBold', paddingHorizontal: 22, fontSize: 12 }}>Priority*</Text>
               <Dropdown
                 style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
                 placeholderStyle={styles.placeholderStyle}
@@ -419,32 +421,32 @@ const CreateNewAction = () => {
                 placeholder={!isFocus ? 'Select an option' : '...'}
                 value={value}
                 onFocus={() => setIsFocus(true)}
-              //  onBlur={() => setIsFocus(false)}
+                //  onBlur={() => setIsFocus(false)}
                 onBlur={handleBlur}
-                onChange={ (item) => handleDropdownChange(item)}
+                onChange={(item) => handleDropdownChange(item)}
               />
 
 
-              
 
-               {error ? <Text style={styles.errorText}>{error}</Text> : null}
-            
+
+              {error ? <Text style={styles.errorText}>{error}</Text> : null}
+
               <TouchableOpacity
                 style={styles.btn}
                 onPress={() => setDatePicker(true)}>
-                  <View style={{flexDirection:"row",justifyContent:'space-between',width:wp(75)}}> 
-                  <Text style={{ fontFamily:'Poppins-SemiBold', color: '#fff', fontSize: 12 }}>
-                  Due Date
+                <View style={{ flexDirection: "row", justifyContent: 'space-between', width: wp(75) }}>
+                  <Text style={{ fontFamily: 'Poppins-SemiBold', color: '#fff', fontSize: 12 }}>
+                    Due Date
                   </Text>
-                {date ? (
-                  <Text style={{ fontFamily:'Poppins-SemiBold', color: '#fff', fontSize: 12 }}>
-                    {moment(date, 'MM-DD-YYYY').format('ddd,DD MMM YYYY')}
-                  </Text>
-                ) : (
-                  <Text style={{ color: '#fff', fontSize: 15 }}>Select</Text>
-                )}
-                  </View>
-                   
+                  {date ? (
+                    <Text style={{ fontFamily: 'Poppins-SemiBold', color: '#fff', fontSize: 12 }}>
+                      {moment(date, 'MM-DD-YYYY').format('ddd,DD MMM YYYY')}
+                    </Text>
+                  ) : (
+                    <Text style={{ color: '#fff', fontSize: 15 }}>Select</Text>
+                  )}
+                </View>
+
               </TouchableOpacity>
 
               {datePicker && (
@@ -454,7 +456,7 @@ const CreateNewAction = () => {
                   display={Platform.OS === 'ios' ? "default" : 'default'}
                   //   is24Hour={false}
                   onChange={onDateSelected}
-                 style={styles.datePicker}
+                  style={styles.datePicker}
                 />
               )}
 
@@ -480,25 +482,25 @@ const CreateNewAction = () => {
               flexDirection: 'row',
               justifyContent: 'space-between',
               marginTop: 10,
-              width:wp(88),
-             //  backgroundColor:"red",
-              alignSelf:'center'
+              width: wp(88),
+              //  backgroundColor:"red",
+              alignSelf: 'center'
             }}>
             <TouchableOpacity
               style={styles.btnPrev}
             // onPress={() => { onPageChange(4) }}
             >
-             <Image source={require('../Assets/img/icons/close.png')} style={{ width: 25, height: 25,}} />
+              <Image source={require('../Assets/img/icons/close.png')} style={{ width: 25, height: 25, }} />
 
-              <Text style={{ color:'#5a5a5a',fontFamily:'Poppins-SemiBold',fontSize:12,marginLeft: 5 }}>Cancel</Text>
+              <Text style={{ color: '#5a5a5a', fontFamily: 'Poppins-SemiBold', fontSize: 12, marginLeft: 5 }}>Cancel</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.btnSubmit}
               onPress={() => { onSubmit() }}
             >
-               <Image source={require('../Assets/img/icons/tickWhite.png')} style={{ width: 25, height: 25,  }} />
+              <Image source={require('../Assets/img/icons/tickWhite.png')} style={{ width: 25, height: 25, }} />
 
-              <Text style={{ color: '#fff',fontFamily:'Poppins-SemiBold',fontSize:12, marginLeft: 5 }}>Submit</Text>
-             
+              <Text style={{ color: '#fff', fontFamily: 'Poppins-SemiBold', fontSize: 12, marginLeft: 5 }}>Submit</Text>
+
             </TouchableOpacity>
           </View>
         </ScrollView>
@@ -528,7 +530,7 @@ const styles = StyleSheet.create({
     borderWidth: 0.3,
     borderColor: '#aaca79',
     margin: 5,
-    marginBottom:10,
+    marginBottom: 10,
     width: wp(80),
     alignSelf: 'center',
   },
@@ -537,11 +539,11 @@ const styles = StyleSheet.create({
     width: wp(90),
     justifyContent: 'center',
     alignSelf: 'center',
-  
-    borderBottomLeftRadius:10,
-    borderBottomRightRadius:10,
-  
-   // marginTop: 20,
+
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
+
+    // marginTop: 20,
     // width:'62%'
   },
   slideContainerEdit: {
@@ -564,9 +566,9 @@ const styles = StyleSheet.create({
     /// height: 420,
     opacity: 2,
     paddingBottom: 20,
-    borderTopLeftRadius:10,
-    borderTopRightRadius:10,
-  
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+
     marginTop: 20,
     // width:'62%'
   },
@@ -579,7 +581,7 @@ const styles = StyleSheet.create({
     opacity: 2,
     paddingBottom: 20,
     //borderRadius: 10,
-   // marginTop: 20,
+    // marginTop: 20,
     // width:'62%'
   },
   Slidericons: {
@@ -734,9 +736,9 @@ const styles = StyleSheet.create({
   },
   errorText: {
     color: 'red',
-    fontFamily:'Poppins-SemiBold',
-    fontSize:12,
-    padding:5,
+    fontFamily: 'Poppins-SemiBold',
+    fontSize: 12,
+    padding: 5,
     marginLeft: 15,
   },
   label: {
@@ -750,16 +752,16 @@ const styles = StyleSheet.create({
   },
   placeholderStyle: {
     fontSize: 12,
-    fontFamily:'Poppins-SemiBold'
+    fontFamily: 'Poppins-SemiBold'
   },
   selectedTextStyle: {
     fontSize: 12,
-    fontFamily:'Poppins-SemiBold'
+    fontFamily: 'Poppins-SemiBold'
   },
   iconStyle: {
     width: 20,
     height: 20,
-    
+
   },
   inputSearchStyle: {
     height: 40,
@@ -772,13 +774,13 @@ const styles = StyleSheet.create({
   input: {
     height: hp(5),
     margin: 5,
-   // borderWidth: 1,
+    // borderWidth: 1,
     borderRadius: 10,
-    fontSize:12,
+    fontSize: 12,
     width: wp(80),
-    
-    fontFamily:"Poppins-SemiBold",
-    color:Color.HeaderBackground,
+
+    fontFamily: "Poppins-SemiBold",
+    color: Color.HeaderBackground,
     backgroundColor: '#fff',
     alignSelf: 'center',
     borderColor: 'gray',
@@ -792,7 +794,7 @@ const styles = StyleSheet.create({
     marginBottom: 30,
     marginTop: 10,
     backgroundColor: '#8AB645',
-   // backgroundColor: 'red',
+    // backgroundColor: 'red',
     borderRadius: 10,
     // padding: 10,
     alignItems: 'center',
@@ -814,13 +816,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row',
     marginBottom: 30,
-    justifyContent:"center",
+    justifyContent: "center",
     marginTop: 10,
     backgroundColor: Color.green,
     borderRadius: 20,
     padding: 10,
     alignItems: 'center',
-   // marginRight: 10,
+    // marginRight: 10,
     marginLeft: 10,
   },
   btnPrev: {
@@ -830,7 +832,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row',
     marginBottom: 30,
-    justifyContent:"center",
+    justifyContent: "center",
     marginTop: 10,
     backgroundColor: '#fff',
     borderRadius: 20,

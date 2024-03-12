@@ -79,11 +79,13 @@ const Drawer = () => {
 
   const signOut = async () => {
     setLoader(true)
+
     try {
       // Revoke the token(s) and perform any additional sign-out actions
       let logoutToken = await revoke(config, { tokenToRevoke: 'accessToken' });
       console.log(logoutToken, 'JJJJJJJJJJJJJJJJJJJJ')
       AsyncStorage.clear();
+
       // let obj = "";
       // dispatch({
       //   type: LOGIN_DATA,
@@ -130,9 +132,9 @@ const Drawer = () => {
           }}>
           {/* <Icon2 style={styles.icon} name="home" size={20} color="#fff" /> */}
           <Image
-                  source={ require('../Assets/img/icons/home.png')}
-                  style={  [styles.icons,]}
-                />
+            source={require('../Assets/img/icons/home.png')}
+            style={[styles.icons,]}
+          />
           <Text style={styles.screenNameText}>Home</Text>
         </TouchableOpacity>
         {/* <View style={styles.part}></View> */}
@@ -140,17 +142,22 @@ const Drawer = () => {
 
       <View>
         <View style={styles.part}></View>
-        
+
         <TouchableOpacity
+
           style={styles.screenName}
+
           onPress={() => {
+
             navigation.navigate('ClientInfo');
+
           }}>
+
           {/* <Icon2 style={styles.icon} name="groups" size={20} color="#fff" /> */}
           <Image
-                  source={ require('../Assets/img/icons/group.png')}
-                  style={  [styles.icons,]}
-                />
+            source={require('../Assets/img/icons/group.png')}
+            style={[styles.icons,]}
+          />
           <Text style={styles.screenNameText}>Client Info</Text>
         </TouchableOpacity>
         {/* <View style={styles.part}></View> */}
@@ -165,10 +172,10 @@ const Drawer = () => {
             navigation.navigate('Manager');
           }}>
           {/* <Icon2 style={styles.icon} name="person" size={20} color="#fff" /> */}
-               <Image
-                  source={ require('../Assets/img/icons/userM.png')}
-                  style={  [styles.icons,]}
-                />
+          <Image
+            source={require('../Assets/img/icons/userM.png')}
+            style={[styles.icons,]}
+          />
           <Text style={styles.screenNameText}>Manager</Text>
 
         </TouchableOpacity>
@@ -179,22 +186,28 @@ const Drawer = () => {
         <View style={styles.part}></View>
 
         <TouchableOpacity
+
           style={styles.screenName}
           onPress={() => {
             navigation.navigate('PaymentsContain');
+
           }}>
+
           {/* <Icon2 style={styles.icon} name="payment" size={20} color="#fff" /> */}
           <Image
-                  source={ require('../Assets/img/icons/transaction.png')}
-                  style={  [styles.icons,]}
-                />
+            source={require('../Assets/img/icons/transaction.png')}
+            style={[styles.icons,]}
+          />
+
           <Text style={styles.screenNameText}>Payments</Text>
+
         </TouchableOpacity>
 
         {/* <View style={styles.part}></View> */}
       </View>
       <View>
         <View style={styles.part}></View>
+
         <TouchableOpacity
           style={styles.screenName}
           onPress={() => {
@@ -206,17 +219,19 @@ const Drawer = () => {
             size={20}
             color="#fff"
           /> */}
-           <Image
-                  source={ require('../Assets/img/icons/files-white.png')}
-                  style={  [styles.icons,]}
-                />
+          <Image
+            source={require('../Assets/img/icons/files-white.png')}
+            style={[styles.icons,]}
+          />
 
           <Text style={styles.screenNameText}>File Cabinet</Text>
         </TouchableOpacity>
         {/* <View style={styles.part}></View> */}
       </View>
       <View>
+
         <View style={styles.part}></View>
+
         <TouchableOpacity
           style={styles.screenName}
           onPress={() => {
@@ -228,10 +243,10 @@ const Drawer = () => {
             size={20}
             color="#fff"
           /> */}
-                <Image
-                  source={ require('../Assets/img/icons/product-request.png')}
-                  style={  [styles.icons,]}
-                />
+          <Image
+            source={require('../Assets/img/icons/product-request.png')}
+            style={[styles.icons,]}
+          />
           <Text style={styles.screenNameText}>Requests</Text>
         </TouchableOpacity>
         <View style={styles.part}></View>
@@ -249,13 +264,14 @@ const Drawer = () => {
             size={20}
             color="#fff"
           /> */}
-           <Image
-                  source={ require('../Assets/img/icons/contact-us.png')}
-                  style={  [styles.icons,]}
-                />
+          <Image
+            source={require('../Assets/img/icons/contact-us.png')}
+            style={[styles.icons,]}
+          />
 
           <Text style={styles.screenNameText}>Contact</Text>
         </TouchableOpacity>
+
         {/* <View style={styles.part}></View>
         <TouchableOpacity
           style={styles.screenName}
@@ -277,6 +293,7 @@ const Drawer = () => {
         <View style={styles.part}></View>
         <TouchableOpacity
           style={styles.screenName}
+
           onPress={() => signOut()}>
           {/* <Icon2
             style={styles.icon}
@@ -284,10 +301,11 @@ const Drawer = () => {
             size={20}
             color="#fff"
           /> */}
-             <Image
-                  source={ require('../Assets/img/icons/logout1.png')}
-                  style={  [styles.icons,]}
-                />
+
+          <Image
+            source={require('../Assets/img/icons/logout1.png')}
+            style={[styles.icons,]}
+          />
 
           <Text style={styles.screenNameText}>Logout</Text>
         </TouchableOpacity>
@@ -317,13 +335,13 @@ const styles = StyleSheet.create({
     height: 80,
     width: 80,
   },
-  icons:{
+  icons: {
     alignSelf: 'center',
-    height:20,
+    height: 20,
     marginLeft: 20,
-    resizeMode:'contain',
-    width:20,
- 
+    resizeMode: 'contain',
+    width: 20,
+
   },
   MenuLIstContainer: {
     padding: 10,
@@ -372,7 +390,7 @@ const styles = StyleSheet.create({
     width: '60%',
     height: 80,
     alignSelf: 'center',
-    resizeMode:'contain'
+    resizeMode: 'contain'
   },
   headImg: {
     backgroundColor: '#fff',
@@ -400,7 +418,7 @@ const styles = StyleSheet.create({
   },
   screenName: {
     marginVertical: 10,
-  //  marginLeft:20,
+    //  marginLeft:20,
     flexDirection: 'row',
   },
   screenNameText: {

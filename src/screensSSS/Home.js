@@ -10,7 +10,7 @@ import {
   Image,
   ImageBackground,
   Button,
-  
+
   Alert
 } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
@@ -175,30 +175,31 @@ const HomeScreen = () => {
         <TouchableOpacity style={styles.btn}>
           {/* <View style={{ width: wp(30) }}> */}
           <Image
-                  source={ require('../Assets/img/icons/telefono.png')}
-                  style={  [styles.icons,]}
-                />
+            source={require('../Assets/img/icons/telefono.png')}
+            style={[styles.icons,]}
+          />
           {/* </View> */}
 
-          <Text style={{marginLeft:10, color: '#fff',textAlign:"center", fontFamily: 'Poppins-SemiBold', fontSize: 12 }}
+          <Text style={{ marginLeft: 10, color: '#fff', textAlign: "center", fontFamily: 'Poppins-SemiBold', fontSize: 12 }}
             onPress={() =>
               Linking.openURL(`tel:${manager?.phone}`)
             }
           >
             {/* 333-888-2345 */}
             {manager?.phone ? manager?.phone && formatPhoneNumber(manager.phone) : 'N/A'}
-            </Text>
+          </Text>
         </TouchableOpacity>
       </View>
     </TouchableOpacity>
   );
   return (
     <View style={styles.container}>
-    
+
       <Loader flag={loader} />
       <ScrollView
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
+        nestedScrollEnabled={true}
       >
         {/* <Text style={styles.heading}>
           Thank you for being our client since 2023
@@ -249,17 +250,17 @@ const HomeScreen = () => {
                 size={20}
                 color="#000"
               /> */}
-                <Image
-                  source={ require('../Assets/img/icons/phone-icon.png')}
-                  style={  [styles.icons,]}
-                />
+              <Image
+                source={require('../Assets/img/icons/phone-icon.png')}
+                style={[styles.icons,]}
+              />
               <Text style={styles.ofcInfotxt1}
                 onPress={() =>
                   Linking.openURL(`tel:${officeInfo?.phone}`)
                 }
               >
-                 {officeInfo?.phone && formatPhoneNumber(officeInfo.phone)}
-                 {/* {officeInfo?.phone} */}
+                {officeInfo?.phone && formatPhoneNumber(officeInfo.phone)}
+                {/* {officeInfo?.phone} */}
               </Text>
             </View>
 
@@ -267,16 +268,16 @@ const HomeScreen = () => {
             <View style={{ flexDirection: "row", width: wp(80), alignSelf: "center" }}>
               {/* <Icon style={styles.icon} name="mail" size={20} color="#000" /> */}
               <Image
-                  source={ require('../Assets/img/icons/email-icon.png')}
-                  style={  [styles.icons,]}
-                />
+                source={require('../Assets/img/icons/email-icon.png')}
+                style={[styles.icons,]}
+              />
               <Text style={styles.ofcInfotxt1}
-               onPress={() =>
-                Linking.openURL(
-                  `mailto:${officeInfo?.email}?subject=SendMail&body=Description`,
-                )
-              }
-              title={officeInfo?.email}
+                onPress={() =>
+                  Linking.openURL(
+                    `mailto:${officeInfo?.email}?subject=SendMail&body=Description`,
+                  )
+                }
+                title={officeInfo?.email}
               >
 
                 {officeInfo?.email}
@@ -294,35 +295,35 @@ const HomeScreen = () => {
                 size={20}
                 color="#000"
               /> */}
-                <Image
-                  source={ require('../Assets/img/icons/phone-icon.png')}
-                  style={  [styles.icons,]}
-                />
+              <Image
+                source={require('../Assets/img/icons/phone-icon.png')}
+                style={[styles.icons,]}
+              />
               <Text style={styles.ofcInfotxt1}
-               onPress={() =>
-                Linking.openURL(`tel:${manager?.phone}`)
-              }
+                onPress={() =>
+                  Linking.openURL(`tel:${manager?.phone}`)
+                }
               >
 
 
-                {manager?.phone ? manager?.phone && formatPhoneNumber(manager.phone): 'N/A'}
+                {manager?.phone ? manager?.phone && formatPhoneNumber(manager.phone) : 'N/A'}
                 {/* {manager?.phone ? manager?.phone : 'N/A'} */}
               </Text>
             </View>
             <View style={{ flexDirection: "row", width: wp(80), alignSelf: "center" }}>
               {/* <Icon style={styles.icon} name="mail" size={20} color="#000" /> */}
               <Image
-                  source={ require('../Assets/img/icons/email-icon.png')}
-                  style={  [styles.icons,]}
-                />
+                source={require('../Assets/img/icons/email-icon.png')}
+                style={[styles.icons,]}
+              />
               <Text style={styles.ofcInfotxt1}
-              
-              onPress={() =>
-                Linking.openURL(
-                  `mailto:${manager?.user}?subject=SendMail&body=Description`,
-                )
-              }
-              title={manager?.user}
+
+                onPress={() =>
+                  Linking.openURL(
+                    `mailto:${manager?.user}?subject=SendMail&body=Description`,
+                  )
+                }
+                title={manager?.user}
 
               >
 
@@ -387,12 +388,12 @@ const styles = StyleSheet.create({
     // marginTop: 20,
     // width:'62%'
   },
-  icons:{
+  icons: {
     alignSelf: 'center',
-    height:20,
-    resizeMode:'contain',
-    width:20,
- 
+    height: 20,
+    resizeMode: 'contain',
+    width: 20,
+
   },
   Slidericons: {
     width: wp(60),
@@ -490,7 +491,7 @@ const styles = StyleSheet.create({
     // fontWeight: '700',
     fontSize: 20,
     textAlign: "center",
-   fontFamily: 'Poppins-Bold'
+    fontFamily: 'Poppins-Bold'
 
     //marginLeft: 30,
   },

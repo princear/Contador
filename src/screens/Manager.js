@@ -6,6 +6,7 @@ import {
   Button,
   Text,
   Dimensions,
+  Linking,
   StyleSheet,
   Image,
   TouchableOpacity,
@@ -86,12 +87,20 @@ const Manager = () => {
     fetchData();
   }, [jsonData?.clientId, jsonData?.clientType]);
 
+  const formatPhoneNumber = (phoneNumber) => {
+    // Remove non-digit characters from the phone number
+    const cleanedPhoneNumber = phoneNumber.replace(/\D/g, '');
 
+    // Format the phone number (assuming it's a 10-digit number)
+    const formattedPhoneNumber = `(${cleanedPhoneNumber.substring(0, 3)})${cleanedPhoneNumber.substring(3, 6)}-${cleanedPhoneNumber.substring(6, 10)}`;
+
+    return formattedPhoneNumber;
+  };
 
   console.log(infoData?.managerInfo?.user, 'MANAGER_INFOMANAGER_INFO');
 
   return (
-    <SafeAreaView style={{ backgroundColor:'#fff',flex:1 }}>
+    <SafeAreaView style={{ backgroundColor: '#fff', flex: 1 }}>
       <Loader flag={loader} />
       <CustomHeader />
       <ScrollView style={{ height: hp(80) }}>
@@ -112,7 +121,7 @@ const Manager = () => {
               }}>
               <Text style={{ fontSize: 20, fontFamily: 'Poppins-Bold', color: Color.headerIconBG }}>Manager</Text>
               <TouchableOpacity
-               // onPress={() => setModalVisible(true)}
+                // onPress={() => setModalVisible(true)}
                 onPress={() => navigation.navigate('ContactUs')}
                 style={{
                   flexDirection: 'row',
@@ -224,19 +233,35 @@ const Manager = () => {
                   padding: 10,
                 }}>
 
-                <Text style={styles.LIstText2}>
+                <Text style={styles.LIstText2}
+
+                  onPress={() =>
+                    Linking.openURL(`tel:${manager?.phone}`)
+                  }
+                >
                   <Text style={{ fontSize: 14, fontFamily: 'Poppins-Bold' }}>Phone:</Text>{' '}
                   {/* {infoData?.managerInfo?.cell ? infoData?.managerInfo?.cell : 'N/A'} */}
-                  {manager?.phone ? manager?.phone : 'N/A'}
+                  {/* {manager?.phone ? manager?.phone : 'N/A'} */}
+                  {manager?.phone ? manager?.phone && formatPhoneNumber(manager.phone) : 'N/A'}
+
                 </Text>
               </View>
               <View style={styles.partition}></View>
+
               <View style={{ height: 40, padding: 10 }}>
-                <Text style={styles.LIstText2}>
+                <Text style={styles.LIstText2}
+
+                  onPress={() =>
+                    Linking.openURL(
+                      `mailto:${manager?.user}?subject=&body=`,
+                    )
+                  }
+                >
                   <Text style={{ fontSize: 14, fontFamily: 'Poppins-Bold' }}>Email:</Text>{' '}
                   {manager?.user}
                 </Text>
               </View>
+
               <View style={styles.partition}></View>
 
               {/* <View style={styles.progress}>
@@ -293,7 +318,13 @@ const Manager = () => {
               <View style={styles.partition}></View>
 
               <View style={{ height: 40, padding: 10 }}>
-                <Text style={styles.LIstText2}>
+                <Text style={styles.LIstText2}
+                  onPress={() =>
+                    Linking.openURL(
+                      `mailto:${manageroffice?.email}?subject=&body=`,
+                    )
+                  }
+                >
                   <Text style={{ fontSize: 15, fontFamily: 'Poppins-Bold' }}>Email:</Text>{' '}
                   {manageroffice?.email}
                 </Text>
@@ -306,9 +337,16 @@ const Manager = () => {
                   backgroundColor: '#fff',
                   padding: 10,
                 }}>
-                <Text style={styles.LIstText2}>
+                <Text style={styles.LIstText2}
+                  onPress={() =>
+                    Linking.openURL(`tel:${manageroffice?.phone}`)
+                  }
+                >
                   <Text style={{ fontSize: 15, fontFamily: 'Poppins-Bold' }}>Phone:</Text>{' '}
-                  {manageroffice?.phone}
+                  {/* {manageroffice?.phone} */}
+                  {manageroffice?.phone ? manageroffice?.phone && formatPhoneNumber(manageroffice.phone) : 'N/A'}
+
+
                 </Text>
               </View>
               <View style={styles.partition}></View>
@@ -367,8 +405,8 @@ const Manager = () => {
               <Text style={styles.Subheading}>Submit Your Request11</Text>
               <TouchableOpacity
                 onPress={() => setModalVisible(!modalVisible)}
-               // onPress={() => navigation.navigate('ContactUs')}
-              
+                // onPress={() => navigation.navigate('ContactUs')}
+
                 style={{
                   backgroundColor: '#8AB645',
                   height: wp(10),

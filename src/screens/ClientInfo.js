@@ -23,11 +23,14 @@ import {
   clientInfo,
   ClientInfoList,
   client_Detail,
+  getFileInfo,
 } from '../Redux/Actions/TaxLeaf';
 import { useIsFocused, useNavigation } from '@react-navigation/native';
 import { Loader } from '../Component/Loader';
 import { Color } from '../Style';
 import HeadTabs from './HeadTabs';
+import { logistical } from '../utils';
+
 
 const data = [
   {
@@ -88,10 +91,13 @@ const ClientInfo = () => {
   const { MY_INFO } = useSelector(state => state.TaxLeafReducer);
   const { CLIENT_LIST } = useSelector(state => state.TaxLeafReducer);
   const { LOGIN_DATA } = useSelector(state => state.TaxLeafReducer);
+  const { FILE_INFO } = useSelector(state => state.TaxLeafReducer);
   //console.log(LOGIN_DATA.staffview?.user, 'Login_DataLogin_DataLogin_Data');
   // console.log(MY_INFO.guestInfo, 'CLIENT_LISTCLIENT_LISTCLIENT_LIST');
   // console.log(MY_INFO.guestInfo, 'CLIENT_LISTCLIENT_LISTCLIENT_LIST');
   // console.log(CLIENT_LIST, 'CLIENT_LISTCLIENT_LISTCLIENT_LIST');
+  const [fileCounts, setFileCounts] = useState({});
+  console.log(FILE_INFO[0]?.referenceFiles?.length, '9999999999')
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const jsonData = MY_INFO?.guestInfo;
@@ -106,7 +112,6 @@ const ClientInfo = () => {
   const [loader, setLoader] = useState(false);
 
 
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -115,6 +120,7 @@ const ClientInfo = () => {
         const [myInfoResponse, clientListResponse] = await Promise.all([
           dispatch(clientInfo(LOGIN_DATA, navigation)),
           dispatch(ClientInfoList(jsonData?.clientId, jsonData?.clientType, navigation)),
+          dispatch(getFileInfo(jsonData?.client, jsonData?.clientType, navigation)),
         ]);
 
         setInfoData(clientListResponse);
@@ -127,6 +133,8 @@ const ClientInfo = () => {
 
     fetchData();
   }, []);
+
+
 
   // useEffect(() => {
   //   setLoader(true);
@@ -153,7 +161,63 @@ const ClientInfo = () => {
     // }, 2000);
   }, [MY_INFO, CLIENT_LIST]);
 
+
+
+
+  // useEffect(() => {
+  //   if (infoData && Array.isArray(infoData)) {
+  //     infoData.forEach((item, index) => {
+  //       dispatch(getFileInfo(item?.subClientInfo?.subClientPracticeId, item?.subClientInfo?.subClientType, navigation));
+  //     });
+  //   } else {
+  //     // Handle the case where infoData is not an array or is null/undefined
+  //   }
+  // }, []);
+
+
+  useEffect(() => {
+    const fetchData1 = async () => {
+
+
+      try {
+        const counts = {};
+        for (const item of infoData) {
+          let data = {
+            "fileListViews": [
+              {
+                "guestInfo": {
+                  "client": item?.subClientInfo?.subClientPracticeId,
+                  // "clientType": item?.subClientInfo?.subClientType == "company" ? "Business" : item?.subClientInfo?.subClientType
+                  "clientType": item?.subClientInfo?.subClientType
+                }
+              }
+            ]
+          };
+          // const response = await axios.get(`YOUR_API_URL?id=${item.subClientInfo.id}`);
+          const response = await logistical.post('/FileCabinet/GetFiles', data);
+          console.log(response?.fileListViews[0]?.referenceFiles.length, 'KKKKKKKKKKKKKKKKKK', data.fileListViews[0])
+
+          counts[item.subClientInfo.id] = response?.fileListViews[0]?.referenceFiles.length; // Assuming your API returns an array of files
+          //console.log(counts, 'countscountscountscountscountscounts')
+
+        }
+
+        setFileCounts(counts);
+        console.log(fileCounts, 'UUUUUUUUUU')
+      } catch (error) {
+        console.error('Error fetching file counts:', error);
+      }
+    };
+
+    if (infoData && infoData.length > 0) {
+      fetchData1();
+    }
+  }, [infoData]);
+
+
+
   // console.log(infoData, 'infoDatainfoDatainfoDatainfoData');
+
   let companyCount = 0;
   let otherCount = 0;
   if (jsonData && jsonData.clientType) {
@@ -165,7 +229,7 @@ const ClientInfo = () => {
   }
 
 
-  console.log(companyCount, otherCount, 'companyCountcompanyCountcompanyCountcompanyCount')
+  //console.log(companyCount, otherCount, 'companyCountcompanyCountcompanyCountcompanyCount')
 
   if (Array.isArray(infoData)) {
     // Iterate through the array using forEach
@@ -226,29 +290,32 @@ const ClientInfo = () => {
     });
 
     dispatch(
+
       client_Detail(
+
         item?.subClientInfo.subClientId,
         item?.subClientInfo.subClientType,
+
       ),
     );
   };
 
   const GetFileCabinetDetail = item => {
     console.log(item?.subClientInfo.subClientId,
-      item?.subClientInfo.subClientType, 
+      item?.subClientInfo.subClientType,
       item?.subClientInfo.subClientPracticeId, 'AAAAAAAAAAAAAAAAA')
 
     navigation.navigate('AssoFileCabinet', {
-       clientID : item?.subClientInfo.subClientId,
-       clientType:  item?.subClientInfo.subClientType,
-       client:  item?.subClientInfo.subClientPracticeId,
+      clientID: item?.subClientInfo.subClientId,
+      clientType: item?.subClientInfo.subClientType,
+      client: item?.subClientInfo.subClientPracticeId,
     });
   }
 
-  const GetClientDetail1 = (item,companyInfo) => {
+  const GetClientDetail1 = (item, companyInfo) => {
     navigation.navigate('MainClientDetails', {
       clientdetail: item,
-      companyInfo:companyInfo
+      companyInfo: companyInfo
     });
 
     dispatch(
@@ -260,18 +327,18 @@ const ClientInfo = () => {
   };
 
 
-  const GetFileCabinetDetail1 = (item,companyInfo) => {
-  //  console.log(item,'KKKKKKKK')
+  const GetFileCabinetDetail1 = (item, companyInfo) => {
+    //  console.log(item,'KKKKKKKK')
     console.log(item?.clientId,
-      item?.clientType, 
+      item?.clientType,
       item?.client, 'UUUUUUUUU')
 
     navigation.navigate('AssoFileCabinet', {
-    
 
-      clientID : item?.clientId,
-      clientType:  item?.clientType,
-      client:  item?.client,
+
+      clientID: item?.clientId,
+      clientType: item?.clientType,
+      client: item?.client,
     });
   }
 
@@ -284,50 +351,52 @@ const ClientInfo = () => {
         style={{ backgroundColor: '#d5e3e5', height: hp(85) }}
       >
         <HeadTabs
-          
+
         />
+
         <Loader flag={loader} />
         <View
-              style={{
-                width: wp(90),
-                alignSelf: "center",
-                // marginTop: 10,
-                // marginBottom: 20,
-                //  marginLeft: 20,
-                flexDirection: 'row',
-                justifyContent: 'space-between'
-              }}>
-              <View
-                style={{
-                  width: wp(40),
-                }}
-              >
-        <Text style={{ fontSize: 20,color: Color.headerIconBG, fontFamily: 'Poppins-Bold', }}>Clients ({infoData?.length + companyCount + otherCount})</Text>
-            </View>
-        <TouchableOpacity
-                onPress={() => navigation.navigate('FileCabinet')}
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'center',
-                  width: wp(40),
-                  padding: 5,
-                  alignItems:'center',
-                  borderRadius: 20,
-                  // marginLeft: 15,
-                  // marginBottom: wp(2),
-                  backgroundColor: '#fff',
-                  // paddingHorizontal: 10,
-                  // height: hp(6),
-                //  marginTop: 4
-                }}>
-                <Image source={require('../Assets/img/icons/tickGreen.png')} style={{ width: 25, height: 25, alignSelf: 'center' }} />
-                <Text style={[styles.client, 
-                { color: '#2F4050', alignSelf: 'center', marginLeft: 5, fontFamily: 'Poppins-Bold', fontSize: 12,
-                 //marginTop: 5 
-                 }]}>File Cabinet</Text>
-              </TouchableOpacity>
-              </View>
-       
+          style={{
+            width: wp(90),
+            alignSelf: "center",
+            // marginTop: 10,
+            // marginBottom: 20,
+            //  marginLeft: 20,
+            flexDirection: 'row',
+            justifyContent: 'space-between'
+          }}>
+          <View
+            style={{
+              width: wp(40),
+            }}
+          >
+            <Text style={{ fontSize: 20, color: Color.headerIconBG, fontFamily: 'Poppins-Bold', }}>Clients ({infoData?.length + companyCount + otherCount})</Text>
+          </View>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('FileCabinet')}
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'center',
+              width: wp(40),
+              padding: 5,
+              alignItems: 'center',
+              borderRadius: 20,
+              // marginLeft: 15,
+              // marginBottom: wp(2),
+              backgroundColor: '#fff',
+              // paddingHorizontal: 10,
+              // height: hp(6),
+              //  marginTop: 4
+            }}>
+            <Image source={require('../Assets/img/icons/tickGreen.png')} style={{ width: 25, height: 25, alignSelf: 'center' }} />
+            <Text style={[styles.client,
+            {
+              color: '#2F4050', alignSelf: 'center', marginLeft: 5, fontFamily: 'Poppins-Bold', fontSize: 12,
+              //marginTop: 5 
+            }]}>File Cabinet</Text>
+          </TouchableOpacity>
+        </View>
+
         <View style={{ width: wp(95), alignSelf: 'center', height: hp(50) }}>
 
           {(() => {
@@ -363,10 +432,10 @@ const ClientInfo = () => {
                         size={20}
                         color="#fff"
                       /> */}
-                       <Image
-                  source={ require('../Assets/img/icons/pending.png')}
-                  style={  [styles.icons,]}
-                />
+                      <Image
+                        source={require('../Assets/img/icons/pending.png')}
+                        style={[styles.icons,]}
+                      />
                     </View>
 
                     <Text style={showwhat == 'My Schools' ? styles.ButtonText1 : styles.ButtonTextW}>
@@ -402,10 +471,10 @@ const ClientInfo = () => {
                         size={20}
                         color={Color.geen}
                       /> */}
-                           <Image
-                  source={ require('../Assets/img/icons/paidicon.png')}
-                  style={  [styles.icons,]}
-                />
+                      <Image
+                        source={require('../Assets/img/icons/paidicon.png')}
+                        style={[styles.icons,]}
+                      />
                     </View>
 
                     <Text style={showwhat == 'My Schools' ? styles.ButtonTextW : styles.ButtonText1}>Bussiness ({companyCount + countBusiness})</Text>
@@ -431,10 +500,10 @@ const ClientInfo = () => {
                         size={20}
                         color={Color.geen}
                       /> */}
-                       <Image
-                  source={ require('../Assets/img/icons/planicon.png')}
-                  style={  [styles.icons,]}
-                />
+                      <Image
+                        source={require('../Assets/img/icons/planicon.png')}
+                        style={[styles.icons,]}
+                      />
                     </View>
 
                     <Text style={showwhat == 'My Schools' ? styles.ButtonTextW : styles.ButtonText1}>   Individual ({countIndividuals + otherCount})</Text>
@@ -465,10 +534,10 @@ const ClientInfo = () => {
                       size={20}
                       color={showwhat == 'My Schools' ? Color.geen : 'lightgray'}
                     /> */}
-                      <Image
-                  source={ require('../Assets/img/icons/pending-greenic.png')}
-                  style={  [styles.icons,]}
-                />
+                    <Image
+                      source={require('../Assets/img/icons/pending-greenic.png')}
+                      style={[styles.icons,]}
+                    />
                     <Text style={showwhat == 'My Schools' ? styles.ButtonText1 : styles.ButtonTextW}>
                       Total ({infoData?.length + companyCount + otherCount})
                     </Text>
@@ -485,11 +554,12 @@ const ClientInfo = () => {
                     ]}
                     onPress={() => showwhatfunc('My Schools')}>
                     <View
-                      style={{ alignItems: 'center', 
-                      // backgroundColor: showwhat == 'My Schools' ? '#fff' : '#fff', 
-                      // width: wp(5), borderRadius: 15, height: wp(5), marginRight: 4, 
-                    
-                    }}
+                      style={{
+                        alignItems: 'center',
+                        // backgroundColor: showwhat == 'My Schools' ? '#fff' : '#fff', 
+                        // width: wp(5), borderRadius: 15, height: wp(5), marginRight: 4, 
+
+                      }}
 
                     >
                       {/* <IconF
@@ -498,10 +568,10 @@ const ClientInfo = () => {
                         size={20}
                         color="#fff"
                       /> */}
-                            <Image
-                  source={ require('../Assets/img/icons/paid-whiteic.png')}
-                  style={  [styles.icons,]}
-                />
+                      <Image
+                        source={require('../Assets/img/icons/paid-whiteic.png')}
+                        style={[styles.icons,]}
+                      />
                     </View>
 
                     <Text style={showwhat == 'My Schools' ? styles.ButtonTextW : styles.ButtonText1}>Business ({companyCount + countBusiness})</Text>
@@ -525,10 +595,10 @@ const ClientInfo = () => {
                       size={18}
                       color={showwhat == 'My Schools' ? Color.geen : 'lightgray'}
                     /> */}
-                      <Image
-                  source={ require('../Assets/img/icons/planicon.png')}
-                  style={  [styles.icons,]}
-                />
+                    <Image
+                      source={require('../Assets/img/icons/planicon.png')}
+                      style={[styles.icons,]}
+                    />
                     <Text style={showwhat == 'My Schools' ? styles.ButtonText1 : styles.ButtonTextW}> Individual ({countIndividuals + otherCount})</Text>
                   </TouchableOpacity>
                 </View>
@@ -557,10 +627,10 @@ const ClientInfo = () => {
                       size={20}
                       color={showwhat == 'My Schools' ? 'lightgray' : Color.geen}
                     /> */}
-                      <Image
-                  source={ require('../Assets/img/icons/pending-greenic.png')}
-                  style={  [styles.icons,]}
-                />
+                    <Image
+                      source={require('../Assets/img/icons/pending-greenic.png')}
+                      style={[styles.icons,]}
+                    />
                     <Text style={showwhat == 'Experience' ? styles.ButtonTextW : styles.ButtonText1}>
                       Total ({infoData?.length + companyCount + otherCount})
                     </Text>
@@ -578,11 +648,11 @@ const ClientInfo = () => {
                     onPress={() => showwhatfunc('My Schools')}>
                     <View
                       style={{
-                         alignItems: "center",
-                          // backgroundColor: showwhat == 'My Schools' ? 'lightgray' : Color.geen,
-                          //  width: wp(5), borderRadius: 15, height: wp(5), marginRight: 4, 
-                          //  color: showwhat == 'My Schools' ? Color.geen : '#fff'
-                           }}
+                        alignItems: "center",
+                        // backgroundColor: showwhat == 'My Schools' ? 'lightgray' : Color.geen,
+                        //  width: wp(5), borderRadius: 15, height: wp(5), marginRight: 4, 
+                        //  color: showwhat == 'My Schools' ? Color.geen : '#fff'
+                      }}
 
                     >
                       {/* <IconF
@@ -591,10 +661,10 @@ const ClientInfo = () => {
                         size={20}
                         color="#fff"
                       /> */}
-                        <Image
-                  source={ require('../Assets/img/icons/paidicon.png')}
-                  style={  [styles.icons,]}
-                />
+                      <Image
+                        source={require('../Assets/img/icons/paidicon.png')}
+                        style={[styles.icons,]}
+                      />
                     </View>
 
                     <Text style={showwhat == 'My Schools' ? styles.ButtonTextW : styles.ButtonText1}>Business ({companyCount + countBusiness})</Text>
@@ -619,10 +689,10 @@ const ClientInfo = () => {
                       size={18}
                       color="#fff"
                     /> */}
-                      <Image
-                  source={ require('../Assets/img/icons/plan-whiteic.png')}
-                  style={  [styles.icons,]}
-                />
+                    <Image
+                      source={require('../Assets/img/icons/plan-whiteic.png')}
+                      style={[styles.icons,]}
+                    />
                     <Text style={showwhat == 'My Schools' ? styles.ButtonText1 : styles.ButtonTextW}> Individual ({countIndividuals + otherCount})</Text>
                   </TouchableOpacity>
                 </View>
@@ -687,7 +757,7 @@ const ClientInfo = () => {
                     <View
                       style={{
                         width: wp(12),
-                            alignItems:'flex-end',
+                        alignItems: 'flex-end',
                       }}>
                       <Text style={{ color: '#fff', fontSize: 12, fontFamily: 'Poppins-SemiBold' }}>Files</Text>
                     </View>
@@ -696,7 +766,7 @@ const ClientInfo = () => {
                         onPress={() => GetClientDetail1(jsonData,companyInfo)}
                       >      */}
                   <TouchableOpacity
-                        onPress={() => GetClientDetail1(jsonData,companyInfo)}
+                    onPress={() => GetClientDetail1(jsonData, companyInfo)}
                     style={{
                       width: wp(90),
                       backgroundColor: Color.headerIconBG,
@@ -729,8 +799,8 @@ const ClientInfo = () => {
                         alignItems: 'center',
                       }}>
                       <Text style={{ color: Color.white, fontSize: 10, fontFamily: 'Poppins-SemiBold' }}>
-                      {/* {companyInfo?.name} */}
-                      {staffview?.firstName}  {staffview?.lastName}{staffview.length}
+                        {/* {companyInfo?.name} */}
+                        {staffview?.firstName}  {staffview?.lastName}{staffview.length}
                       </Text>
                     </View>
 
@@ -742,9 +812,11 @@ const ClientInfo = () => {
 
                         alignItems: 'center',
                       }}>
+
                       <Text style={{ color: Color.white, fontSize: 10, fontFamily: 'Poppins-SemiBold' }}>
                         {jsonData?.clientType == "company" ? "Business" : jsonData?.clientType}
                       </Text>
+
                     </View>
 
                     <View
@@ -756,7 +828,7 @@ const ClientInfo = () => {
                 {item.associationType}
               </Text> */}
                       <TouchableOpacity
-                        onPress={() => GetClientDetail1(jsonData,companyInfo)}
+                        onPress={() => GetClientDetail1(jsonData, companyInfo)}
                       >
                         <Image
                           source={require('../Assets/img/icons/view-white.png')}
@@ -768,35 +840,55 @@ const ClientInfo = () => {
                             //alignSelf: 'center',
                           }}
                         />
-                      
+
                       </TouchableOpacity>
                     </View>
 
                     <View
                       style={{
-                        width: wp(12),
-                        alignItems:'flex-end',
+                        width: wp(10),
+                        //backgroundColor: "green",
+                        //alignItems: 'flex-end',
                       }}>
                       {/* <Text style={{color: '#2F4050', fontSize: 12}}>
                 {item.associationType}
               </Text> */}
                       <TouchableOpacity
-                        onPress={() => GetFileCabinetDetail1(jsonData,companyInfo)}
+                        style={{
+                          width: wp(5),
+                          backgroundColor: Color.geen,
+                          alignSelf: "flex-end",
+                          justifyContent: "center"
+
+                        }}
+                        onPress={() => GetFileCabinetDetail1(jsonData, companyInfo)}
                       >
-                        <Image
+                        <Text
+                          style={{
+                            textAlign: "center",
+                            fontSize: 10,
+                            fontFamily: 'Poppins-SemiBold',
+                            color: '#fff'
+                            //  alignSelf: 'center',
+                          }}
+                        >
+
+                          {FILE_INFO[0]?.referenceFiles?.length || 0}
+                        </Text>
+                        {/* <Image
                           source={require('../Assets/img/icons/files-white.png')}
                           style={{
                             width: 20,
                             height: 20,
                             alignSelf: 'center',
-                           // borderRadius: 50,
+                            // borderRadius: 50,
                             //alignSelf: 'center',
                           }}
-                        />
-                      
+                        /> */}
+
                       </TouchableOpacity>
                     </View>
-                  {/* </View> */}
+                    {/* </View> */}
                   </TouchableOpacity>
 
                   <FlatList
@@ -878,27 +970,49 @@ const ClientInfo = () => {
 
                         <View
                           style={{
-                            width: wp(12),
-                            alignItems:'flex-end',
+                            width: wp(10),
+                            //  alignItems: 'flex-end',
                           }}>
                           {/* <Text style={{color: '#2F4050', fontSize: 12}}>
                 {item.associationType}
               </Text> */}
-                          <TouchableOpacity onPress={() => GetFileCabinetDetail(item)}>
-                            <Image
+
+                          <TouchableOpacity
+                            style={{
+                              width: wp(5),
+
+                              backgroundColor: Color.geen,
+                              alignSelf: "flex-end",
+                              justifyContent: "center"
+
+                            }}
+                            onPress={() => GetFileCabinetDetail(item)}>
+                            <Text
+                              style={{
+                                textAlign: "center",
+                                fontSize: 10,
+                                fontFamily: 'Poppins-SemiBold',
+                                color: '#fff'
+                                //  alignSelf: 'center',
+                              }}
+                            >
+                              {fileCounts[item.subClientInfo.id] || 0}
+                              {/* {FILE_INFO[index]?.referenceFiles?.length || 0} */}
+                            </Text>
+                            {/* <Image
                               source={require('../Assets/img/icons/files-dark.png')}
                               style={{
                                 width: 20,
                                 height: 20,
                                 alignSelf: 'center',
-                              //  borderRadius: 50,
+                                //  borderRadius: 50,
                                 //alignSelf: 'center',
                               }}
-                            />
+                            /> */}
                           </TouchableOpacity>
                         </View>
 
-                     </TouchableOpacity>
+                      </TouchableOpacity>
                     )}
                   />
                 </View>
@@ -975,7 +1089,7 @@ const ClientInfo = () => {
                       <View
                         style={{
                           width: wp(12),
-                            alignItems:'flex-end',
+                          alignItems: 'flex-end',
                         }}>
                         <Text style={{ color: '#fff', fontSize: 12, fontFamily: 'Poppins-SemiBold' }}>Files</Text>
                       </View>
@@ -984,9 +1098,9 @@ const ClientInfo = () => {
                     {jsonData?.clientType == "company" ?
 
 
-                          <TouchableOpacity
-                          onPress={() => GetClientDetail1(jsonData,companyInfo)}
-                          style={{
+                      <TouchableOpacity
+                        onPress={() => GetClientDetail1(jsonData, companyInfo)}
+                        style={{
                           width: wp(90),
                           backgroundColor: Color.headerIconBG,
                           alignItems: 'center',
@@ -1019,7 +1133,7 @@ const ClientInfo = () => {
                             alignItems: 'center',
                           }}>
                           <Text style={{ color: Color.white, fontSize: 10, fontFamily: 'Poppins-SemiBold' }}>
-                          {companyInfo?.name}  
+                            {companyInfo?.name}
                             {/* {staffview?.firstName}  {staffview?.lastName}{staffview.length} */}
                           </Text>
                         </View>
@@ -1042,7 +1156,7 @@ const ClientInfo = () => {
                           }}>
 
                           <TouchableOpacity
-                            onPress={() => GetClientDetail1(jsonData,companyInfo)}
+                            onPress={() => GetClientDetail1(jsonData, companyInfo)}
                           >
                             <Image
                               source={require('../Assets/img/icons/view-white.png')}
@@ -1058,27 +1172,46 @@ const ClientInfo = () => {
                         </View>
                         <View
                           style={{
-                            width: wp(12),
-                            alignItems:'flex-end',
-                           
+                            width: wp(10),
+                            // alignItems: 'flex-end',
+
                           }}>
 
                           <TouchableOpacity
-                            onPress={() => GetFileCabinetDetail1(jsonData,companyInfo)}
+                            style={{
+                              width: wp(5),
+                              backgroundColor: Color.geen,
+                              alignSelf: "flex-end",
+                              justifyContent: "center"
+
+                            }}
+                            onPress={() => GetFileCabinetDetail1(jsonData, companyInfo)}
                           >
-                            <Image
+                            <Text
+                              style={{
+                                textAlign: "center",
+                                fontSize: 10,
+                                fontFamily: 'Poppins-SemiBold',
+                                color: '#fff'
+                                //  alignSelf: 'center',
+                              }}
+                            >
+
+                              {FILE_INFO[0]?.referenceFiles?.length || 0}
+                            </Text>
+                            {/* <Image
                               source={require('../Assets/img/icons/files-white.png')}
                               style={{
                                 width: 20,
                                 height: 20,
                                 alignSelf: 'center',
-                               // borderRadius: 50,
+                                // borderRadius: 50,
                                 //alignSelf: 'center',
                               }}
-                            />
+                            /> */}
                           </TouchableOpacity>
                         </View>
-                    </TouchableOpacity>
+                      </TouchableOpacity>
 
 
                       :
@@ -1167,14 +1300,34 @@ const ClientInfo = () => {
                           </View>
                           <View
                             style={{
-                              width: wp(12),
-                            alignItems:'flex-end',
+                              width: wp(10),
+                              // alignItems: 'flex-end',
                             }}>
                             {/* <Text style={{color: '#2F4050', fontSize: 12}}>
                 {item.associationType}
               </Text> */}
-                            <TouchableOpacity onPress={() => GetFileCabinetDetail(item)}>
-                              <Image
+                            <TouchableOpacity
+                              style={{
+                                width: wp(5),
+                                backgroundColor: Color.geen,
+                                alignSelf: "flex-end",
+                                justifyContent: "center"
+
+                              }}
+                              onPress={() => GetFileCabinetDetail(item)}>
+                              <Text
+                                style={{
+                                  textAlign: "center",
+                                  fontSize: 10,
+                                  fontFamily: 'Poppins-SemiBold',
+                                  color: '#fff'
+
+                                }}
+                              >
+                                {fileCounts[item.subClientInfo.id] || 0}
+                                {/* {FILE_INFO[index]?.referenceFiles?.length || 0} */}
+                              </Text>
+                              {/* <Image
                                 source={require('../Assets/img/icons/files-dark.png')}
                                 style={{
                                   width: 20,
@@ -1183,10 +1336,10 @@ const ClientInfo = () => {
                                   borderRadius: 50,
                                   //alignSelf: 'center',
                                 }}
-                              />
+                              /> */}
                             </TouchableOpacity>
                           </View>
-                      </TouchableOpacity>
+                        </TouchableOpacity>
                       )}
                     />
                   </View>
@@ -1338,18 +1491,18 @@ const ClientInfo = () => {
                       <View
                         style={{
                           width: wp(12),
-                          alignItems:'flex-end',
+                          alignItems: 'flex-end',
                         }}>
                         <Text style={{ color: '#fff', fontSize: 12, fontFamily: 'Poppins-SemiBold' }}>Files</Text>
                       </View>
-                      
+
                     </View>
 
                     {jsonData?.clientType == "individual" ?
 
 
-                        <TouchableOpacity
-                        onPress={() => GetClientDetail1(jsonData,companyInfo)}
+                      <TouchableOpacity
+                        onPress={() => GetClientDetail1(jsonData, companyInfo)}
                         style={{
                           width: wp(90),
                           backgroundColor: '#fff',
@@ -1405,7 +1558,7 @@ const ClientInfo = () => {
                           }}>
 
                           <TouchableOpacity
-                            onPress={() => GetClientDetail1(jsonData,companyInfo)}
+                            onPress={() => GetClientDetail1(jsonData, companyInfo)}
                           >
                             <Image
                               source={require('../Assets/img/icons/view.png')}
@@ -1422,26 +1575,46 @@ const ClientInfo = () => {
 
                         <View
                           style={{
-                            width: wp(12),
-                            alignItems:'flex-end',
+                            width: wp(10),
+                            // alignItems: 'flex-end',
                           }}>
 
                           <TouchableOpacity
-                            onPress={() => GetFileCabinetDetail1(jsonData,companyInfo)}
+
+                            style={{
+                              width: wp(5),
+                              backgroundColor: Color.geen,
+                              alignSelf: "flex-end",
+                              justifyContent: "center"
+
+                            }}
+                            onPress={() => GetFileCabinetDetail1(jsonData, companyInfo)}
                           >
-                            <Image
+                            <Text
+                              style={{
+                                textAlign: "center",
+                                fontSize: 10,
+                                fontFamily: 'Poppins-SemiBold',
+                                color: '#fff'
+                                //  alignSelf: 'center',
+                              }}
+                            >
+
+                              {FILE_INFO[0]?.referenceFiles?.length || 0}
+                            </Text>
+                            {/* <Image
                               source={require('../Assets/img/icons/files-dark.png')}
                               style={{
                                 width: 20,
                                 height: 20,
                                 alignSelf: 'center',
-                               // borderRadius: 50,
+                                // borderRadius: 50,
                                 //alignSelf: 'center',
                               }}
-                            />
+                            /> */}
                           </TouchableOpacity>
                         </View>
-                    </TouchableOpacity>
+                      </TouchableOpacity>
 
 
                       :
@@ -1530,27 +1703,49 @@ const ClientInfo = () => {
 
                           <View
                             style={{
-                              width: wp(12),
-                              alignItems:'flex-end',
-                             // backgroundColor:"red"
+                              width: wp(10),
+
+                              // alignItems: 'flex-end',
+                              // backgroundColor:"red"
                             }}>
                             {/* <Text style={{color: '#2F4050', fontSize: 12}}>
                 {item.associationType}
               </Text> */}
-                            <TouchableOpacity onPress={() => GetFileCabinetDetail(item)}>
-                              <Image
+                            <TouchableOpacity
+                              style={{
+                                width: wp(5),
+                                backgroundColor: Color.geen,
+                                alignSelf: "flex-end",
+                                justifyContent: "center"
+
+                              }}
+
+                              onPress={() => GetFileCabinetDetail(item)}>
+                              <Text
+                                style={{
+                                  textAlign: "center",
+                                  fontSize: 10,
+                                  fontFamily: 'Poppins-SemiBold',
+                                  color: '#fff'
+
+                                }}
+                              >
+                                {fileCounts[item.subClientInfo.id] || 0}
+                                {/* {FILE_INFO[index]?.referenceFiles?.length || 0} */}
+                              </Text>
+                              {/* <Image
                                 source={require('../Assets/img/icons/files-dark.png')}
                                 style={{
                                   width: 20,
                                   height: 20,
                                   alignSelf: 'center',
-                                //  borderRadius: 50,
+                                  //  borderRadius: 50,
                                   //alignSelf: 'center',
                                 }}
-                              />
+                              /> */}
                             </TouchableOpacity>
                           </View>
-                      </TouchableOpacity>
+                        </TouchableOpacity>
                       )}
                     />
                   </View>
@@ -2043,13 +2238,13 @@ const styles = StyleSheet.create({
     width: 100,
   },
 
-  icons:{
+  icons: {
     alignSelf: 'center',
-    height:15,
-    resizeMode:'contain',
-    width:15,
-    marginRight:5
- 
+    height: 15,
+    resizeMode: 'contain',
+    width: 15,
+    marginRight: 5
+
   },
   Bookicons: {
     height: 30,

@@ -16,7 +16,7 @@ import {
 } from './types';
 import AsyncStorage from '@react-native-community/async-storage';
 import axios, * as others from 'axios';
-import { Alert,StyleSheet } from 'react-native';
+import { Alert, StyleSheet } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { logistical } from '../../utils';
 
@@ -38,25 +38,25 @@ export const LoginUser = (email, navigation) => dispatch => {
 
     const response = await logistical.postlogin('/Staff/LoginStaff', data);
     console.log(response.token, 'responseresponseresponseresponse');
-     console.log(response.clientSetupStatus, 'responseresponseresponseresponse2222222222222222');
+    console.log(response.clientSetupStatus, 'responseresponseresponseresponse2222222222222222');
 
     if (response.statusCode == 200 && response.clientSetupStatus == true) {
       AsyncStorage.setItem('login', JSON.stringify(response.token));
       AsyncStorage.setItem('response', response.staffview.user);
-     
+
 
       dispatch({
         type: LOGIN_DATA,
         payload: response.staffview.user,
       });
 
-     resolve(response);
-     navigation.navigate('Auth');
-   //navigation.navigate('ClientSetup');
+      resolve(response);
+      navigation.navigate('Auth');
+      //navigation.navigate('ClientSetup');
 
-     
-    } 
-    
+
+    }
+
     else if (response.statusCode == 404 && response.clientSetupStatus == true) {
 
       Alert.alert(response.massage);
@@ -73,8 +73,8 @@ export const LoginUser = (email, navigation) => dispatch => {
         payload: response.staffview.user,
       });
 
-     resolve(response);
-    //  Alert.alert(response.massage);
+      resolve(response);
+      //  Alert.alert(response.massage);
       navigation.navigate('ClientSetup');
 
     }
@@ -266,7 +266,7 @@ export const ClientInfoList =
     //   payload: true,
     // });
 
-    console.log("AAAAAAAAAA",clientId,clientType)
+    console.log("AAAAAAAAAA", clientId, clientType)
 
     return new Promise(async (resolve, reject) => {
       let data = {
@@ -382,23 +382,23 @@ export const RequestSubmit = (data, navigation) => dispatch => {
       //   Alert.alert(response.response[0])
       resolve(response);
 
-     // Alert.alert('Submit Request Sent');
-     Alert.alert(
-      'Alert',
-      'Your request has been submitted',
-      [
+      // Alert.alert('Submit Request Sent');
+      Alert.alert(
+        'Alert',
+        'Your request has been submitted',
+        [
+          {
+            text: 'OK',
+            onPress: () => console.log('OK Pressed'),
+          },
+        ],
         {
-          text: 'OK',
-          onPress: () => console.log('OK Pressed'),
-        },
-      ],
-      {
-        // Custom styles for the Alert component
-        containerStyle: styles.alertContainer,
-        titleStyle: styles.alertTitle,
-        messageStyle: styles.alertMessage,
-      }
-    );
+          // Custom styles for the Alert component
+          containerStyle: styles.alertContainer,
+          titleStyle: styles.alertTitle,
+          messageStyle: styles.alertMessage,
+        }
+      );
       setTimeout(() => {
         navigation.goBack();
       }, 2000);
@@ -424,7 +424,7 @@ export const RequestSubmit = (data, navigation) => dispatch => {
           messageStyle: styles.alertMessage,
         }
       );
-     // Alert.alert('No data found');
+      // Alert.alert('No data found');
       //Alert.alert(response.massage);
       // dispatch({
       //   type: 'LOADING',
@@ -472,23 +472,23 @@ export const RequestInfoById = (id, navigation) => dispatch => {
       //   payload: false,
       // });
     } else {
-     // Alert.alert('No data found');
-     Alert.alert(
-      'Alert',
-      'No data found',
-      [
+      // Alert.alert('No data found');
+      Alert.alert(
+        'Alert',
+        'No data found',
+        [
+          {
+            text: 'OK',
+            onPress: () => console.log('OK Pressed'),
+          },
+        ],
         {
-          text: 'OK',
-          onPress: () => console.log('OK Pressed'),
-        },
-      ],
-      {
-        // Custom styles for the Alert component
-        containerStyle: styles.alertContainer,
-        titleStyle: styles.alertTitle,
-        messageStyle: styles.alertMessage,
-      }
-    );
+          // Custom styles for the Alert component
+          containerStyle: styles.alertContainer,
+          titleStyle: styles.alertTitle,
+          messageStyle: styles.alertMessage,
+        }
+      );
       //Alert.alert(response.massage);
       // dispatch({
       //   type: 'LOADING',
@@ -540,7 +540,7 @@ export const folderNameList =
         //   payload: false,
         // });
       } else {
-       // Alert.alert('No data found');
+        // Alert.alert('No data found');
         Alert.alert(
           'Alert',
           'No data found',
@@ -620,7 +620,7 @@ export const documentInfobyFolder = (documentId, navigation) => dispatch => {
           messageStyle: styles.alertMessage,
         }
       );
-     // Alert.alert('No data found');
+      // Alert.alert('No data found');
       //Alert.alert(response.massage);
       // dispatch({
       //   type: 'LOADING',
@@ -691,7 +691,7 @@ export const uploadFile = (MY_INFO, FolderName, documentType, fileext, year, per
       //   payload: false,
       // });
     } else {
-     // Alert.alert('Folder does not exist');
+      // Alert.alert('Folder does not exist');
       Alert.alert(
         'Alert',
         'Folder does not exist',
@@ -720,7 +720,7 @@ export const uploadFile = (MY_INFO, FolderName, documentType, fileext, year, per
 
 
 
-export const AssouploadFile = (MY_INFO,Aclient,AclientType, FolderName, documentType, fileext, year, period, description, base64File, accessToken, documentsLibraryId, periodValue, UploadedByName, UploadedBy, navigation) => dispatch => {
+export const AssouploadFile = (MY_INFO, Aclient, AclientType, FolderName, documentType, fileext, year, period, description, base64File, accessToken, documentsLibraryId, periodValue, UploadedByName, UploadedBy, navigation) => dispatch => {
   // dispatch({
   //   type: 'LOADING',
   //   payload: true,
@@ -779,7 +779,7 @@ export const AssouploadFile = (MY_INFO,Aclient,AclientType, FolderName, document
       //   payload: false,
       // });
     } else {
-     // Alert.alert('Folder does not exist');
+      // Alert.alert('Folder does not exist');
       Alert.alert(
         'Alert',
         'Folder does not exist',
@@ -936,7 +936,7 @@ export const generateFileToken = (documentId, navigation) => dispatch => {
       //   payload: false,
       // });
     } else {
-     // Alert.alert('No data found');
+      // Alert.alert('No data found');
       Alert.alert(
         'Alert',
         'No data found',
@@ -977,7 +977,8 @@ export const getFileInfo = (client, clientType, navigation) => dispatch => {
         {
           "guestInfo": {
             "client": client,
-            "clientType":  clientType == "company" ? "Business" : clientType
+            //"clientType": clientType == "company" ? "Business" : clientType
+            "clientType": clientType
           }
         }
       ]
@@ -1007,7 +1008,7 @@ export const getFileInfo = (client, clientType, navigation) => dispatch => {
       //   payload: false,
       // });
     } else {
-     // Alert.alert('No data found');
+      // Alert.alert('No data found');
       Alert.alert(
         'Alert',
         'No data found',
@@ -1038,7 +1039,7 @@ export const getFileInfo = (client, clientType, navigation) => dispatch => {
 
 
 export const GetAllLibraryFiles = (officeId, clientType, ClientId, SharepointFolderName, Brand, navigation) => dispatch => {
- 
+
   return new Promise(async (resolve, reject) => {
     let data = {
       "LibraryId": "b!Lk512wjgi02RXgn1f6gS_LglI0RARFdPqlWhynyni0PoNyVdBpdDS6rPS1ae4PfD",
@@ -1054,7 +1055,7 @@ export const GetAllLibraryFiles = (officeId, clientType, ClientId, SharepointFol
 
     console.log(data, '&&&&&&&&&&&&&&&&')
     const response = await logistical.post('/FileCabinet/GetAllLibraryFiles', data);
-   // console.log(response, 'fileRespfileRespfileRespfileRespfileRespfileRespfileRespfileRespfileRespfileRespfileResp');
+    // console.log(response, 'fileRespfileRespfileRespfileRespfileRespfileRespfileRespfileRespfileRespfileRespfileResp');
 
     if (response) {
       // AsyncStorage.setItem('login', JSON.stringify(response.token));
@@ -1076,7 +1077,7 @@ export const GetAllLibraryFiles = (officeId, clientType, ClientId, SharepointFol
       //   payload: false,
       // });
     } else {
-    //  Alert.alert('No data found');
+      //  Alert.alert('No data found');
       Alert.alert(
         'Alert',
         'No data found',
@@ -1106,10 +1107,10 @@ export const GetAllLibraryFiles = (officeId, clientType, ClientId, SharepointFol
 
 
 
-export const SubmitContactUs = (id,name,phone,email,message,country, navigation) => dispatch => {
- 
+export const SubmitContactUs = (id, name, phone, email, message, country, navigation) => dispatch => {
+
   return new Promise(async (resolve, reject) => {
-    let data ={
+    let data = {
       "ReceiverStaffId": id,
       "receipentName": name,
       "receipentPhoneWhatsapp": phone,
@@ -1120,7 +1121,7 @@ export const SubmitContactUs = (id,name,phone,email,message,country, navigation)
 
     console.log(data, '&&&&&&&&&&&&&&&&')
     const response = await logistical.post('/Request/SendContact', data);
-   // console.log(response, 'fileRespfileRespfileRespfileRespfileRespfileRespfileRespfileRespfileRespfileRespfileResp');
+    // console.log(response, 'fileRespfileRespfileRespfileRespfileRespfileRespfileRespfileRespfileRespfileRespfileResp');
 
     if (response) {
       // AsyncStorage.setItem('login', JSON.stringify(response.token));
@@ -1131,23 +1132,23 @@ export const SubmitContactUs = (id,name,phone,email,message,country, navigation)
       // });
 
 
-       // Alert.alert(response.massage)
-        Alert.alert(
-          'Success',
-          response.massage,
-          [
-            {
-              text: 'OK',
-              onPress: () => console.log('OK Pressed'),
-            },
-          ],
+      // Alert.alert(response.massage)
+      Alert.alert(
+        'Success',
+        response.massage,
+        [
           {
-            // Custom styles for the Alert component
-            containerStyle: styles.alertContainer,
-            titleStyle: styles.alertTitle,
-            messageStyle: styles.alertMessage,
-          }
-        );
+            text: 'OK',
+            onPress: () => console.log('OK Pressed'),
+          },
+        ],
+        {
+          // Custom styles for the Alert component
+          containerStyle: styles.alertContainer,
+          titleStyle: styles.alertTitle,
+          messageStyle: styles.alertMessage,
+        }
+      );
       resolve(response);
 
       // Alert.alert(response.massage);
@@ -1158,7 +1159,7 @@ export const SubmitContactUs = (id,name,phone,email,message,country, navigation)
       //   payload: false,
       // });
     } else {
-    //  Alert.alert('No data found');
+      //  Alert.alert('No data found');
       Alert.alert(
         'Alert',
         'No data found',

@@ -16,7 +16,7 @@ import Icon1 from 'react-native-vector-icons/MaterialIcons';
 import Icon2 from 'react-native-vector-icons/Fontisto';
 import Icon3 from 'react-native-vector-icons/FontAwesome5';
 import Icon4 from 'react-native-vector-icons/FontAwesome6';
-import { dashboardlist, dashboardlist2 } from '../Redux/Actions/Dashboard';
+import { UpdateNotificationsRead, dashboardlist, dashboardlist2 } from '../Redux/Actions/Dashboard';
 import { Color } from '../Style';
 import { useDispatch, useSelector } from 'react-redux';
 import { clientInfo, ManagerInfo } from '../Redux/Actions/TaxLeaf';
@@ -43,24 +43,28 @@ const HeadTabs = () => {
     const { LOGIN_DATA } = useSelector(state => state.TaxLeafReducer);
     const dispatch = useDispatch();
     const navigation = useNavigation();
-
+    const [refreshCount, setRefreshCount] = useState(0);
     const jsonData = MY_INFO.guestInfo;
     const officeInfo = MY_INFO.officeInfo;
 
 
+
+
+    // console.log("Count of elements with isNotificationRead set to false:", UnreadMessagesCount);
     //console.log(jsonData?.clientId, jsonData?.clientType, 'jsonDatajsonDatajsonDatajsonData')
 
     const showwhatfunc1 = data => {
         setshowwhat1(data);
-        console.log(data,'showwhat1showwhat1showwhat1');
+        console.log(data, 'showwhat1showwhat1showwhat1');
     };
     const showwhatfunc2 = data => {
         setshowwhat2(data);
-        console.log(data,'showwhat2showwhat2');
+        console.log(data, 'showwhat2showwhat2');
     };
 
     useEffect(() => {
         setLoader(true);
+        // setInterval(() => {
 
         dispatch(clientInfo(LOGIN_DATA, navigation))
             .then(() => dispatch(dashboardlist(jsonData?.clientId, jsonData?.clientType, officeInfo?.id, navigation)))
@@ -69,32 +73,53 @@ const HeadTabs = () => {
             .finally(() => {
                 setLoader(false);
             });
+        // }, 5000);
     }, [LOGIN_DATA, jsonData?.clientId, jsonData?.clientType, officeInfo?.id]);
 
-   
+    const fetchData = async () => {
+        setLoader(true);
+        try {
+            await dispatch(clientInfo(LOGIN_DATA, navigation));
+            await dispatch(dashboardlist(jsonData?.clientId, jsonData?.clientType, officeInfo?.id, navigation));
+            await dispatch(dashboardlist2(jsonData?.clientId, jsonData?.clientType, officeInfo?.id, navigation));
+            await dispatch(ManagerInfo(jsonData?.clientId, jsonData?.clientType, navigation));
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        } finally {
+            setLoader(false);
+        }
+    };
+
+    const handleReload = () => {
+        fetchData(); // Call fetchData function to reload all APIs
+    };
+
 
     useEffect(() => {
+
+
         setDashboardList(DASHBOARD_LIST);
         setDashboardList2(DASHBOARD_LIST_TWO);
         setDashboardMessageList(DASHBOARD_MESSAGE_LIST);
+
     }, [DASHBOARD_LIST, DASHBOARD_MESSAGE_LIST, DASHBOARD_LIST_TWO]);
 
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
-          // setLoader(true);
-         console.log("HeadTAbsHeadTAbs")
-        // showwhatfunc1(showwhat1)
-          setshowwhat1("")
-          setshowwhat2("")
-          // setTimeout(() => {
-          //   setLoader(false);
-          // }, 2000);
-    
+            // setLoader(true);
+            console.log("HeadTAbsHeadTAbs")
+            // showwhatfunc1(showwhat1)
+            setshowwhat1("")
+            setshowwhat2("")
+            // setTimeout(() => {
+            //   setLoader(false);
+            // }, 2000);
+
         });
         return unsubscribe;
-      }, [navigation,]);
-    
+    }, [navigation,]);
+
 
     const HolidaysNewsType = 'Holidays';
     const TaxNewsType = 'Tax Deadlines';
@@ -103,6 +128,7 @@ const HeadTabs = () => {
     const GovernmentType = 'government_payment';
     const TaxReturnsType = 'tax_returns';
     const BookKeepingType = 'bookkeeping';
+
     const HolidaysfilteredList =
         dashboardList &&
         dashboardList.filter(item => item.newsType === HolidaysNewsType);
@@ -134,10 +160,244 @@ const HeadTabs = () => {
 
 
 
+    let UnreadTaxDeadCount = 0;
+    let UnreadMessagesCount = 0;
+    let UnreadHolidaysCount = 0;
+    let UnreadEventCount = 0;
+    let UnreadOrderCount = 0;
+    let UnreadTaxReturnCount = 0;
+    let UnreadBookCount = 0;
+    let UnreadGovCount = 0;
+    let AllUnreadNotifications = 0;
+
+
+
+    // Iterate over the array
+    for (const item of dashboardMessageList) {
+        // Check if the property "isNotificationRead" is false
+        if (item.isNotificationRead === false) {
+            // Increment counter
+            UnreadMessagesCount++;
+        }
+    }
+
+
+    const HolidaysfilteredList1 =
+        dashboardList &&
+        dashboardList.filter(item => item.newsType === HolidaysNewsType && item.isNotificationRead === false);
+
+    UnreadHolidaysCount = HolidaysfilteredList1 && HolidaysfilteredList1.length || 0;
+
+
+    const TaxfilteredList1 =
+        dashboardList &&
+        dashboardList.filter(item => item.newsType === TaxNewsType && item.isNotificationRead === false);
+
+
+    UnreadTaxDeadCount = TaxfilteredList1 && TaxfilteredList1.length || 0;
+
+
+    const EventsfilteredList1 =
+        dashboardList &&
+        dashboardList.filter(item => item.newsType === EventsType && item.isNotificationRead === false);
+
+    UnreadEventCount = EventsfilteredList1 && EventsfilteredList1.length || 0;
+
+
+    const orderfilteredList1 =
+        dashboardList2 &&
+        dashboardList2.filter(item => item.section === OrderType && item.isNotificationRead === false);
+
+    UnreadOrderCount = orderfilteredList1 && orderfilteredList1.length || 0;
+
+
+
+
+    const GovfilteredList1 =
+        dashboardList2 &&
+        dashboardList2.filter(item => item.reference === GovernmentType && item.isNotificationRead === false);
+
+
+    UnreadGovCount = GovfilteredList1 && GovfilteredList1.length || 0;
+
+
+
+    const taxreturnfilteredList1 =
+        dashboardList2 &&
+        dashboardList2.filter(item => item.reference === TaxReturnsType && item.isNotificationRead === false);
+
+
+    UnreadTaxReturnCount = taxreturnfilteredList1 && taxreturnfilteredList1.length || 0;
+
+
+    const BookKeepingfilteredList1 =
+        dashboardList2 &&
+        dashboardList2.filter(item => item.reference === BookKeepingType && item.isNotificationRead === false);
+
+    UnreadBookCount = BookKeepingfilteredList1 && BookKeepingfilteredList1.length || 0;
+
+
+
+    console.log("TaxDeadCount", UnreadTaxDeadCount);
+    console.log("messageCount", UnreadMessagesCount);
+    console.log("HolidaysCount", UnreadHolidaysCount);
+    console.log("EventsCount", UnreadEventCount);
+
+
+    AllUnreadNotifications = UnreadTaxDeadCount + UnreadMessagesCount + UnreadHolidaysCount + UnreadEventCount + UnreadOrderCount +
+        UnreadTaxReturnCount + UnreadBookCount + UnreadGovCount;
+
+
+    console.log(AllUnreadNotifications, 'AllUnreadNotificationsAllUnreadNotifications')
+
+
+
+
+    const checkMessagenotification = () => {
+
+        const actionList = dashboardMessageList
+            .filter(item => item.isNotificationRead === false)
+            .map(item => ({ id: item.id }));
+
+        console.log(actionList, 'actionList');
+
+        setLoader(true)
+
+        setTimeout(() => {
+            dispatch(UpdateNotificationsRead(actionList, [], []))
+
+        }, 2000);
+        setLoader(false)
+        console.log('Click on Messages')
+    }
+
+    const checkOrdersnotification = () => {
+
+        const orderList = dashboardList2 &&
+            dashboardList2.filter(item => item.section === OrderType && item.isNotificationRead === false)
+                .map(item => ({ ID: item.id }));
+
+
+
+        dispatch(UpdateNotificationsRead([], [], orderList))
+
+        console.log(orderList, 'orderList');
+
+        console.log('Click on Orders')
+
+    }
+
+    const checkTaxReturnsnotification = () => {
+        const TaxReturn =
+            dashboardList2 &&
+            dashboardList2.filter(item => item.reference === TaxReturnsType && item.isNotificationRead === false)
+                .map(item => ({ ID: item.id }));
+
+        setLoader(true)
+
+        setTimeout(() => {
+            dispatch(UpdateNotificationsRead([], [], TaxReturn))
+
+        }, 2000);
+        setLoader(false)
+
+        console.log('Click on TaxReturns', TaxReturn)
+
+    }
+    const checkTaxDeadnotification = () => {
+
+        const TaxDeadLine =
+            dashboardList &&
+            dashboardList.filter(item => item.newsType === TaxNewsType && item.isNotificationRead === false)
+                .map(item => ({ ID: item.id }));
+
+        setLoader(true)
+
+        setTimeout(() => {
+            dispatch(UpdateNotificationsRead([], TaxDeadLine, []))
+
+        }, 2000);
+        setLoader(false)
+
+        console.log('Click on TaxDead', TaxDeadLine)
+
+    }
+
+    const checkHolidaysnotification = () => {
+        const HolidayLine =
+            dashboardList &&
+            dashboardList.filter(item => item.newsType === HolidaysNewsType && item.isNotificationRead === false)
+                .map(item => ({ ID: item.id }));
+
+
+        setLoader(true)
+
+        setTimeout(() => {
+            dispatch(UpdateNotificationsRead([], HolidayLine, []))
+
+        }, 2000);
+        setLoader(false)
+        console.log('Click on Holiday', HolidayLine)
+
+    }
+
+    const checkEventsnotification = () => {
+        const EventLine =
+            dashboardList &&
+            dashboardList.filter(item => item.newsType === EventsType && item.isNotificationRead === false)
+                .map(item => ({ ID: item.id }));
+
+        setLoader(true)
+
+        setTimeout(() => {
+            dispatch(UpdateNotificationsRead([], EventLine, []))
+
+        }, 2000);
+        setLoader(false)
+
+        console.log('Click on Event', EventLine)
+
+    }
+    const checkBooknotification = () => {
+        const BookKeeping =
+            dashboardList2 &&
+            dashboardList2.filter(item => item.reference === BookKeepingType && item.isNotificationRead === false)
+                .map(item => ({ ID: item.id }));
+
+        setLoader(true)
+
+        setTimeout(() => {
+            dispatch(UpdateNotificationsRead([], [], BookKeeping))
+
+        }, 2000);
+        setLoader(false)
+
+        console.log('Click on Book', BookKeeping)
+
+    }
+
+    const checkGovnotification = () => {
+        const GoveLine =
+            dashboardList2 &&
+            dashboardList2.filter(item => item.reference === GovernmentType && item.isNotificationRead === false)
+                .map(item => ({ ID: item.id }));
+
+        setLoader(true)
+
+        setTimeout(() => {
+            dispatch(UpdateNotificationsRead([], [], GoveLine))
+
+        }, 2000);
+        setLoader(false)
+
+        console.log('Click on Gov', GoveLine)
+
+    }
 
     // console.log(TaxfilteredList, 'TaxfilteredListt')
     return (
-        <View style={{ marginTop: 5 }}>
+        <View style={{ marginTop: 5, }}>
+
             <View style={styles.tabsContainer}>
                 <View style={styles.mainTab}>
                     {(() => {
@@ -159,10 +419,10 @@ const HeadTabs = () => {
                                                     ? (setshowwhat1(''), setshowwhat2(''))
                                                     : (showwhatfunc1('Message'), showwhatfunc2(''))
                                             }>
-                                           <Image
-                                                    source={ require('../Assets/img/icons/Tax-Deadline-Green.png')}
-                                            style={  [styles.icon,]}
-                              />
+                                            <Image
+                                                source={require('../Assets/img/icons/Tax-Deadline-Green.png')}
+                                                style={[styles.icon,]}
+                                            />
 
 
 
@@ -196,9 +456,9 @@ const HeadTabs = () => {
                                                     : (showwhatfunc1('Proposal'), showwhatfunc2(''))
                                             }>
                                             <Image
-                                                    source={ require('../Assets/img/icons/Messages.png')}
-                              style={  styles.icon}
-                              />
+                                                source={require('../Assets/img/icons/Messages.png')}
+                                                style={styles.icon}
+                                            />
 
 
 
@@ -217,7 +477,7 @@ const HeadTabs = () => {
                                         </Text>
                                     </View>
 
-                                               <View style={styles.TabsContainer}>
+                                    <View style={styles.TabsContainer}>
 
                                         <TouchableOpacity
                                             style={[
@@ -232,13 +492,13 @@ const HeadTabs = () => {
                                                     ? (setshowwhat1(''), setshowwhat2(''))
                                                     : (showwhatfunc1('Reminders'), showwhatfunc2(''))
                                             }>
-                                                <Image
-                                                    source={ require('../Assets/img/icons/Holidays.png')}
-                              style={  styles.icon}
-                               
-                            />
+                                            <Image
+                                                source={require('../Assets/img/icons/Holidays.png')}
+                                                style={styles.icon}
 
-                                           
+                                            />
+
+
                                         </TouchableOpacity>
                                         <Text
                                             style={[
@@ -269,13 +529,13 @@ const HeadTabs = () => {
                                                     ? (setshowwhat1(''), setshowwhat2(''))
                                                     : (showwhatfunc1('Signature'), showwhatfunc2(''))
                                             }>
-                                             <Image
-                                                    source={ require('../Assets/img/icons/Events-Icon.png')}
-                                                    style={  [styles.icon,]}
-                              />
+                                            <Image
+                                                source={require('../Assets/img/icons/Events-Icon.png')}
+                                                style={[styles.icon,]}
+                                            />
 
 
-                                          
+
                                         </TouchableOpacity>
                                         <Text
                                             style={[
@@ -290,7 +550,7 @@ const HeadTabs = () => {
                                             Events
                                         </Text>
                                     </View>
-                                 
+
                                     {/* </View> */}
                                 </View>
                             );
@@ -315,12 +575,12 @@ const HeadTabs = () => {
                                                     ? (setshowwhat1(''), setshowwhat2(''))
                                                     : (showwhatfunc1('Message'), showwhatfunc2(''))
                                             }>
-                                           <Image
-                                                    source={ require('../Assets/img/icons/Tax-Deadlines.png')}
-                                                    style={  [styles.icon,]}
-                              />
+                                            <Image
+                                                source={require('../Assets/img/icons/Tax-Deadlines.png')}
+                                                style={[styles.icon,]}
+                                            />
 
-                                          
+
                                         </TouchableOpacity>
                                         <Text
                                             style={[
@@ -351,9 +611,9 @@ const HeadTabs = () => {
                                                     : (showwhatfunc1('Proposal'), showwhatfunc2(''))
                                             }>
                                             <Image
-                                                    source={ require('../Assets/img/icons/Messages-Green.png')}
-                              style={  styles.icon}
-                              />
+                                                source={require('../Assets/img/icons/Messages-Green.png')}
+                                                style={styles.icon}
+                                            />
 
 
 
@@ -371,7 +631,7 @@ const HeadTabs = () => {
                                             Messages
                                         </Text>
                                     </View>
-                                               <View style={styles.TabsContainer}>
+                                    <View style={styles.TabsContainer}>
 
                                         <TouchableOpacity
                                             style={[
@@ -386,14 +646,14 @@ const HeadTabs = () => {
                                                     ? (setshowwhat1(''), setshowwhat2(''))
                                                     : (showwhatfunc1('Reminders'), showwhatfunc2(''))
                                             }>
-                                           <Image
-                                                    source={ require('../Assets/img/icons/Holidays.png')}
-                              style={  styles.icon}
-                               
-                            />
+                                            <Image
+                                                source={require('../Assets/img/icons/Holidays.png')}
+                                                style={styles.icon}
+
+                                            />
 
 
-                                          
+
                                         </TouchableOpacity>
                                         <Text
                                             style={[
@@ -424,10 +684,10 @@ const HeadTabs = () => {
                                                     ? (setshowwhat1(''), setshowwhat2(''))
                                                     : (showwhatfunc1('Signature'), showwhatfunc2(''))
                                             }>
-                                              <Image
-                                                    source={ require('../Assets/img/icons/Events-Icon.png')}
-                                                    style={  [styles.icon,]}
-                              />
+                                            <Image
+                                                source={require('../Assets/img/icons/Events-Icon.png')}
+                                                style={[styles.icon,]}
+                                            />
 
 
 
@@ -445,7 +705,7 @@ const HeadTabs = () => {
                                             Events
                                         </Text>
                                     </View>
-                                 
+
                                     {/* </View> */}
                                 </View>
                             );
@@ -469,9 +729,9 @@ const HeadTabs = () => {
                                                     : (showwhatfunc1('Message'), showwhatfunc2(''))
                                             }>
                                             <Image
-                                                    source={ require('../Assets/img/icons/Tax-Deadlines.png')}
-                                                    style={  [styles.icon,]}
-                              />
+                                                source={require('../Assets/img/icons/Tax-Deadlines.png')}
+                                                style={[styles.icon,]}
+                                            />
 
 
 
@@ -503,10 +763,10 @@ const HeadTabs = () => {
                                                     ? (setshowwhat1(''), setshowwhat2(''))
                                                     : (showwhatfunc1('Proposal'), showwhatfunc2(''))
                                             }>
-                                             <Image
-                                                    source={ require('../Assets/img/icons/Messages.png')}
-                              style={  styles.icon}
-                              />
+                                            <Image
+                                                source={require('../Assets/img/icons/Messages.png')}
+                                                style={styles.icon}
+                                            />
 
 
 
@@ -539,13 +799,13 @@ const HeadTabs = () => {
                                                     ? (setshowwhat1(''), setshowwhat2(''))
                                                     : (showwhatfunc1('Reminders'), showwhatfunc2(''))
                                             }>
-                                           <Image
-                                                    source={ require('../Assets/img/icons/Holidays.png')}
-                              style={  styles.icon}
-                               
-                            />
+                                            <Image
+                                                source={require('../Assets/img/icons/Holidays.png')}
+                                                style={styles.icon}
 
-                               </TouchableOpacity>
+                                            />
+
+                                        </TouchableOpacity>
                                         <Text
                                             style={[
                                                 styles.ButtonText,
@@ -560,7 +820,7 @@ const HeadTabs = () => {
                                         </Text>
                                     </View>
                                     <View style={styles.TabsContainer}>
-                                    <TouchableOpacity
+                                        <TouchableOpacity
                                             style={[
                                                 styles.mobiletoch1,
                                                 {
@@ -573,10 +833,10 @@ const HeadTabs = () => {
                                                     ? (setshowwhat1(''), setshowwhat2(''))
                                                     : (showwhatfunc1('Signature'), showwhatfunc2(''))
                                             }>
-                                              <Image
-                                                    source={ require('../Assets/img/icons/Events-Green.png')}
-                                                    style={  [styles.icon,]}
-                              />
+                                            <Image
+                                                source={require('../Assets/img/icons/Events-Green.png')}
+                                                style={[styles.icon,]}
+                                            />
 
 
 
@@ -594,168 +854,18 @@ const HeadTabs = () => {
                                             Events
                                         </Text>
                                     </View>
-                                   
+
                                     {/* </View> */}
                                 </View>
                             );
                         }
 
-                     else if (showwhat1 == 'Reminders') {
-                        return (
-                            <View style={styles.moblieSec}>
-                                {/* <View style={{ flexDirection: "column", justifyContent: 'space-between' }}> */}
-                                <View style={styles.TabsContainer}>
-
-                                    <TouchableOpacity
-                                        style={[
-                                            styles.emailtoch,
-                                            {
-                                                backgroundColor:
-                                                    showwhat1 == 'Message' ? '#2F4050' : Color.headerIconBG,
-                                            },
-                                        ]}
-                                        onPress={() =>
-                                            showwhat1 == 'Message'
-                                                ? (setshowwhat1(''), setshowwhat2(''))
-                                                : (showwhatfunc1('Message'), showwhatfunc2(''))
-                                        }>
-                                        <Image
-                                                source={ require('../Assets/img/icons/Tax-Deadlines.png')}
-                                                style={  [styles.icon,]}
-                          />
-
-
-
-                                    </TouchableOpacity>
-                                    <Text
-                                        style={[
-                                            styles.ButtonText,
-                                            {
-                                                color:
-                                                    showwhat1 == 'Message'
-                                                        ? Color.headerIconBG
-                                                        : Color.headerIconBG,
-                                            },
-                                        ]}>
-                                        Tax Deadlines
-                                    </Text>
-                                </View>
-                                <View style={styles.TabsContainer}>
-                                    <TouchableOpacity
-                                        style={[
-                                            styles.mobiletoch1,
-                                            {
-                                                backgroundColor:
-                                                    showwhat1 == 'Proposal' ? '#2F4050' : Color.headerIconBG,
-                                            },
-                                        ]}
-                                        onPress={() =>
-                                            showwhat1 == 'Proposal'
-                                                ? (setshowwhat1(''), setshowwhat2(''))
-                                                : (showwhatfunc1('Proposal'), showwhatfunc2(''))
-                                        }>
-                                         <Image
-                                                source={ require('../Assets/img/icons/Messages.png')}
-                          style={  styles.icon}
-                          />
-
-
-
-                                    </TouchableOpacity>
-                                    <Text
-                                        style={[
-                                            styles.ButtonText,
-                                            {
-                                                color:
-                                                    showwhat1 == 'Message'
-                                                        ? Color.headerIconBG
-                                                        : Color.headerIconBG,
-                                            },
-                                        ]}>
-                                        Messages
-                                    </Text>
-                                </View>
-                                <View style={styles.TabsContainer}>
-                                    <TouchableOpacity
-                                        style={[
-                                            styles.mobiletoch1,
-                                            {
-                                                backgroundColor:
-                                                    showwhat1 == 'Reminders' ? '#2F4050' : Color.headerIconBG,
-                                            },
-                                        ]}
-                                        onPress={() =>
-                                            showwhat1 == 'Reminders'
-                                                ? (setshowwhat1(''), setshowwhat2(''))
-                                                : (showwhatfunc1('Reminders'), showwhatfunc2(''))
-                                        }>
-                                       <Image
-                                                source={ require('../Assets/img/icons/Holidays-Green.png')}
-                          style={  styles.icon}
-                           
-                        />
-
-                           </TouchableOpacity>
-                                    <Text
-                                        style={[
-                                            styles.ButtonText,
-                                            {
-                                                color:
-                                                    showwhat1 == 'Message'
-                                                        ? Color.headerIconBG
-                                                        : Color.headerIconBG,
-                                            },
-                                        ]}>
-                                        Holidays
-                                    </Text>
-                                </View>
-
-                                <View style={styles.TabsContainer}>
-                                    <TouchableOpacity
-                                        style={[
-                                            styles.mobiletoch1,
-                                            {
-                                                backgroundColor:
-                                                    showwhat1 == 'Signature' ? Color.geen : Color.headerIconBG,
-                                            },
-                                        ]}
-                                        onPress={() =>
-                                            showwhat1 == 'Signature'
-                                                ? (setshowwhat1(''), setshowwhat2(''))
-                                                : (showwhatfunc1('Signature'), showwhatfunc2(''))
-                                        }>
-                                         <Image
-                                                source={ require('../Assets/img/icons/Events-Icon.png')}
-                                                style={  [styles.icon,]}
-                                         />
-
-
-
-                                    </TouchableOpacity>
-                                    <Text
-                                        style={[
-                                            styles.ButtonText,
-                                            {
-                                                color:
-                                                    showwhat1 == 'Message'
-                                                        ? Color.headerIconBG
-                                                        : Color.headerIconBG,
-                                            },
-                                        ]}>
-                                        Events
-                                    </Text>
-                                </View>
-                               
-                                {/* </View> */}
-                            </View>
-                        );
-                    }
-                        
-                        else {
+                        else if (showwhat1 == 'Reminders') {
                             return (
                                 <View style={styles.moblieSec}>
                                     {/* <View style={{ flexDirection: "column", justifyContent: 'space-between' }}> */}
                                     <View style={styles.TabsContainer}>
+
                                         <TouchableOpacity
                                             style={[
                                                 styles.emailtoch,
@@ -770,10 +880,9 @@ const HeadTabs = () => {
                                                     : (showwhatfunc1('Message'), showwhatfunc2(''))
                                             }>
                                             <Image
-                                                    source={ require('../Assets/img/icons/Tax-Deadlines.png')}
-                                                   // style={{height:50,width:50}}
-                                                    style={  [styles.icon,]}
-                                             />
+                                                source={require('../Assets/img/icons/Tax-Deadlines.png')}
+                                                style={[styles.icon,]}
+                                            />
 
 
 
@@ -806,12 +915,220 @@ const HeadTabs = () => {
                                                     : (showwhatfunc1('Proposal'), showwhatfunc2(''))
                                             }>
                                             <Image
-                                                    source={ require('../Assets/img/icons/Messages.png')}
-                              style={  styles.icon}
-                              />
+                                                source={require('../Assets/img/icons/Messages.png')}
+                                                style={styles.icon}
+                                            />
+
 
 
                                         </TouchableOpacity>
+                                        <Text
+                                            style={[
+                                                styles.ButtonText,
+                                                {
+                                                    color:
+                                                        showwhat1 == 'Message'
+                                                            ? Color.headerIconBG
+                                                            : Color.headerIconBG,
+                                                },
+                                            ]}>
+                                            Messages
+                                        </Text>
+                                    </View>
+                                    <View style={styles.TabsContainer}>
+                                        <TouchableOpacity
+                                            style={[
+                                                styles.mobiletoch1,
+                                                {
+                                                    backgroundColor:
+                                                        showwhat1 == 'Reminders' ? '#2F4050' : Color.headerIconBG,
+                                                },
+                                            ]}
+                                            onPress={() =>
+                                                showwhat1 == 'Reminders'
+                                                    ? (setshowwhat1(''), setshowwhat2(''))
+                                                    : (showwhatfunc1('Reminders'), showwhatfunc2(''))
+                                            }>
+                                            <Image
+                                                source={require('../Assets/img/icons/Holidays-Green.png')}
+                                                style={styles.icon}
+
+                                            />
+
+                                        </TouchableOpacity>
+                                        <Text
+                                            style={[
+                                                styles.ButtonText,
+                                                {
+                                                    color:
+                                                        showwhat1 == 'Message'
+                                                            ? Color.headerIconBG
+                                                            : Color.headerIconBG,
+                                                },
+                                            ]}>
+                                            Holidays
+                                        </Text>
+                                    </View>
+
+                                    <View style={styles.TabsContainer}>
+                                        <TouchableOpacity
+                                            style={[
+                                                styles.mobiletoch1,
+                                                {
+                                                    backgroundColor:
+                                                        showwhat1 == 'Signature' ? Color.geen : Color.headerIconBG,
+                                                },
+                                            ]}
+                                            onPress={() =>
+                                                showwhat1 == 'Signature'
+                                                    ? (setshowwhat1(''), setshowwhat2(''))
+                                                    : (showwhatfunc1('Signature'), showwhatfunc2(''))
+                                            }>
+                                            <Image
+                                                source={require('../Assets/img/icons/Events-Icon.png')}
+                                                style={[styles.icon,]}
+                                            />
+
+
+
+                                        </TouchableOpacity>
+                                        <Text
+                                            style={[
+                                                styles.ButtonText,
+                                                {
+                                                    color:
+                                                        showwhat1 == 'Message'
+                                                            ? Color.headerIconBG
+                                                            : Color.headerIconBG,
+                                                },
+                                            ]}>
+                                            Events
+                                        </Text>
+                                    </View>
+
+                                    {/* </View> */}
+                                </View>
+                            );
+                        }
+
+                        else {
+                            return (
+                                <View style={styles.moblieSec}>
+                                    {/* <View style={{ flexDirection: "column", justifyContent: 'space-between' }}> */}
+                                    <View style={styles.TabsContainer}>
+                                        <TouchableOpacity
+                                            style={[
+                                                styles.emailtoch,
+                                                {
+                                                    backgroundColor:
+                                                        showwhat1 == 'Message' ? '#2F4050' : Color.headerIconBG,
+                                                },
+                                            ]}
+                                            onPress={() => {
+                                                handleReload();
+                                                checkTaxDeadnotification();
+                                                showwhat1 == 'Message'
+                                                    ? (setshowwhat1(''), setshowwhat2(''))
+                                                    : (showwhatfunc1('Message'), showwhatfunc2(''))
+                                            }
+                                            }>
+                                            <Image
+                                                source={require('../Assets/img/icons/Tax-Deadlines.png')}
+                                                // style={{height:50,width:50}}
+                                                style={[styles.icon,]}
+                                            />
+
+
+
+                                        </TouchableOpacity>
+                                        <View
+                                            style={{
+                                                position: 'absolute',
+                                                top: -2,
+                                                right: 10,
+                                                height: 20,
+
+                                                width: 20,
+                                                justifyContent: 'center',
+                                                borderWidth: 1,
+                                                borderColor: Color.white,
+                                                backgroundColor: 'red',
+                                                borderRadius: 50,
+                                            }}>
+                                            <Text
+                                                style={{
+                                                    color: Color.white,
+                                                    alignSelf: 'center',
+                                                    fontFamily: 'Poppins-SemiBold',
+                                                    fontSize: 10,
+                                                }}>
+                                                {UnreadTaxDeadCount}
+                                            </Text>
+                                        </View>
+                                        <Text
+                                            style={[
+                                                styles.ButtonText,
+                                                {
+                                                    color:
+                                                        showwhat1 == 'Message'
+                                                            ? Color.headerIconBG
+                                                            : Color.headerIconBG,
+                                                },
+                                            ]}>
+                                            Tax Deadlines
+                                        </Text>
+                                    </View>
+                                    <View style={styles.TabsContainer}>
+
+                                        <TouchableOpacity
+                                            style={[
+                                                styles.mobiletoch1,
+                                                {
+                                                    backgroundColor:
+                                                        showwhat1 == 'Proposal' ? '#2F4050' : Color.headerIconBG,
+                                                },
+                                            ]}
+                                            onPress={() => {
+                                                handleReload();
+                                                checkMessagenotification();
+                                                showwhat1 == 'Proposal'
+                                                    ? (setshowwhat1(''), setshowwhat2(''))
+                                                    : (showwhatfunc1('Proposal'), showwhatfunc2(''))
+                                            }
+                                            }>
+
+                                            <Image
+                                                source={require('../Assets/img/icons/Messages.png')}
+                                                style={styles.icon}
+                                            />
+
+
+                                        </TouchableOpacity>
+                                        <View
+                                            style={{
+                                                position: 'absolute',
+                                                top: -2,
+                                                right: 10,
+                                                height: 20,
+
+                                                width: 20,
+                                                justifyContent: 'center',
+                                                borderWidth: 1,
+                                                borderColor: Color.white,
+                                                backgroundColor: 'red',
+                                                borderRadius: 50,
+                                            }}>
+                                            <Text
+                                                style={{
+                                                    color: Color.white,
+                                                    alignSelf: 'center',
+                                                    fontFamily: 'Poppins-SemiBold',
+                                                    fontSize: 10,
+                                                }}>
+                                                {UnreadMessagesCount}
+                                            </Text>
+                                        </View>
+
                                         <Text
                                             style={[
                                                 styles.ButtonText,
@@ -835,19 +1152,46 @@ const HeadTabs = () => {
                                                         showwhat1 == 'Reminders' ? '#2F4050' : Color.headerIconBG,
                                                 },
                                             ]}
-                                            onPress={() =>
+                                            onPress={() => {
+                                                handleReload();
+                                                checkHolidaysnotification();
                                                 showwhat1 == 'Reminders'
                                                     ? (setshowwhat1(''), setshowwhat2(''))
                                                     : (showwhatfunc1('Reminders'), showwhatfunc2(''))
+                                            }
                                             }>
                                             <Image
-                                                    source={ require('../Assets/img/icons/Holidays.png')}
-                              style={  styles.icon}
-                               
-                            />
+                                                source={require('../Assets/img/icons/Holidays.png')}
+                                                style={styles.icon}
+
+                                            />
 
 
                                         </TouchableOpacity>
+                                        <View
+                                            style={{
+                                                position: 'absolute',
+                                                top: -2,
+                                                right: 10,
+                                                height: 20,
+
+                                                width: 20,
+                                                justifyContent: 'center',
+                                                borderWidth: 1,
+                                                borderColor: Color.white,
+                                                backgroundColor: 'red',
+                                                borderRadius: 50,
+                                            }}>
+                                            <Text
+                                                style={{
+                                                    color: Color.white,
+                                                    alignSelf: 'center',
+                                                    fontFamily: 'Poppins-SemiBold',
+                                                    fontSize: 10,
+                                                }}>
+                                                {UnreadHolidaysCount}
+                                            </Text>
+                                        </View>
                                         <Text
                                             style={[
                                                 styles.ButtonText,
@@ -870,18 +1214,47 @@ const HeadTabs = () => {
                                                         showwhat1 == 'Signature' ? '#2F4050' : Color.headerIconBG,
                                                 },
                                             ]}
-                                            onPress={() =>
+                                            onPress={() => {
+                                                handleReload();
+                                                checkEventsnotification();
                                                 showwhat1 == 'Signature'
                                                     ? (setshowwhat1(''), setshowwhat2(''))
                                                     : (showwhatfunc1('Signature'), showwhatfunc2(''))
+                                            }
                                             }>
+
                                             <Image
-                                                    source={ require('../Assets/img/icons/Events-Icon.png')}
-                                                    style={  [styles.icon,]}
-                              />
+                                                source={require('../Assets/img/icons/Events-Icon.png')}
+                                                style={[styles.icon,]}
+                                            />
 
 
                                         </TouchableOpacity>
+
+                                        <View
+                                            style={{
+                                                position: 'absolute',
+                                                top: -2,
+                                                right: 10,
+                                                height: 20,
+
+                                                width: 20,
+                                                justifyContent: 'center',
+                                                borderWidth: 1,
+                                                borderColor: Color.white,
+                                                backgroundColor: 'red',
+                                                borderRadius: 50,
+                                            }}>
+                                            <Text
+                                                style={{
+                                                    color: Color.white,
+                                                    alignSelf: 'center',
+                                                    fontFamily: 'Poppins-SemiBold',
+                                                    fontSize: 10,
+                                                }}>
+                                                {UnreadEventCount}
+                                            </Text>
+                                        </View>
                                         <Text
                                             style={[
                                                 styles.ButtonText,
@@ -895,7 +1268,7 @@ const HeadTabs = () => {
                                             Events
                                         </Text>
                                     </View>
-                                 
+
                                     {/* </View> */}
                                 </View>
                             );
@@ -925,9 +1298,9 @@ const HeadTabs = () => {
                                             }>
 
                                             <Image
-                                             source={ require('../Assets/img/icons/Orders-Green.png')}
-                                             style={  styles.icon}
-                                             />
+                                                source={require('../Assets/img/icons/Orders-Green.png')}
+                                                style={styles.icon}
+                                            />
 
 
                                         </TouchableOpacity>
@@ -941,7 +1314,7 @@ const HeadTabs = () => {
                                                             : Color.headerIconBG,
                                                 },
                                             ]}>
-                                            Orders
+                                            Orders1
                                         </Text>
                                     </View>
                                     <View style={styles.TabsContainer}>
@@ -961,13 +1334,13 @@ const HeadTabs = () => {
                                                 console.log('showwhat2 after:', showwhat2)
 
                                             }}>
-                                             <Image
-                                             source={ require('../Assets/img/icons/Tax-Returns-Icons.png')}
-                                             style={  styles.icon}
-                                             />
+                                            <Image
+                                                source={require('../Assets/img/icons/Tax-Returns-Icons.png')}
+                                                style={styles.icon}
+                                            />
 
 
-                                          
+
                                         </TouchableOpacity>
                                         <Text
                                             style={[
@@ -996,10 +1369,10 @@ const HeadTabs = () => {
                                                     ? (setshowwhat2(''), setshowwhat1(''))
                                                     : (showwhatfunc2('book'), showwhatfunc1(''))
                                             }>
-                                             <Image
-                                             source={ require('../Assets/img/icons/Bookkeeping-Icon.png')}
-                                             style={  styles.icon}
-                                             />
+                                            <Image
+                                                source={require('../Assets/img/icons/Bookkeeping-Icon.png')}
+                                                style={styles.icon}
+                                            />
 
 
                                             {/* <Text
@@ -1044,9 +1417,9 @@ const HeadTabs = () => {
                                                     : (showwhatfunc2('Gov'), showwhatfunc1(''))
                                             }>
                                             <Image
-                                             source={ require('../Assets/img/icons/Gov-Payments-Icons.png')}
-                                             style={  styles.icon}
-                                             />
+                                                source={require('../Assets/img/icons/Gov-Payments-Icons.png')}
+                                                style={styles.icon}
+                                            />
 
 
                                             {/* <Text
@@ -1097,11 +1470,11 @@ const HeadTabs = () => {
                                                     : (showwhatfunc2('orders'), showwhatfunc2(''))
                                             }>
                                             <Image
-                                             source={ require('../Assets/img/icons/Orders-Icon.png')}
-                                             style={  styles.icon}
-                                             />
+                                                source={require('../Assets/img/icons/Orders-Icon.png')}
+                                                style={styles.icon}
+                                            />
 
-                                         </TouchableOpacity>
+                                        </TouchableOpacity>
                                         <Text
                                             style={[
                                                 styles.ButtonText,
@@ -1112,7 +1485,7 @@ const HeadTabs = () => {
                                                             : Color.headerIconBG,
                                                 },
                                             ]}>
-                                            Orders
+                                            Orders2
                                         </Text>
                                     </View>
                                     <View style={styles.TabsContainer}>
@@ -1124,15 +1497,17 @@ const HeadTabs = () => {
                                                         showwhat2 == 'taxReturn' ? Color.geen : Color.headerIconBG,
                                                 },
                                             ]}
+
                                             onPress={() =>
                                                 showwhat2 == 'taxReturn'
                                                     ? setshowwhat2('')
                                                     : showwhatfunc2('taxReturn')
                                             }>
-                                             <Image
-                                             source={ require('../Assets/img/icons/Tax-Returns-Green.png')}
-                                             style={  styles.icon}
-                                             />
+
+                                            <Image
+                                                source={require('../Assets/img/icons/Tax-Returns-Green.png')}
+                                                style={styles.icon}
+                                            />
 
 
 
@@ -1165,9 +1540,9 @@ const HeadTabs = () => {
                                                     : (showwhatfunc2('book'), showwhatfunc1(''))
                                             }>
                                             <Image
-                                             source={ require('../Assets/img/icons/Bookkeeping-Icon.png')}
-                                             style={  styles.icon}
-                                             />
+                                                source={require('../Assets/img/icons/Bookkeeping-Icon.png')}
+                                                style={styles.icon}
+                                            />
 
 
                                             {/* <Text
@@ -1212,9 +1587,9 @@ const HeadTabs = () => {
                                                     : (showwhatfunc2('Gov'), showwhatfunc1(''))
                                             }>
                                             <Image
-                                             source={ require('../Assets/img/icons/Gov-Payments-Icons.png')}
-                                             style={  styles.icon}
-                                             />
+                                                source={require('../Assets/img/icons/Gov-Payments-Icons.png')}
+                                                style={styles.icon}
+                                            />
 
 
                                             {/* <Text
@@ -1246,7 +1621,7 @@ const HeadTabs = () => {
                                     {/* </View> */}
                                 </View>
                             );
-                        } 
+                        }
                         else if (showwhat2 == 'book') {
                             return (
                                 <View style={styles.moblieSec}>
@@ -1265,10 +1640,10 @@ const HeadTabs = () => {
                                                     ? setshowwhat2('')
                                                     : showwhatfunc2('orders')
                                             }>
-                                           <Image
-                                             source={ require('../Assets/img/icons/Orders-Icon.png')}
-                                             style={  styles.icon}
-                                             />
+                                            <Image
+                                                source={require('../Assets/img/icons/Orders-Icon.png')}
+                                                style={styles.icon}
+                                            />
 
 
                                         </TouchableOpacity>
@@ -1282,7 +1657,7 @@ const HeadTabs = () => {
                                                             : Color.headerIconBG,
                                                 },
                                             ]}>
-                                            Orders
+                                            Orders3
                                         </Text>
                                     </View>
                                     <View style={styles.TabsContainer}>
@@ -1300,9 +1675,9 @@ const HeadTabs = () => {
                                                     : showwhatfunc2('taxReturn')
                                             }>
                                             <Image
-                                             source={ require('../Assets/img/icons/Tax-Returns-Icons.png')}
-                                             style={  styles.icon}
-                                             />
+                                                source={require('../Assets/img/icons/Tax-Returns-Icons.png')}
+                                                style={styles.icon}
+                                            />
 
 
                                         </TouchableOpacity>
@@ -1333,10 +1708,10 @@ const HeadTabs = () => {
                                                     ? (setshowwhat2(''), setshowwhat1(''))
                                                     : (showwhatfunc2('book'), showwhatfunc1(''))
                                             }>
-                                             <Image
-                                             source={ require('../Assets/img/icons/Bookkeeping-Green.png')}
-                                             style={  styles.icon}
-                                             />
+                                            <Image
+                                                source={require('../Assets/img/icons/Bookkeeping-Green.png')}
+                                                style={styles.icon}
+                                            />
 
 
 
@@ -1369,10 +1744,10 @@ const HeadTabs = () => {
                                                     ? (setshowwhat2(''), setshowwhat1(''))
                                                     : (showwhatfunc2('Gov'), showwhatfunc1(''))
                                             }>
-                                             <Image
-                                             source={ require('../Assets/img/icons/Gov-Payments-Icons.png')}
-                                             style={  styles.icon}
-                                             />
+                                            <Image
+                                                source={require('../Assets/img/icons/Gov-Payments-Icons.png')}
+                                                style={styles.icon}
+                                            />
 
 
                                             {/* <Text
@@ -1404,7 +1779,7 @@ const HeadTabs = () => {
                                     {/* </View> */}
                                 </View>
                             );
-                        } 
+                        }
                         else if (showwhat2 == 'Gov') {
                             return (
                                 <View style={styles.moblieSec}>
@@ -1423,10 +1798,10 @@ const HeadTabs = () => {
                                                     ? setshowwhat2('')
                                                     : showwhatfunc2('orders')
                                             }>
-                                           <Image
-                                             source={ require('../Assets/img/icons/Orders-Icon.png')}
-                                             style={  styles.icon}
-                                             />
+                                            <Image
+                                                source={require('../Assets/img/icons/Orders-Icon.png')}
+                                                style={styles.icon}
+                                            />
 
 
                                         </TouchableOpacity>
@@ -1440,7 +1815,7 @@ const HeadTabs = () => {
                                                             : Color.headerIconBG,
                                                 },
                                             ]}>
-                                            Orders
+                                            Orders4
                                         </Text>
                                     </View>
                                     <View style={styles.TabsContainer}>
@@ -1458,9 +1833,9 @@ const HeadTabs = () => {
                                                     : showwhatfunc2('taxReturn')
                                             }>
                                             <Image
-                                             source={ require('../Assets/img/icons/Tax-Returns-Icons.png')}
-                                             style={  styles.icon}
-                                             />
+                                                source={require('../Assets/img/icons/Tax-Returns-Icons.png')}
+                                                style={styles.icon}
+                                            />
 
 
                                         </TouchableOpacity>
@@ -1491,10 +1866,10 @@ const HeadTabs = () => {
                                                     ? (setshowwhat2(''), setshowwhat1(''))
                                                     : (showwhatfunc2('book'), showwhatfunc1(''))
                                             }>
-                                             <Image
-                                             source={ require('../Assets/img/icons/Bookkeeping-Icon.png')}
-                                             style={  styles.icon}
-                                             />
+                                            <Image
+                                                source={require('../Assets/img/icons/Bookkeeping-Icon.png')}
+                                                style={styles.icon}
+                                            />
 
 
 
@@ -1527,10 +1902,10 @@ const HeadTabs = () => {
                                                     ? (setshowwhat2(''), setshowwhat1(''))
                                                     : (showwhatfunc2('Gov'), showwhatfunc1(''))
                                             }>
-                                             <Image
-                                             source={ require('../Assets/img/icons/GovPayments-Green.png')}
-                                             style={  styles.icon}
-                                             />
+                                            <Image
+                                                source={require('../Assets/img/icons/GovPayments-Green.png')}
+                                                style={styles.icon}
+                                            />
 
 
                                             {/* <Text
@@ -1562,7 +1937,7 @@ const HeadTabs = () => {
                                     {/* </View> */}
                                 </View>
                             );
-                        } 
+                        }
                         else {
                             return (
                                 <View style={styles.moblieSec}>
@@ -1576,19 +1951,45 @@ const HeadTabs = () => {
                                                         showwhat2 == 'orders' ? Color.geen : Color.headerIconBG,
                                                 },
                                             ]}
-                                            onPress={() =>
+                                            onPress={() => {
+                                                handleReload();
+                                                checkOrdersnotification();
                                                 showwhat2 === 'orders'
                                                     ? (setshowwhat2(''), setshowwhat1(''))
                                                     : (showwhatfunc2('orders'), showwhatfunc1(''))
-                                            }>
-                                           <Image
-                                             source={ require('../Assets/img/icons/Orders-Icon.png')}
-                                             style={  styles.icon}
-                                             />
+                                            }}>
+                                            <Image
+                                                source={require('../Assets/img/icons/Orders-Icon.png')}
+                                                style={styles.icon}
+                                            />
 
 
 
                                         </TouchableOpacity>
+                                        <View
+                                            style={{
+                                                position: 'absolute',
+                                                top: -2,
+                                                right: 10,
+                                                height: 20,
+
+                                                width: 20,
+                                                justifyContent: 'center',
+                                                borderWidth: 1,
+                                                borderColor: Color.white,
+                                                backgroundColor: 'red',
+                                                borderRadius: 50,
+                                            }}>
+                                            <Text
+                                                style={{
+                                                    color: Color.white,
+                                                    alignSelf: 'center',
+                                                    fontFamily: 'Poppins-SemiBold',
+                                                    fontSize: 10,
+                                                }}>
+                                                {UnreadOrderCount}
+                                            </Text>
+                                        </View>
                                         <Text
                                             style={[
                                                 styles.ButtonText,
@@ -1611,20 +2012,48 @@ const HeadTabs = () => {
                                                         showwhat2 == 'taxReturn' ? Color.geen : Color.headerIconBG,
                                                 },
                                             ]}
-                                            onPress={() =>
+                                            onPress={() => {
+                                                handleReload();
+                                                checkTaxReturnsnotification();
                                                 showwhat2 === 'taxReturn'
                                                     ? (setshowwhat2(''), setshowwhat1(''))
                                                     : (showwhatfunc2('taxReturn'), showwhatfunc1(''))
+                                            }
                                             }>
                                             {/* {console.log(showwhat1, showwhat2, "LLLLL")} */}
                                             <Image
-                                             source={ require('../Assets/img/icons/Tax-Returns-Icons.png')}
-                                             style={  styles.icon}
-                                             />
+                                                source={require('../Assets/img/icons/Tax-Returns-Icons.png')}
+                                                style={styles.icon}
+                                            />
 
 
 
                                         </TouchableOpacity>
+
+                                        <View
+                                            style={{
+                                                position: 'absolute',
+                                                top: -2,
+                                                right: 10,
+                                                height: 20,
+
+                                                width: 20,
+                                                justifyContent: 'center',
+                                                borderWidth: 1,
+                                                borderColor: Color.white,
+                                                backgroundColor: 'red',
+                                                borderRadius: 50,
+                                            }}>
+                                            <Text
+                                                style={{
+                                                    color: Color.white,
+                                                    alignSelf: 'center',
+                                                    fontFamily: 'Poppins-SemiBold',
+                                                    fontSize: 10,
+                                                }}>
+                                                {UnreadTaxReturnCount}
+                                            </Text>
+                                        </View>
                                         <Text
                                             style={[
                                                 styles.ButtonText,
@@ -1638,6 +2067,7 @@ const HeadTabs = () => {
                                             Tax Returns
                                         </Text>
                                     </View>
+
                                     <View style={styles.TabsContainer}>
                                         <TouchableOpacity
                                             style={[
@@ -1647,15 +2077,18 @@ const HeadTabs = () => {
                                                         showwhat2 == 'book' ? Color.geen : Color.headerIconBG,
                                                 },
                                             ]}
-                                            onPress={() =>
+                                            onPress={() => {
+                                                handleReload();
+                                                checkBooknotification();
                                                 showwhat2 == 'book'
                                                     ? (setshowwhat2(''), setshowwhat1(''))
                                                     : (showwhatfunc2('book'), showwhatfunc1(''))
+                                            }
                                             }>
                                             <Image
-                                             source={ require('../Assets/img/icons/Bookkeeping-Icon.png')}
-                                             style={  styles.icon}
-                                             />
+                                                source={require('../Assets/img/icons/Bookkeeping-Icon.png')}
+                                                style={styles.icon}
+                                            />
 
 
                                             {/* <Text
@@ -1671,6 +2104,30 @@ const HeadTabs = () => {
                       (0)
                     </Text> */}
                                         </TouchableOpacity>
+                                        <View
+                                            style={{
+                                                position: 'absolute',
+                                                top: -2,
+                                                right: 10,
+                                                height: 20,
+
+                                                width: 20,
+                                                justifyContent: 'center',
+                                                borderWidth: 1,
+                                                borderColor: Color.white,
+                                                backgroundColor: 'red',
+                                                borderRadius: 50,
+                                            }}>
+                                            <Text
+                                                style={{
+                                                    color: Color.white,
+                                                    alignSelf: 'center',
+                                                    fontFamily: 'Poppins-SemiBold',
+                                                    fontSize: 10,
+                                                }}>
+                                                {UnreadBookCount}
+                                            </Text>
+                                        </View>
                                         <Text
                                             style={[
                                                 styles.ButtonText,
@@ -1694,19 +2151,46 @@ const HeadTabs = () => {
                                                         showwhat2 == 'Gov' ? Color.geen : Color.headerIconBG,
                                                 },
                                             ]}
-                                            onPress={() =>
+                                            onPress={() => {
+                                                handleReload();
+                                                checkGovnotification();
                                                 showwhat2 == 'Gov'
                                                     ? (setshowwhat2(''), setshowwhat1(''))
                                                     : (showwhatfunc2('Gov'), showwhatfunc1(''))
+                                            }
                                             }>
-                                             <Image
-                                             source={ require('../Assets/img/icons/Gov-Payments-Icons.png')}
-                                             style={  styles.icon}
-                                             />
+                                            <Image
+                                                source={require('../Assets/img/icons/Gov-Payments-Icons.png')}
+                                                style={styles.icon}
+                                            />
 
 
-                                          
+
                                         </TouchableOpacity>
+                                        <View
+                                            style={{
+                                                position: 'absolute',
+                                                top: -2,
+                                                right: 10,
+                                                height: 20,
+
+                                                width: 20,
+                                                justifyContent: 'center',
+                                                borderWidth: 1,
+                                                borderColor: Color.white,
+                                                backgroundColor: 'red',
+                                                borderRadius: 50,
+                                            }}>
+                                            <Text
+                                                style={{
+                                                    color: Color.white,
+                                                    alignSelf: 'center',
+                                                    fontFamily: 'Poppins-SemiBold',
+                                                    fontSize: 10,
+                                                }}>
+                                                {UnreadGovCount}
+                                            </Text>
+                                        </View>
                                         <Text
                                             style={[
                                                 styles.ButtonText,
@@ -1726,154 +2210,320 @@ const HeadTabs = () => {
                         }
                     })()}
                 </View>
-                {(() => {
-                    if (showwhat1 == 'Message') {
-                        return (
-                            <ScrollView>
-                              
-                                {TaxfilteredList && TaxfilteredList.length > 0 ? (
-                                    TaxfilteredList.map(item => (
 
-                                        <View key={item.id} style={{
-                                            borderRadius:10,
-                                            backgroundColor:"#f7f9fa",
-                                             alignSelf: "center", 
-                                             marginTop: 10,
-                                             padding:10,
-                                              width: wp(90),
-                                              flexDirection:'row'
-                                               }}>
+                <ScrollView
+                    showsVerticalScrollIndicator={false}
+                    showsHorizontalScrollIndicator={false}
+                    style={{ maxHeight: 200, }}>
+
+                    {(() => {
+                        if (showwhat1 == 'Message') {
+                            return (
+                                <ScrollView >
+
+                                    {TaxfilteredList && TaxfilteredList.length > 0 ? (
+                                        TaxfilteredList.map(item => (
+
+                                            <View key={item.id} style={{
+                                                borderRadius: 10,
+                                                backgroundColor: "#f7f9fa",
+                                                alignSelf: "center",
+                                                marginTop: 10,
+                                                padding: 10,
+                                                width: wp(90),
+                                                flexDirection: 'row'
+                                            }}>
                                                 <View
-                                                style={{  width: wp(15),
-                                                 
-                                                }}
-                                                >
-                                <Image source={require('../Assets/img/icons/bell-green.png')}
-                                 style={{ 
-                                    alignSelf: 'center',
-                                    height:30,
-                                    resizeMode:'contain',
-                                    width:30,
-                                     }} />
-                                      <View
-                                            style={{
-                                            position: 'absolute',
-                                            top: -2,
-                                            right: 10,
-                                            height: 20,
+                                                    style={{
+                                                        width: wp(15),
 
-                                            width: 20,
-                                            justifyContent: 'center',
-                                            borderWidth: 1,
-                                            borderColor: Color.white,
-                                            backgroundColor: 'red',
-                                            borderRadius: 50,
-                                            }}>
-                                            <Text
-                                            style={{
-                                                color: Color.white,
-                                                alignSelf: 'center',
-                                                fontFamily:'Poppins-SemiBold',
-                                                fontSize: 10,
-                                            }}>
-                                            1
-                                            </Text>
-                                        </View>
+                                                    }}
+                                                >
+                                                    <Image source={require('../Assets/img/icons/bell-green.png')}
+                                                        style={{
+                                                            alignSelf: 'center',
+                                                            height: 30,
+                                                            resizeMode: 'contain',
+                                                            width: 30,
+                                                        }} />
+                                                    <View
+                                                        style={{
+                                                            position: 'absolute',
+                                                            top: -2,
+                                                            right: 10,
+                                                            height: 20,
+
+                                                            width: 20,
+                                                            justifyContent: 'center',
+                                                            borderWidth: 1,
+                                                            borderColor: Color.white,
+                                                            backgroundColor: 'red',
+                                                            borderRadius: 50,
+                                                        }}>
+                                                        <Text
+                                                            style={{
+                                                                color: Color.white,
+                                                                alignSelf: 'center',
+                                                                fontFamily: 'Poppins-SemiBold',
+                                                                fontSize: 10,
+                                                            }}>
+                                                            1
+                                                        </Text>
+                                                    </View>
                                                 </View>
                                                 <View
-                                                    style={{  width: wp(65),
-                                                  //  backgroundColor:'red'
+                                                    style={{
+                                                        width: wp(65),
+                                                        //  backgroundColor:'red'
                                                     }}
                                                 >
 
-                                                <Text
-                                                style={{
-                                                    fontSize: 16,
-                                                    fontFamily:'Poppins-Bold',
-                                                    color:Color.headerIconBG,
-                                                    padding: 3,
-                                                  
+                                                    <Text
+                                                        style={{
+                                                            fontSize: 16,
+                                                            fontFamily: 'Poppins-Bold',
+                                                            color: Color.headerIconBG,
+                                                            padding: 3,
 
-                                                }}>
-                                                {item.subject}
-                                            </Text>
-                                         <View 
-                                         style={{
-                                            borderBottomWidth: 1,
-                                          
-                                            borderBottomColor: '#e4edee',
-                                         }}
-                                         ></View>
-                                            <Text
-                                                style={{
-                                                    fontSize: 14,
-                                                   fontFamily:'Poppins-SemiBold',
-                                                   color:Color.headerIconBG,
-                                                    padding: 3,
-                                                }}>
-                                                Message:
-                                                <Text
-                                                    style={{
-                                                        fontSize: 12,
-                                                   fontFamily:'Poppins-SemiBold',
-                                                   color:Color.headerIconBG,
-                                                        padding: 3,
-                                                    }}>
-                                                    {item.message}
-                                                </Text>
-                                            </Text>
+
+                                                        }}>
+                                                        {item.subject}
+                                                    </Text>
+                                                    <View
+                                                        style={{
+                                                            borderBottomWidth: 1,
+
+                                                            borderBottomColor: '#e4edee',
+                                                        }}
+                                                    ></View>
+                                                    <Text
+                                                        style={{
+                                                            fontSize: 14,
+                                                            fontFamily: 'Poppins-SemiBold',
+                                                            color: Color.headerIconBG,
+                                                            padding: 3,
+                                                        }}>
+                                                        Message:
+                                                        <Text
+                                                            style={{
+                                                                fontSize: 12,
+                                                                fontFamily: 'Poppins-SemiBold',
+                                                                color: Color.headerIconBG,
+                                                                padding: 3,
+                                                            }}>
+                                                            {item.message}
+                                                        </Text>
+                                                    </Text>
                                                 </View>
-                                           
+
+                                            </View>
+                                        ))
+                                    ) : (
+                                        <View style={{
+                                            borderRadius: 10,
+                                            backgroundColor: "#f7f9fa",
+
+                                            marginTop: 10,
+                                            padding: 10,
+                                            width: wp(90),
+
+                                        }}>
+
+                                            <Text style={styles.subHead}>
+                                                No Tax Deadlines
+                                            </Text>
+
                                         </View>
-                                    ))
-                                ) : (
-                                    <View style={{
-                                        borderRadius:10,
-                                        backgroundColor:"#f7f9fa",
-                                     
-                                         marginTop: 10,
-                                       padding:10,
-                                          width: wp(90),
-                                        
-                                           }}>
-                                         
-                                    <Text style={styles.subHead}>
-                                        No Tax Deadlines
-                                    </Text>
-                                   
-                                    </View>
-                                )}
+                                    )}
 
 
-                                {/* <Text style={styles.subHead}> Message Not Found</Text> */}
+                                    {/* <Text style={styles.subHead}> Message Not Found</Text> */}
 
-                                {/* </View> */}
-                                {/* </TouchableOpacity> */}
-                            </ScrollView>
-                        );
-                    } else if (showwhat1 == 'Proposal') {
-                        return (
-                            <ScrollView>
-                                <TouchableOpacity onPress={() => setshowwhat1('')}>
-                                
+                                    {/* </View> */}
+                                    {/* </TouchableOpacity> */}
+                                </ScrollView>
+                            );
+                        } else if (showwhat1 == 'Proposal') {
+                            return (
+                                <ScrollView >
+                                    <TouchableOpacity onPress={() => setshowwhat1('')}>
 
-                                    {dashboardMessageList && dashboardMessageList.length > 0 ? (
 
-                                        dashboardMessageList.map(item => (
-                                            // <View
-                                            //     key={item.id}
-                                            //     style={{
-                                            //         alignSelf: "center", marginTop: 10, width: wp(80)
-                                            //     }}>
+                                        {dashboardMessageList && dashboardMessageList.length > 0 ? (
+
+                                            dashboardMessageList.map(item => (
+                                                // <View
+                                                //     key={item.id}
+                                                //     style={{
+                                                //         alignSelf: "center", marginTop: 10, width: wp(80)
+                                                //     }}>
+                                                //     <Text
+                                                //         style={{
+                                                //             backgroundColor: '#23c6c8',
+                                                //             fontSize: 12,
+                                                //             width: wp(15),
+                                                //             padding: 3,
+                                                //             textAlign: 'center',
+                                                //         }}>
+                                                //         Action
+                                                //     </Text>
+                                                //     <Text
+                                                //         style={{
+                                                //             fontSize: 12,
+                                                //             fontWeight: '700',
+                                                //             padding: 3,
+                                                //         }}>
+                                                //         Notification:
+                                                //         <Text
+                                                //             style={{
+                                                //                 fontSize: 10,
+                                                //                 fontWeight: 'normal',
+                                                //                 padding: 3,
+                                                //             }}>
+                                                //             You have created new action #{item.id}
+                                                //         </Text>
+                                                //     </Text>
+                                                // </View>
+
+
+                                                <View key={item.id} style={{
+                                                    borderRadius: 10,
+                                                    backgroundColor: "#f7f9fa",
+                                                    alignSelf: "center",
+                                                    marginTop: 10,
+                                                    padding: 10,
+                                                    width: wp(90),
+                                                    flexDirection: 'row'
+                                                }}>
+                                                    <View
+                                                        style={{
+                                                            width: wp(15),
+
+                                                        }}
+                                                    >
+
+                                                        <Image source={require('../Assets/img/icons/bell-green.png')}
+                                                            style={{
+                                                                alignSelf: 'center',
+                                                                height: 30,
+                                                                resizeMode: 'contain',
+                                                                width: 30,
+                                                            }} />
+                                                        <View
+                                                            style={{
+                                                                position: 'absolute',
+                                                                top: -2,
+                                                                right: 10,
+                                                                height: 20,
+
+                                                                width: 20,
+                                                                justifyContent: 'center',
+                                                                borderWidth: 1,
+                                                                borderColor: Color.white,
+                                                                backgroundColor: 'red',
+                                                                borderRadius: 50,
+                                                            }}>
+                                                            <Text
+                                                                style={{
+                                                                    color: Color.white,
+                                                                    alignSelf: 'center',
+                                                                    fontFamily: 'Poppins-SemiBold',
+                                                                    fontSize: 10,
+                                                                }}>
+                                                                1
+                                                            </Text>
+                                                        </View>
+                                                    </View>
+                                                    <View
+                                                        style={{
+                                                            width: wp(65),
+                                                            //  backgroundColor:'red'
+                                                        }}
+                                                    >
+
+                                                        <Text
+                                                            style={{
+                                                                fontSize: 16,
+                                                                fontFamily: 'Poppins-Bold',
+                                                                color: Color.headerIconBG,
+                                                                padding: 3,
+
+
+                                                            }}>
+                                                            Action
+                                                        </Text>
+                                                        <View
+                                                            style={{
+                                                                borderBottomWidth: 1,
+
+                                                                borderBottomColor: '#e4edee',
+                                                            }}
+                                                        ></View>
+                                                        <Text
+                                                            style={{
+                                                                fontSize: 14,
+                                                                fontFamily: 'Poppins-SemiBold',
+                                                                color: Color.headerIconBG,
+                                                                padding: 3,
+                                                            }}>
+                                                            Notification:
+                                                            <Text
+                                                                style={{
+                                                                    fontSize: 12,
+                                                                    fontFamily: 'Poppins-SemiBold',
+                                                                    color: Color.headerIconBG,
+                                                                    padding: 3,
+                                                                }}>
+                                                                You have created new action #{item.id}
+                                                            </Text>
+                                                        </Text>
+                                                    </View>
+
+                                                </View>
+                                            ))
+                                        ) : (
+                                            <View style={{
+                                                borderRadius: 10,
+                                                backgroundColor: "#f7f9fa",
+
+                                                marginTop: 10,
+                                                padding: 10,
+                                                width: wp(90),
+
+                                            }}>
+
+                                                <Text style={styles.subHead}>
+                                                    No Messages
+                                                </Text>
+
+                                            </View>
+
+                                        )}
+
+
+                                        {/* <View style={styles.subContainer}> */}
+                                        {/* <Text style={styles.subHead}>Proposal Results Found</Text> */}
+
+                                        {/* </View> */}
+                                    </TouchableOpacity>
+                                </ScrollView>
+                            );
+                        } else if (showwhat1 == 'Signature') {
+                            return (
+                                <ScrollView>
+                                    {/* <TouchableOpacity onPress={() => setshowwhat1('')}> */}
+
+
+                                    {EventsfilteredList && EventsfilteredList.length > 0 ? (
+                                        EventsfilteredList.map(item => (
+                                            // <View key={item.id} style={{ alignSelf: "center", marginTop: 10, width: wp(80) }}>
                                             //     <Text
                                             //         style={{
                                             //             backgroundColor: '#23c6c8',
                                             //             fontSize: 12,
-                                            //             width: wp(15),
                                             //             padding: 3,
-                                            //             textAlign: 'center',
                                             //         }}>
-                                            //         Action
+                                            //         {item.subject}
                                             //     </Text>
                                             //     <Text
                                             //         style={{
@@ -1881,482 +2531,895 @@ const HeadTabs = () => {
                                             //             fontWeight: '700',
                                             //             padding: 3,
                                             //         }}>
-                                            //         Notification:
+                                            //         Message:
                                             //         <Text
                                             //             style={{
                                             //                 fontSize: 10,
                                             //                 fontWeight: 'normal',
                                             //                 padding: 3,
                                             //             }}>
-                                            //             You have created new action #{item.id}
+                                            //             {item.message}
+                                            //         </Text>
+                                            //     </Text>
+                                            // </View>
+                                            <View key={item.id} style={{
+                                                borderRadius: 10,
+                                                backgroundColor: "#f7f9fa",
+                                                alignSelf: "center",
+                                                marginTop: 10,
+                                                padding: 10,
+                                                width: wp(90),
+                                                flexDirection: 'row'
+                                            }}>
+                                                <View
+                                                    style={{
+                                                        width: wp(15),
+
+                                                    }}
+                                                >
+                                                    <Image source={require('../Assets/img/icons/bell-green.png')}
+                                                        style={{
+                                                            alignSelf: 'center',
+                                                            height: 30,
+                                                            resizeMode: 'contain',
+                                                            width: 30,
+                                                        }} />
+                                                    <View
+                                                        style={{
+                                                            position: 'absolute',
+                                                            top: -2,
+                                                            right: 10,
+                                                            height: 20,
+
+                                                            width: 20,
+                                                            justifyContent: 'center',
+                                                            borderWidth: 1,
+                                                            borderColor: Color.white,
+                                                            backgroundColor: 'red',
+                                                            borderRadius: 50,
+                                                        }}>
+                                                        <Text
+                                                            style={{
+                                                                color: Color.white,
+                                                                alignSelf: 'center',
+                                                                fontFamily: 'Poppins-SemiBold',
+                                                                fontSize: 10,
+                                                            }}>
+                                                            1
+                                                        </Text>
+                                                    </View>
+                                                </View>
+                                                <View
+                                                    style={{
+                                                        width: wp(65),
+                                                        //  backgroundColor:'red'
+                                                    }}
+                                                >
+
+                                                    <Text
+                                                        style={{
+                                                            fontSize: 16,
+                                                            fontFamily: 'Poppins-Bold',
+                                                            color: Color.headerIconBG,
+                                                            padding: 3,
+
+
+                                                        }}>
+                                                        {item.subject}
+                                                    </Text>
+                                                    <View
+                                                        style={{
+                                                            borderBottomWidth: 1,
+
+                                                            borderBottomColor: '#e4edee',
+                                                        }}
+                                                    ></View>
+                                                    <Text
+                                                        style={{
+                                                            fontSize: 14,
+                                                            fontFamily: 'Poppins-SemiBold',
+                                                            color: Color.headerIconBG,
+                                                            padding: 3,
+                                                        }}>
+                                                        Message:
+                                                        <Text
+                                                            style={{
+                                                                fontSize: 12,
+                                                                fontFamily: 'Poppins-SemiBold',
+                                                                color: Color.headerIconBG,
+                                                                padding: 3,
+                                                            }}>
+                                                            {item.message}
+                                                        </Text>
+                                                    </Text>
+                                                </View>
+
+                                            </View>
+                                        ))
+                                    ) : (
+                                        <View style={{
+                                            borderRadius: 10,
+                                            backgroundColor: "#f7f9fa",
+
+                                            marginTop: 10,
+                                            padding: 10,
+                                            width: wp(90),
+
+                                        }}>
+
+                                            <Text style={styles.subHead}>
+                                                No Events
+                                            </Text>
+
+                                        </View>
+
+                                    )}
+                                    {/* </TouchableOpacity> */}
+                                </ScrollView>
+                            );
+                        } else if (showwhat1 == 'Reminders') {
+                            return (
+                                <TouchableOpacity onPress={() => setshowwhat1('')}>
+                                    <View style={{}}>
+
+                                        {HolidaysfilteredList && HolidaysfilteredList.length > 0 ? (
+                                            HolidaysfilteredList.map(item => (
+                                                // <View key={item.id} style={{ alignSelf: "center", marginTop: 10, width: wp(80) }}>
+                                                //     <Text
+                                                //         style={{
+                                                //             backgroundColor: '#23c6c8',
+                                                //             fontSize: 12,
+                                                //             padding: 3,
+                                                //         }}>
+                                                //         {item.subject}
+                                                //     </Text>
+                                                //     <Text
+                                                //         style={{
+                                                //             fontSize: 12,
+                                                //             fontWeight: '700',
+                                                //             padding: 3,
+                                                //         }}>
+                                                //         Message:
+                                                //         <Text
+                                                //             style={{
+                                                //                 fontSize: 10,
+                                                //                 fontWeight: 'normal',
+                                                //                 padding: 3,
+                                                //             }}>
+                                                //             {item.message}
+                                                //         </Text>
+                                                //     </Text>
+                                                // </View>
+
+                                                <View key={item.id} style={{
+                                                    borderRadius: 10,
+                                                    backgroundColor: "#f7f9fa",
+                                                    alignSelf: "center",
+                                                    marginTop: 10,
+                                                    padding: 10,
+                                                    width: wp(90),
+                                                    flexDirection: 'row'
+                                                }}>
+                                                    <View
+                                                        style={{
+                                                            width: wp(15),
+
+                                                        }}
+                                                    >
+                                                        <Image source={require('../Assets/img/icons/bell-green.png')}
+                                                            style={{
+                                                                alignSelf: 'center',
+                                                                height: 30,
+                                                                resizeMode: 'contain',
+                                                                width: 30,
+                                                            }} />
+                                                        <View
+                                                            style={{
+                                                                position: 'absolute',
+                                                                top: -2,
+                                                                right: 10,
+                                                                height: 20,
+
+                                                                width: 20,
+                                                                justifyContent: 'center',
+                                                                borderWidth: 1,
+                                                                borderColor: Color.white,
+                                                                backgroundColor: 'red',
+                                                                borderRadius: 50,
+                                                            }}>
+                                                            <Text
+                                                                style={{
+                                                                    color: Color.white,
+                                                                    alignSelf: 'center',
+                                                                    fontFamily: 'Poppins-SemiBold',
+                                                                    fontSize: 10,
+                                                                }}>
+                                                                1
+                                                            </Text>
+                                                        </View>
+                                                    </View>
+                                                    <View
+                                                        style={{
+                                                            width: wp(65),
+                                                            //  backgroundColor:'red'
+                                                        }}
+                                                    >
+
+                                                        <Text
+                                                            style={{
+                                                                fontSize: 16,
+                                                                fontFamily: 'Poppins-Bold',
+                                                                color: Color.headerIconBG,
+                                                                padding: 3,
+
+
+                                                            }}>
+                                                            {item.subject}
+                                                        </Text>
+                                                        <View
+                                                            style={{
+                                                                borderBottomWidth: 1,
+
+                                                                borderBottomColor: '#e4edee',
+                                                            }}
+                                                        ></View>
+                                                        <Text
+                                                            style={{
+                                                                fontSize: 14,
+                                                                fontFamily: 'Poppins-SemiBold',
+                                                                color: Color.headerIconBG,
+                                                                padding: 3,
+                                                            }}>
+                                                            Message:
+                                                            <Text
+                                                                style={{
+                                                                    fontSize: 12,
+                                                                    fontFamily: 'Poppins-SemiBold',
+                                                                    color: Color.headerIconBG,
+                                                                    padding: 3,
+                                                                }}>
+                                                                {item.message}
+                                                            </Text>
+                                                        </Text>
+                                                    </View>
+
+                                                </View>
+
+                                            ))
+                                        ) : (
+                                            <View style={{
+                                                borderRadius: 10,
+                                                backgroundColor: "#f7f9fa",
+
+                                                marginTop: 10,
+                                                padding: 10,
+                                                width: wp(90),
+
+                                            }}>
+
+                                                <Text style={styles.subHead}>
+                                                    No Holidays
+                                                </Text>
+
+                                            </View>
+
+                                        )}
+
+                                    </View>
+                                </TouchableOpacity>
+                            );
+                        }
+                    })()}
+
+                    {(() => {
+
+                        if (showwhat2 == 'orders') {
+                            return (
+                                <View
+                                //style={{ height: 200, backgroundColor: "red" }}
+                                // onPress={() => setshowwhat2('')}
+
+                                >
+
+                                    {orderfilteredList && orderfilteredList.length > 0 ? (
+                                        orderfilteredList.map(item => (
+                                            // <View key={item.id} style={{ alignSelf: "center", marginTop: 10, width: wp(80) }}>
+                                            //     <Text
+                                            //         style={{
+                                            //             backgroundColor: '#23c6c8',
+                                            //             fontSize: 12,
+                                            //             padding: 3,
+                                            //         }}>
+                                            //         {item.action}
+                                            //     </Text>
+                                            //     <Text
+                                            //         style={{
+                                            //             fontSize: 12,
+                                            //             fontWeight: '700',
+                                            //             padding: 3,
+                                            //         }}>
+                                            //         Message:
+                                            //         <Text
+                                            //             style={{
+                                            //                 fontSize: 10,
+                                            //                 fontWeight: 'normal',
+                                            //                 padding: 3,
+                                            //             }}>
+                                            //             {item.action}
+                                            //         </Text>
+                                            //     </Text>
+                                            // </View>
+                                            <View key={item.id} style={{
+                                                borderRadius: 10,
+                                                backgroundColor: "#f7f9fa",
+                                                alignSelf: "center",
+                                                marginTop: 10,
+                                                padding: 10,
+                                                width: wp(90),
+                                                flexDirection: 'row'
+                                            }}>
+                                                <View
+                                                    style={{
+                                                        width: wp(15),
+
+                                                    }}
+                                                >
+                                                    <Image source={require('../Assets/img/icons/bell-green.png')}
+                                                        style={{
+                                                            alignSelf: 'center',
+                                                            height: 30,
+                                                            resizeMode: 'contain',
+                                                            width: 30,
+                                                        }} />
+                                                    <View
+                                                        style={{
+                                                            position: 'absolute',
+                                                            top: -2,
+                                                            right: 10,
+                                                            height: 20,
+
+                                                            width: 20,
+                                                            justifyContent: 'center',
+                                                            borderWidth: 1,
+                                                            borderColor: Color.white,
+                                                            backgroundColor: 'red',
+                                                            borderRadius: 50,
+                                                        }}>
+                                                        <Text
+                                                            style={{
+                                                                color: Color.white,
+                                                                alignSelf: 'center',
+                                                                fontFamily: 'Poppins-SemiBold',
+                                                                fontSize: 10,
+                                                            }}>
+                                                            1
+                                                        </Text>
+                                                    </View>
+                                                </View>
+                                                <View
+                                                    style={{
+                                                        width: wp(65),
+                                                        //  backgroundColor:'red'
+                                                    }}
+                                                >
+
+                                                    <Text
+                                                        style={{
+                                                            fontSize: 16,
+                                                            fontFamily: 'Poppins-Bold',
+                                                            color: Color.headerIconBG,
+                                                            padding: 3,
+
+                                                        }}>
+
+                                                        {item.action}
+
+                                                    </Text>
+
+                                                    <View
+                                                        style={{
+                                                            borderBottomWidth: 1,
+
+                                                            borderBottomColor: '#e4edee',
+                                                        }}
+                                                    ></View>
+                                                    <Text
+                                                        style={{
+                                                            fontSize: 14,
+                                                            fontFamily: 'Poppins-SemiBold',
+                                                            color: Color.headerIconBG,
+                                                            padding: 3,
+                                                        }}>
+                                                        Message:
+                                                        <Text
+                                                            style={{
+                                                                fontSize: 12,
+                                                                fontFamily: 'Poppins-SemiBold',
+                                                                color: Color.headerIconBG,
+                                                                padding: 3,
+                                                            }}>
+                                                            {item.action}
+                                                        </Text>
+                                                    </Text>
+                                                </View>
+
+                                            </View>
+                                        ))
+                                    ) : (
+                                        <View style={{
+                                            borderRadius: 10,
+                                            backgroundColor: "#f7f9fa",
+
+                                            marginTop: 10,
+                                            padding: 10,
+                                            width: wp(90),
+
+                                        }}>
+
+                                            <Text style={styles.subHead}>
+                                                No Orders
+                                            </Text>
+
+                                        </View>
+
+                                    )}
+
+                                </View>
+                            );
+                        } else if (showwhat2 == 'taxReturn') {
+                            return (
+
+                                <TouchableOpacity onPress={() => setshowwhat2('')}>
+
+
+                                    {taxreturnfilteredList && taxreturnfilteredList.length > 0 ? (
+                                        taxreturnfilteredList.map(item => (
+                                            // <View key={item.id} style={{ alignSelf: "center", marginTop: 10, width: wp(80) }}>
+                                            //     <Text
+                                            //         style={{
+                                            //             backgroundColor: '#23c6c8',
+                                            //             fontSize: 12,
+                                            //             padding: 3,
+                                            //         }}>
+                                            //         {item.action}
+                                            //     </Text>
+                                            //     <Text
+                                            //         style={{
+                                            //             fontSize: 12,
+                                            //             fontWeight: '700',
+                                            //             padding: 3,
+                                            //         }}>
+                                            //         Message:
+                                            //         <Text
+                                            //             style={{
+                                            //                 fontSize: 10,
+                                            //                 fontWeight: 'normal',
+                                            //                 padding: 3,
+                                            //             }}>
+                                            //             {item.action}
                                             //         </Text>
                                             //     </Text>
                                             // </View>
 
+                                            <View key={item.id} style={{
+                                                borderRadius: 10,
+                                                backgroundColor: "#f7f9fa",
+                                                alignSelf: "center",
+                                                marginTop: 10,
+                                                padding: 10,
+                                                width: wp(90),
+                                                flexDirection: 'row'
+                                            }}>
+                                                <View
+                                                    style={{
+                                                        width: wp(15),
 
-                                              <View key={item.id} style={{
-                                                borderRadius:10,
-                                                backgroundColor:"#f7f9fa",
-                                                 alignSelf: "center", 
-                                                 marginTop: 10,
-                                                 padding:10,
-                                                  width: wp(90),
-                                                  flexDirection:'row'
-                                                   }}>
-                                                    <View
-                                                    style={{  width: wp(15),
-                                                     
                                                     }}
-                                                    >
-                                                  
-                                    <Image source={require('../Assets/img/icons/bell-green.png')}
-                                     style={{ 
-                                        alignSelf: 'center',
-                                        height:30,
-                                        resizeMode:'contain',
-                                        width:30,
-                                         }} />
-                                          <View
-                                                style={{
-                                                position: 'absolute',
-                                                top: -2,
-                                                right: 10,
-                                                height: 20,
-    
-                                                width: 20,
-                                                justifyContent: 'center',
-                                                borderWidth: 1,
-                                                borderColor: Color.white,
-                                                backgroundColor: 'red',
-                                                borderRadius: 50,
-                                                }}>
-                                                <Text
-                                                style={{
-                                                    color: Color.white,
-                                                    alignSelf: 'center',
-                                                    fontFamily:'Poppins-SemiBold',
-                                                    fontSize: 10,
-                                                }}>
-                                                1
-                                                </Text>
-                                            </View>
-                                                    </View>
+                                                >
+                                                    <Image source={require('../Assets/img/icons/bell-green.png')}
+                                                        style={{
+                                                            alignSelf: 'center',
+                                                            height: 30,
+                                                            resizeMode: 'contain',
+                                                            width: 30,
+                                                        }} />
                                                     <View
-                                                        style={{  width: wp(65),
-                                                      //  backgroundColor:'red'
-                                                        }}
-                                                    >
-    
-                                                    <Text
-                                                    style={{
-                                                        fontSize: 16,
-                                                        fontFamily:'Poppins-Bold',
-                                                        color:Color.headerIconBG,
-                                                        padding: 3,
-                                                      
-    
-                                                    }}>
-                                                  Action
-                                                </Text>
-                                             <View 
-                                             style={{
-                                                borderBottomWidth: 1,
-                                              
-                                                borderBottomColor: '#e4edee',
-                                             }}
-                                             ></View>
-                                                <Text
-                                                    style={{
-                                                        fontSize: 14,
-                                                       fontFamily:'Poppins-SemiBold',
-                                                       color:Color.headerIconBG,
-                                                        padding: 3,
-                                                    }}>
-                                                 Notification:
-                                                    <Text
                                                         style={{
-                                                            fontSize: 12,
-                                                       fontFamily:'Poppins-SemiBold',
-                                                       color:Color.headerIconBG,
-                                                            padding: 3,
+                                                            position: 'absolute',
+                                                            top: -2,
+                                                            right: 10,
+                                                            height: 20,
+
+                                                            width: 20,
+                                                            justifyContent: 'center',
+                                                            borderWidth: 1,
+                                                            borderColor: Color.white,
+                                                            backgroundColor: 'red',
+                                                            borderRadius: 50,
                                                         }}>
-                                                        You have created new action #{item.id}
-                                                    </Text>
-                                                </Text>
+                                                        <Text
+                                                            style={{
+                                                                color: Color.white,
+                                                                alignSelf: 'center',
+                                                                fontFamily: 'Poppins-SemiBold',
+                                                                fontSize: 10,
+                                                            }}>
+                                                            1
+                                                        </Text>
                                                     </View>
-                                               
-                                            </View>
-                                        ))
-                                    ) : (
-                                        <View style={{
-                                            borderRadius:10,
-                                            backgroundColor:"#f7f9fa",
-                                         
-                                             marginTop: 10,
-                                           padding:10,
-                                              width: wp(90),
-                                            
-                                               }}>
-                                             
-                                             <Text style={styles.subHead}>
-                                            No Messages
-                                        </Text>
-                                       
-                                        </View>
-                                     
-                                    )}
-
-
-                                    {/* <View style={styles.subContainer}> */}
-                                    {/* <Text style={styles.subHead}>Proposal Results Found</Text> */}
-
-                                    {/* </View> */}
-                                </TouchableOpacity>
-                            </ScrollView>
-                        );
-                    } else if (showwhat1 == 'Signature') {
-                        return (
-                            <ScrollView>
-                                {/* <TouchableOpacity onPress={() => setshowwhat1('')}> */}
-                             
-
-                                {EventsfilteredList && EventsfilteredList.length > 0 ? (
-                                    EventsfilteredList.map(item => (
-                                        <View key={item.id} style={{ alignSelf: "center", marginTop: 10, width: wp(80) }}>
-                                            <Text
-                                                style={{
-                                                    backgroundColor: '#23c6c8',
-                                                    fontSize: 12,
-                                                    padding: 3,
-                                                }}>
-                                                {item.subject}
-                                            </Text>
-                                            <Text
-                                                style={{
-                                                    fontSize: 12,
-                                                    fontWeight: '700',
-                                                    padding: 3,
-                                                }}>
-                                                Message:
-                                                <Text
+                                                </View>
+                                                <View
                                                     style={{
-                                                        fontSize: 10,
-                                                        fontWeight: 'normal',
-                                                        padding: 3,
-                                                    }}>
-                                                    {item.message}
-                                                </Text>
-                                            </Text>
-                                        </View>
-                                    ))
-                                ) : (
-                                    <View style={{
-                                        borderRadius:10,
-                                        backgroundColor:"#f7f9fa",
-                                     
-                                         marginTop: 10,
-                                       padding:10,
-                                          width: wp(90),
-                                        
-                                           }}>
-                                         
-                                         <Text style={styles.subHead}>
-                                        No Events
-                                    </Text>
-                                   
-                                    </View>
-                                   
-                                )}
-                                {/* </TouchableOpacity> */}
-                            </ScrollView>
-                        );
-                    } else if (showwhat1 == 'Reminders') {
-                        return (
-                            <TouchableOpacity onPress={() => setshowwhat1('')}>
-                                <View style={{}}>
-                                   
-                                    {HolidaysfilteredList && HolidaysfilteredList.length > 0 ? (
-                                        HolidaysfilteredList.map(item => (
-                                            <View key={item.id} style={{ alignSelf: "center", marginTop: 10, width: wp(80) }}>
-                                                <Text
-                                                    style={{
-                                                        backgroundColor: '#23c6c8',
-                                                        fontSize: 12,
-                                                        padding: 3,
-                                                    }}>
-                                                    {item.subject}
-                                                </Text>
-                                                <Text
-                                                    style={{
-                                                        fontSize: 12,
-                                                        fontWeight: '700',
-                                                        padding: 3,
-                                                    }}>
-                                                    Message:
+                                                        width: wp(65),
+                                                        //  backgroundColor:'red'
+                                                    }}
+                                                >
+
                                                     <Text
                                                         style={{
-                                                            fontSize: 10,
-                                                            fontWeight: 'normal',
+                                                            fontSize: 16,
+                                                            fontFamily: 'Poppins-Bold',
+                                                            color: Color.headerIconBG,
+                                                            padding: 3,
+
+
+                                                        }}>
+                                                        {item.action} {item.id}
+                                                    </Text>
+                                                    <View
+                                                        style={{
+                                                            borderBottomWidth: 1,
+
+                                                            borderBottomColor: '#e4edee',
+                                                        }}
+                                                    ></View>
+                                                    <Text
+                                                        style={{
+                                                            fontSize: 14,
+                                                            fontFamily: 'Poppins-SemiBold',
+                                                            color: Color.headerIconBG,
                                                             padding: 3,
                                                         }}>
-                                                        {item.message}
+                                                        Message:
+                                                        <Text
+                                                            style={{
+                                                                fontSize: 12,
+                                                                fontFamily: 'Poppins-SemiBold',
+                                                                color: Color.headerIconBG,
+                                                                padding: 3,
+                                                            }}>
+                                                            {item.action}
+                                                        </Text>
                                                     </Text>
-                                                </Text>
+                                                </View>
+
+                                            </View>
+
+                                        ))
+                                    ) : (
+                                        <View style={{
+                                            borderRadius: 10,
+                                            backgroundColor: "#f7f9fa",
+
+                                            marginTop: 10,
+                                            padding: 10,
+                                            width: wp(90),
+
+                                        }}>
+
+                                            <Text style={styles.subHead}>
+                                                No Tax Returns
+                                            </Text>
+
+                                        </View>
+
+                                    )}
+
+
+                                </TouchableOpacity>
+                            );
+                        } else if (showwhat2 == 'book') {
+                            return (
+                                <TouchableOpacity onPress={() => setshowwhat2('')}>
+                                    {BookKeepingfilteredList && BookKeepingfilteredList.length > 0 ? (
+                                        BookKeepingfilteredList.map(item => (
+                                            // <View key={item.id} style={{ alignSelf: "center", marginTop: 10, width: wp(80) }}>
+                                            //     <Text
+                                            //         style={{
+                                            //             backgroundColor: '#23c6c8',
+                                            //             fontSize: 12,
+                                            //             padding: 3,
+                                            //         }}>
+                                            //         {item.action}
+                                            //     </Text>
+                                            //     <Text
+                                            //         style={{
+                                            //             fontSize: 12,
+                                            //             fontWeight: '700',
+                                            //             padding: 3,
+                                            //         }}>
+                                            //         Message:
+                                            //         <Text
+                                            //             style={{
+                                            //                 fontSize: 10,
+                                            //                 fontWeight: 'normal',
+                                            //                 padding: 3,
+                                            //             }}>
+                                            //             {item.action}
+                                            //         </Text>
+                                            //     </Text>
+                                            // </View>
+                                            <View key={item.id} style={{
+                                                borderRadius: 10,
+                                                backgroundColor: "#f7f9fa",
+                                                alignSelf: "center",
+                                                marginTop: 10,
+                                                padding: 10,
+                                                width: wp(90),
+                                                flexDirection: 'row'
+                                            }}>
+                                                <View
+                                                    style={{
+                                                        width: wp(15),
+
+                                                    }}
+                                                >
+                                                    <Image source={require('../Assets/img/icons/bell-green.png')}
+                                                        style={{
+                                                            alignSelf: 'center',
+                                                            height: 30,
+                                                            resizeMode: 'contain',
+                                                            width: 30,
+                                                        }} />
+                                                    <View
+                                                        style={{
+                                                            position: 'absolute',
+                                                            top: -2,
+                                                            right: 10,
+                                                            height: 20,
+
+                                                            width: 20,
+                                                            justifyContent: 'center',
+                                                            borderWidth: 1,
+                                                            borderColor: Color.white,
+                                                            backgroundColor: 'red',
+                                                            borderRadius: 50,
+                                                        }}>
+                                                        <Text
+                                                            style={{
+                                                                color: Color.white,
+                                                                alignSelf: 'center',
+                                                                fontFamily: 'Poppins-SemiBold',
+                                                                fontSize: 10,
+                                                            }}>
+                                                            1
+                                                        </Text>
+                                                    </View>
+                                                </View>
+                                                <View
+                                                    style={{
+                                                        width: wp(65),
+                                                        //  backgroundColor:'red'
+                                                    }}
+                                                >
+
+                                                    <Text
+                                                        style={{
+                                                            fontSize: 16,
+                                                            fontFamily: 'Poppins-Bold',
+                                                            color: Color.headerIconBG,
+                                                            padding: 3,
+
+
+                                                        }}>
+                                                        {item.action}
+                                                    </Text>
+                                                    <View
+                                                        style={{
+                                                            borderBottomWidth: 1,
+
+                                                            borderBottomColor: '#e4edee',
+                                                        }}
+                                                    ></View>
+                                                    <Text
+                                                        style={{
+                                                            fontSize: 14,
+                                                            fontFamily: 'Poppins-SemiBold',
+                                                            color: Color.headerIconBG,
+                                                            padding: 3,
+                                                        }}>
+                                                        Message:
+                                                        <Text
+                                                            style={{
+                                                                fontSize: 12,
+                                                                fontFamily: 'Poppins-SemiBold',
+                                                                color: Color.headerIconBG,
+                                                                padding: 3,
+                                                            }}>
+                                                            {item.action}
+                                                        </Text>
+                                                    </Text>
+                                                </View>
+
                                             </View>
                                         ))
                                     ) : (
                                         <View style={{
-                                            borderRadius:10,
-                                            backgroundColor:"#f7f9fa",
-                                         
-                                             marginTop: 10,
-                                           padding:10,
-                                              width: wp(90),
-                                            
-                                               }}>
-                                             
-                                             <Text style={styles.subHead}>
-                                            No Holidays
-                                        </Text>
-                                       
+                                            borderRadius: 10,
+                                            backgroundColor: "#f7f9fa",
+
+                                            marginTop: 10,
+                                            padding: 10,
+                                            width: wp(90),
+
+                                        }}>
+
+                                            <Text style={styles.subHead}>
+                                                No BookKeeping
+                                            </Text>
+
                                         </View>
-                                       
+
                                     )}
-                                   
-                                </View>
-                            </TouchableOpacity>
-                        );
-                    }
-                })()}
-                {(() => {
 
-                    if (showwhat2 == 'orders') {
-                        return (
-                            <TouchableOpacity onPress={() => setshowwhat2('')}>
-                               
-                                {orderfilteredList && orderfilteredList.length > 0 ? (
-                                    orderfilteredList.map(item => (
-                                        <View key={item.id} style={{ alignSelf: "center", marginTop: 10, width: wp(80) }}>
-                                            <Text
-                                                style={{
-                                                    backgroundColor: '#23c6c8',
-                                                    fontSize: 12,
-                                                    padding: 3,
-                                                }}>
-                                                {item.action}
-                                            </Text>
-                                            <Text
-                                                style={{
-                                                    fontSize: 12,
-                                                    fontWeight: '700',
-                                                    padding: 3,
-                                                }}>
-                                                Message:
-                                                <Text
+                                </TouchableOpacity>
+                            );
+                        } else if (showwhat2 == 'Gov') {
+
+                            return (
+                                <TouchableOpacity onPress={() => setshowwhat2('')}>
+
+
+                                    {GovfilteredList && GovfilteredList.length > 0 ? (
+                                        GovfilteredList.map(item => (
+                                            // <View key={item.id} style={{ alignSelf: "center", marginTop: 10, width: wp(80) }}>
+                                            //     <Text
+                                            //         style={{
+                                            //             backgroundColor: '#23c6c8',
+                                            //             fontSize: 12,
+                                            //             padding: 3,
+                                            //         }}>
+                                            //         {item.action}
+                                            //     </Text>
+                                            //     <Text
+                                            //         style={{
+                                            //             fontSize: 12,
+                                            //             fontWeight: '700',
+                                            //             padding: 3,
+                                            //         }}>
+                                            //         Message:
+                                            //         <Text
+                                            //             style={{
+                                            //                 fontSize: 10,
+                                            //                 fontWeight: 'normal',
+                                            //                 padding: 3,
+                                            //             }}>
+                                            //             {item.action}
+                                            //         </Text>
+                                            //     </Text>
+                                            // </View>
+
+                                            <View key={item.id} style={{
+                                                borderRadius: 10,
+                                                backgroundColor: "#f7f9fa",
+                                                alignSelf: "center",
+                                                marginTop: 10,
+                                                padding: 10,
+                                                width: wp(90),
+                                                flexDirection: 'row'
+                                            }}>
+                                                <View
                                                     style={{
-                                                        fontSize: 10,
-                                                        fontWeight: 'normal',
-                                                        padding: 3,
-                                                    }}>
-                                                    {item.action}
-                                                </Text>
-                                            </Text>
-                                        </View>
-                                    ))
-                                ) : (
-                                    <View style={{
-                                        borderRadius:10,
-                                        backgroundColor:"#f7f9fa",
-                                     
-                                         marginTop: 10,
-                                       padding:10,
-                                          width: wp(90),
-                                        
-                                           }}>
-                                         
-                                         <Text style={styles.subHead}>
-                                        No Orders
-                                    </Text>
-                                   
-                                    </View>
-                                   
-                                )}
+                                                        width: wp(15),
 
+                                                    }}
+                                                >
+                                                    <Image source={require('../Assets/img/icons/bell-green.png')}
+                                                        style={{
+                                                            alignSelf: 'center',
+                                                            height: 30,
+                                                            resizeMode: 'contain',
+                                                            width: 30,
+                                                        }} />
+                                                    <View
+                                                        style={{
+                                                            position: 'absolute',
+                                                            top: -2,
+                                                            right: 10,
+                                                            height: 20,
 
-
-                            </TouchableOpacity>
-                        );
-                    } else if (showwhat2 == 'taxReturn') {
-                        return (
-                            <TouchableOpacity onPress={() => setshowwhat2('')}>
-                              
-
-                                {taxreturnfilteredList && taxreturnfilteredList.length > 0 ? (
-                                    taxreturnfilteredList.map(item => (
-                                        <View key={item.id} style={{ alignSelf: "center", marginTop: 10, width: wp(80) }}>
-                                            <Text
-                                                style={{
-                                                    backgroundColor: '#23c6c8',
-                                                    fontSize: 12,
-                                                    padding: 3,
-                                                }}>
-                                                {item.action}
-                                            </Text>
-                                            <Text
-                                                style={{
-                                                    fontSize: 12,
-                                                    fontWeight: '700',
-                                                    padding: 3,
-                                                }}>
-                                                Message:
-                                                <Text
+                                                            width: 20,
+                                                            justifyContent: 'center',
+                                                            borderWidth: 1,
+                                                            borderColor: Color.white,
+                                                            backgroundColor: 'red',
+                                                            borderRadius: 50,
+                                                        }}>
+                                                        <Text
+                                                            style={{
+                                                                color: Color.white,
+                                                                alignSelf: 'center',
+                                                                fontFamily: 'Poppins-SemiBold',
+                                                                fontSize: 10,
+                                                            }}>
+                                                            1
+                                                        </Text>
+                                                    </View>
+                                                </View>
+                                                <View
                                                     style={{
-                                                        fontSize: 10,
-                                                        fontWeight: 'normal',
-                                                        padding: 3,
-                                                    }}>
-                                                    {item.action}
-                                                </Text>
+                                                        width: wp(65),
+                                                        //  backgroundColor:'red'
+                                                    }}
+                                                >
+
+                                                    <Text
+                                                        style={{
+                                                            fontSize: 16,
+                                                            fontFamily: 'Poppins-Bold',
+                                                            color: Color.headerIconBG,
+                                                            padding: 3,
+                                                        }}>
+
+                                                        {item.action}
+
+                                                    </Text>
+
+                                                    <View
+                                                        style={{
+                                                            borderBottomWidth: 1,
+
+                                                            borderBottomColor: '#e4edee',
+                                                        }}
+                                                    ></View>
+                                                    <Text
+                                                        style={{
+                                                            fontSize: 14,
+                                                            fontFamily: 'Poppins-SemiBold',
+                                                            color: Color.headerIconBG,
+                                                            padding: 3,
+                                                        }}>
+                                                        Message:
+                                                        <Text
+                                                            style={{
+                                                                fontSize: 12,
+                                                                fontFamily: 'Poppins-SemiBold',
+                                                                color: Color.headerIconBG,
+                                                                padding: 3,
+                                                            }}>
+                                                            {item.action}
+                                                        </Text>
+                                                    </Text>
+                                                </View>
+
+                                            </View>
+                                        ))
+                                    ) : (
+                                        <View style={{
+                                            borderRadius: 10,
+                                            backgroundColor: "#f7f9fa",
+
+                                            marginTop: 10,
+                                            padding: 10,
+                                            width: wp(90),
+
+                                        }}>
+
+                                            <Text style={styles.subHead}>
+                                                No Gov. Payments
                                             </Text>
+
                                         </View>
-                                    ))
-                                ) : (
-                                    <View style={{
-                                        borderRadius:10,
-                                        backgroundColor:"#f7f9fa",
-                                     
-                                         marginTop: 10,
-                                       padding:10,
-                                          width: wp(90),
-                                        
-                                           }}>
-                                         
-                                         <Text style={styles.subHead}>
-                                        No Tax Returns
-                                    </Text>
-                                   
-                                    </View>
-                                   
-                                )}
+
+                                    )}
 
 
-                            </TouchableOpacity>
-                        );
-                    } else if (showwhat2 == 'book') {
-                        return (
-                            <TouchableOpacity onPress={() => setshowwhat2('')}>
-                            
-
-
-                                {BookKeepingfilteredList && BookKeepingfilteredList.length > 0 ? (
-                                    BookKeepingfilteredList.map(item => (
-                                        <View key={item.id} style={{ alignSelf: "center", marginTop: 10, width: wp(80) }}>
-                                            <Text
-                                                style={{
-                                                    backgroundColor: '#23c6c8',
-                                                    fontSize: 12,
-                                                    padding: 3,
-                                                }}>
-                                                {item.action}
-                                            </Text>
-                                            <Text
-                                                style={{
-                                                    fontSize: 12,
-                                                    fontWeight: '700',
-                                                    padding: 3,
-                                                }}>
-                                                Message:
-                                                <Text
-                                                    style={{
-                                                        fontSize: 10,
-                                                        fontWeight: 'normal',
-                                                        padding: 3,
-                                                    }}>
-                                                    {item.action}
-                                                </Text>
-                                            </Text>
-                                        </View>
-                                    ))
-                                ) : (
-                                    <View style={{
-                                        borderRadius:10,
-                                        backgroundColor:"#f7f9fa",
-                                     
-                                         marginTop: 10,
-                                       padding:10,
-                                          width: wp(90),
-                                        
-                                           }}>
-                                         
-                                         <Text style={styles.subHead}>
-                                        No BookKeeping
-                                    </Text>
-                                   
-                                    </View>
-                                   
-                                )}
-
-                            </TouchableOpacity>
-                        );
-                    } else if (showwhat2 == 'Gov') {
-                        return (
-                            <TouchableOpacity onPress={() => setshowwhat2('')}>
-                              
-
-                                {GovfilteredList && GovfilteredList.length > 0 ? (
-                                    GovfilteredList.map(item => (
-                                        <View key={item.id} style={{ alignSelf: "center", marginTop: 10, width: wp(80) }}>
-                                            <Text
-                                                style={{
-                                                    backgroundColor: '#23c6c8',
-                                                    fontSize: 12,
-                                                    padding: 3,
-                                                }}>
-                                                {item.action}
-                                            </Text>
-                                            <Text
-                                                style={{
-                                                    fontSize: 12,
-                                                    fontWeight: '700',
-                                                    padding: 3,
-                                                }}>
-                                                Message:
-                                                <Text
-                                                    style={{
-                                                        fontSize: 10,
-                                                        fontWeight: 'normal',
-                                                        padding: 3,
-                                                    }}>
-                                                    {item.action}
-                                                </Text>
-                                            </Text>
-                                        </View>
-                                    ))
-                                ) : (
-                                    <View style={{
-                                        borderRadius:10,
-                                        backgroundColor:"#f7f9fa",
-                                     
-                                         marginTop: 10,
-                                       padding:10,
-                                          width: wp(90),
-                                        
-                                           }}>
-                                         
-                                         <Text style={styles.subHead}>
-                                        No Gov. Payments
-                                    </Text>
-                                   
-                                    </View>
-                                   
-                                )}
-
-
-                            </TouchableOpacity>
-                        );
-                    }
-                })()}
-
+                                </TouchableOpacity>
+                            );
+                        }
+                    })()}
+                    <View style={{ height: 50 }}></View>
+                </ScrollView>
             </View>
         </View >
     )
@@ -2413,8 +3476,8 @@ const styles = StyleSheet.create({
         //  backgroundColor: "yellow",
         width: wp(12),
         height: wp(12),
-       // paddingTop: 5,
-        
+        // paddingTop: 5,
+
 
         //  justifyContent: 'center',
         borderRadius: 50,
@@ -2425,7 +3488,7 @@ const styles = StyleSheet.create({
         //  backgroundColor: "lightgray",
         width: wp(12),
         height: wp(12),
-       // paddingTop: 5,
+        // paddingTop: 5,
         //  justifyContent: 'center',
         borderRadius: 50,
         //marginRight: 6,
@@ -2445,7 +3508,7 @@ const styles = StyleSheet.create({
         width: wp(12),
         height: wp(12),
         //marginTop: 10,
-       // paddingTop: 5,
+        // paddingTop: 5,
         borderRadius: 50,
         // justifyContent: 'center',
         // marginLeft: 10
@@ -2457,26 +3520,26 @@ const styles = StyleSheet.create({
         width: wp(12),
         height: wp(12),
         //marginTop: 10,
-      //  paddingTop: 5,
+        //  paddingTop: 5,
         borderRadius: 50,
         // justifyContent: 'center',
         // marginRight: 5,
     },
     subHead: {
         //marginLeft: 30,
-      //  marginTop: 20,
-     
-      fontFamily:'Poppins-Bold',
-      color:Color.headerIconBG,
+        //  marginTop: 20,
+
+        fontFamily: 'Poppins-Bold',
+        color: Color.headerIconBG,
         textAlign: "center"
     },
     icon: {
-         alignSelf: 'center',
-            height:50,
-            resizeMode:'contain',
-            width:50,
-          //marginTop: 5 
-        },
+        alignSelf: 'center',
+        height: 50,
+        resizeMode: 'contain',
+        width: 50,
+        //marginTop: 5 
+    },
 
 
 })

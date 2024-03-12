@@ -56,14 +56,15 @@ const Login = () => {
 
 
   const bgImage = require('../Assets/img/login-mainbg.jpg');
-   const [email, setEmail] = useState("julietam.geraci@gmail.com");
-   //const [email, setEmail] = useState("aalok@eastsons.com");
-//  const [email, setEmail] = useState("prince@eastsons.com");
+  //const [email, setEmail] = useState("julietam.geraci@gmail.com");
+  //const [email, setEmail] = useState("aalok@eastsons.com");
+  //  const [email, setEmail] = useState("prince@eastsons.com");
   //const [email, setEmail] = useState("angiecotes@hotmail.com");
 
   //const [email, setEmail] = useState("julietam.geraci@gmail.com");
+  //const [email, setEmail] = useState("contadortestdev@outlook.com");
   //const [email, setEmail] = useState("Julieta.gracias@taxleaf.com");
-  
+
   const onChangeEmail = text => {
     setEmail(text);
   };
@@ -90,6 +91,7 @@ const Login = () => {
     tenantId: "9728fcf8-f04b-4271-b352-022a33fbfcc4",
     scopes: ['openid', 'profile', 'email', 'offline_access', 'User.Read.All', 'User.ReadWrite'], // Include 'email' scope to request user's email
     responseType: 'id_token token',
+
   };
 
   const config = {
@@ -240,6 +242,7 @@ const Login = () => {
     // } catch (error) {
     //   console.error('Sign-out error:', error);
     // }
+
   };
 
   //   let scopes = ['User.Read', 'User.ReadWrite']
@@ -259,7 +262,7 @@ const Login = () => {
   //     //  warmAndPrefetchChrome: true,
   //     issuer: 'https://login.microsoftonline.com/{9728fcf8-f04b-4271-b352-022a33fbfcc4}',
   //     // issuer: 'https://login.microsoftonline.com/{9728fcf8-f04b-4271-b352-022a33fbfcc4}',
-  //     //  clientId: '17f808bd-072c-4b60-8ca9-e86199b17f79', 
+  //     //  clientId: '17f808bd-072c-4b60-8ca9-e86199b17f79',
   //     clientId: '766090b1-948f-4eb3-ad69-9fc723b4e7d8',
   //     //redirectUrl: "https://login.microsoftonline.com/common/oauth2/v2.0/logout",
   //     redirectUrl: 'https://stagingclientportal.taxleaf.com/MicrosoftConnect',
@@ -299,6 +302,7 @@ const Login = () => {
   //   //     console.error('Sign Out Error', error);
   //   //   }
   //   // };
+
   const authenticate = async () => {
     // try {
     // Try to get cached token or refresh an expired ones
@@ -388,6 +392,7 @@ const Login = () => {
   //   // }, []);
 
   const onLogin = () => {
+
     setLoader(true);
     if (email) {
       dispatch(LoginUser(email, navigation));
@@ -399,12 +404,11 @@ const Login = () => {
       setLoader(false);
     }, 2000);
   };
+
   return (
     <>
       <ImageBackground source={bgImage} style={styles.bgImg} resizeMode="cover">
         <Loader flag={loader} />
-
-
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             {/* <View
@@ -429,6 +433,7 @@ const Login = () => {
             </View>
 
             <View>
+
               {/* <Text>React Native MSAL Authentication</Text>
               <TouchableOpacity
 
@@ -443,8 +448,8 @@ const Login = () => {
 
             </View>
             <View style={styles.formContainer}>
-              
-               {/* <TextInput
+
+              {/* <TextInput
                 placeholder="Enter Email"
                 placeholderTextColor={'lightgrey'}
                 style={[styles.input, { height: 50 }]}
@@ -452,7 +457,7 @@ const Login = () => {
                 onChangeText={text => {
                   onChangeEmail(text);
                 }}
-              />      */}
+              /> */}
 
               <View
                 style={{
@@ -471,7 +476,7 @@ const Login = () => {
                 <Text style={styles.loginText}>Login with Office365</Text>
               </TouchableOpacity>
 
-             {/* <TouchableOpacity
+              {/* <TouchableOpacity
                 onPress={() => onLogin()}
                 //  onPress={() => loginWithOffice365()}
                 // onPress={() => authenticate()}
@@ -479,11 +484,11 @@ const Login = () => {
               // onPress={() => setModalVisible(!modalVisible)}
               >
                 <Text style={styles.textStyle}>Login</Text>
-              </TouchableOpacity>   */}
+              </TouchableOpacity> */}
 
 
             </View>
-            
+
             <View style={{
               marginTop: 10,
               justifyContent: 'center',
@@ -491,13 +496,13 @@ const Login = () => {
               //  backgroundColor: '#DCDCDC',
             }}>
 
-           {/* <TouchableOpacity
+              {/* <TouchableOpacity
                 style={[styles.buttonContainer, styles.loginButton]}
                 onPress={() => loginWithOffice365()}>
                 <Text style={styles.loginText}>Login with Office365</Text>
               </TouchableOpacity> */}
 
-             {/* <TouchableOpacity
+              {/* <TouchableOpacity
                 style={[styles.buttonContainer, styles.loginButton]}
                 onPress={() => signOut()}>
                 <Text style={styles.loginText}>Logout</Text>

@@ -119,7 +119,7 @@ const Request = () => {
 
 
   return (
-    <SafeAreaView style={{ backgroundColor: '#d5e3e5' }}>
+    <SafeAreaView style={{ backgroundColor: '#d5e3e5', flex: 1, height: hp(100) }}>
       <Loader flag={loader} />
 
       <View >
@@ -157,20 +157,21 @@ const Request = () => {
                   justifyContent: 'center',
                   width: wp(40),
                   padding: 5,
-                  alignItems:'center',
+                  alignItems: 'center',
                   borderRadius: 20,
                   // marginLeft: 15,
                   // marginBottom: wp(2),
                   backgroundColor: '#fff',
                   // paddingHorizontal: 10,
                   // height: hp(6),
-                //  marginTop: 4
+                  //  marginTop: 4
                 }}>
                 <Image source={require('../Assets/img/icons/tickGreen.png')} style={{ width: 25, height: 25, alignSelf: 'center' }} />
-                <Text style={[styles.client, 
-                { color: '#2F4050', alignSelf: 'center', marginLeft: 5, fontFamily: 'Poppins-Bold', fontSize: 12,
-                 //marginTop: 5 
-                 }]}>New Request</Text>
+                <Text style={[styles.client,
+                {
+                  color: '#2F4050', alignSelf: 'center', marginLeft: 5, fontFamily: 'Poppins-Bold', fontSize: 12,
+                  //marginTop: 5 
+                }]}>New Request</Text>
               </TouchableOpacity>
               {/* <Button
             title="+ New Request"
@@ -789,11 +790,10 @@ const Request = () => {
 
                           <FlatList
                             // contentContainerStyle={{ paddingBottom: 100 }}
-                            data={REQUEST_INFO && REQUEST_INFO?.requestInfoListModel}
+                            data={REQUEST_INFO && REQUEST_INFO.requestInfoListModel ? REQUEST_INFO.requestInfoListModel : []}
+                            inverted  // <-- Use inverted prop to reverse rendering order
+                            keyExtractor={(item, index) => index.toString()}
                             showsVerticalScrollIndicator={false}
-                            // numColumns={5}
-                            keyExtractor={(item, index) => index}
-
                             renderItem={({ item, index }) => (
                               <>
                                 <TouchableOpacity
@@ -996,7 +996,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     height: 20,
     fontSize: 9,
-    marginTop:5,
+    marginTop: 5,
     fontFamily: 'Poppins-Regular'
   },
   newRText: {
@@ -1010,7 +1010,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     height: 20,
     fontSize: 9,
-    marginTop:5,
+    marginTop: 5,
     fontFamily: 'Poppins-Regular'
   },
   mobiletoch: {
@@ -1027,7 +1027,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     // marginTop: 20,
     alignItems: 'center',
-    height: 300,
+    height: 220,
     //borderRadius: 20,
   },
   subHead: {

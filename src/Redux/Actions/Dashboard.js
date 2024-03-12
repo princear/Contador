@@ -9,7 +9,7 @@ import { logistical } from '../../utils';
 export const dashboardlist =
   (clientId, clientType, OfficeId, navigation) => dispatch => {
 
-
+    console.log(clientId, clientType, OfficeId, '(yyyyyyyyyyyyyyyyyy')
     return new Promise(async (resolve, reject) => {
       let data = {
         GuestInfo: {
@@ -17,8 +17,8 @@ export const dashboardlist =
           ClientType: clientType,
           OfficeId: OfficeId,
         },
-        StartDate: "2023-12-15T09:22:46.571Z",
-        EndDate: "2023-12-30T09:22:46.571Z",
+        "StartDate": "2024-02-01T09:22:46.571Z",
+        "EndDate": "2024-03-27T09:22:46.571Z"
       };
       // console.log(data, 'payloadDashboard');
 
@@ -26,7 +26,7 @@ export const dashboardlist =
       //  console.log(response, 'PaymentListPaymentListPaymentListPaymentList');
 
       if (response.failureStatus == false) {
-       // console.log(response, 'dashboarddashboarddashboard');
+        // console.log(response, 'dashboarddashboarddashboard');
         // AsyncStorage.setItem('login', JSON.stringify(response.token));
 
         dispatch({
@@ -64,8 +64,8 @@ export const dashboardlist2 =
 
         "CLIENTTYPE": clientType,
         "CLIENTID": clientId,
-        "STARTDATE": "2020-12-01T10:11:13.733Z",
-        "ENDDATE": "2023-12-27T10:11:13.733Z"
+        "STARTDATE": "2024-02-01T10:11:13.733Z",
+        "ENDDATE": "2024-02-29T10:11:13.733Z"
 
       };
       // console.log(data, 'payloadDashboard');
@@ -96,3 +96,53 @@ export const dashboardlist2 =
       }
     });
   };
+
+
+
+
+export const UpdateNotificationsRead =
+  (action, news, client, navigation) => dispatch => {
+
+
+    return new Promise(async (resolve, reject) => {
+
+      let data = {
+
+
+        "actionList": action,
+        "NEWSANDUPDATELIST": news,
+        "CLIENTNOTIFICATIONLIST": client
+
+
+      };
+      console.log(data, 'payloadDashboard');
+
+      const response = await logistical.post('/Request/UpdateNotificationReadStatus', data);
+      //  console.log(response, 'PaymentListPaymentListPaymentListPaymentList');
+
+      if (response.failureStatus == false) {
+        //  console.log(response, 'dashboard222222222222');
+        // AsyncStorage.setItem('login', JSON.stringify(response.token));
+
+        dispatch({
+
+          type: 'Updated_Notification_Read',
+          payload: response
+
+        });
+
+
+
+        //   Alert.alert(response.response[0])
+        resolve(response);
+
+
+      } else {
+        // Alert.alert(response.message)
+        Alert.alert(response.massage);
+
+        reject(response);
+      }
+    });
+  };
+

@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text,
+import {
+    View, Text,
     Modal, StyleSheet,
     TextInput,
-    ScrollView, TouchableOpacity, FlatList, Alert, Image } from 'react-native';
+    ScrollView, TouchableOpacity, FlatList, Alert, Image
+} from 'react-native';
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
@@ -17,6 +19,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Loader } from '../Component/Loader';
 import { useIsFocused, useNavigation } from '@react-navigation/native';
 import CustomBottomTab from '../Component/CustomBottomTab';
+import RNHTMLtoPDF from 'react-native-html-to-pdf';
+
 
 import HeadTabs from './HeadTabs';
 
@@ -50,9 +54,9 @@ export default InvoiceView = ({ route }) => {
     const officeInfo = OFFICE_INFO;
     const serviceList = GET_ORDER_DETAILS[0]?.serviceListModel;
 
- //   console.log(serviceList.priceCharged, 'serviceListserviceListserviceList')
+    //   console.log(serviceList.priceCharged, 'serviceListserviceListserviceList')
 
-    console.log(value,'Selectionnnn')
+    console.log(value, 'Selectionnnn')
 
 
     // Calculate the sum of "priceCharged" using reduce
@@ -94,37 +98,37 @@ export default InvoiceView = ({ route }) => {
         { label: 'Paypal', value: '1' },
         { label: 'Credit Card', value: '2' },
         // { label: 'Regular', value: '3' },
-    
-      ];
 
-      const handleDropdownChange = (item) => {
-        console.log(item,'IIIII')
+    ];
+
+    const handleDropdownChange = (item) => {
+        console.log(item, 'IIIII')
         setValue(item.value);
         setIsFocus(false);
         setError(''); // Clear the error message when a value is selected
-      };
-    
-      console.log(value,'KKKKKKKKKKK')
+    };
 
-      const handleBlur = () => {
+    console.log(value, 'KKKKKKKKKKK')
+
+    const handleBlur = () => {
         setIsFocus(false);
         handleValidation(); // Validate on blur
-      };
+    };
 
 
-      const handleValidation = () => {
+    const handleValidation = () => {
         if (!value) {
-          setError('Please select an option');
-          return false;
+            setError('Please select an option');
+            return false;
         }
         setError('');
         return true;
-      };
-    
+    };
+
     const onDateSelected = (event, value) => {
         setDate(value);
         setDatePicker(false);
-      };
+    };
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -167,6 +171,24 @@ export default InvoiceView = ({ route }) => {
 
     // }, [])
 
+
+    const generatePDF = async () => {
+
+
+        try {
+            const htmlContent = '<h1>Hello World</h1>'; // Your HTML content
+            const options = {
+                html: htmlContent,
+                fileName: 'TestPDF',
+                directory: 'Documents',
+            };
+            const file = await RNHTMLtoPDF.convert(options);
+            console.log('PDF generated:', file.filePath);
+        } catch (error) {
+            console.error('Error generating PDF:', error);
+        }
+    };
+
     return (
         <View style={styles.container}>
             <Loader flag={loader} />
@@ -180,22 +202,22 @@ export default InvoiceView = ({ route }) => {
 
                     <Text style={styles.title}>Invoice</Text>
 
-                    <TouchableOpacity 
+                    <TouchableOpacity
                         onPress={() => navigation.navigate('Payments')}
                         style={styles.invoiceInfo}>
                         <Image
-                          source={require('../Assets/img/icons/backToD.png')}
-                          style={{
-                            width: 20,
-                            height: 20,
-                            marginTop: 11,
-                            marginRight:5,
-                           // borderRadius: 50,
-                            //alignSelf: 'center',
-                          }}
+                            source={require('../Assets/img/icons/backToD.png')}
+                            style={{
+                                width: 20,
+                                height: 20,
+                                marginTop: 11,
+                                marginRight: 5,
+                                // borderRadius: 50,
+                                //alignSelf: 'center',
+                            }}
                         />
-                            <Text style={{ fontSize: 12, fontFamily: 'Poppins-Bold', marginTop: 13 }}>Back to Dashboard</Text>
-                        </TouchableOpacity>
+                        <Text style={{ fontSize: 12, fontFamily: 'Poppins-Bold', marginTop: 13 }}>Back to Dashboard</Text>
+                    </TouchableOpacity>
                 </View>
                 <View style={styles.invoiceInfoContainer}>
                     <View style={styles.invoiceInfo}>
@@ -239,7 +261,7 @@ export default InvoiceView = ({ route }) => {
                 </View>
                 <View style={[styles.slideContainerClient1, { backgroundColor: '#098d95' }]}>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '95%', alignSelf: 'center', marginBottom: 10 }}>
-                        <Text style={styles.headingClient}>Invoice From</Text>
+                        <Text style={styles.headingClient}>Invoice From11</Text>
 
                     </View>
 
@@ -264,7 +286,7 @@ export default InvoiceView = ({ route }) => {
                         </Text>
                     </View>
                 </View>
-              
+
 
                 <View style={styles.slideContainerClient1}>
                     <View style={{ paddingLeft: 10, width: wp(90), alignSelf: 'center', marginBottom: 10 }}>
@@ -325,7 +347,7 @@ export default InvoiceView = ({ route }) => {
                     <Text style={styles.label}>Total:</Text>
                     <Text style={styles.total1}>${totalPriceCharged}</Text>
                 </View> */}
-                <View style={{width:wp(80), flexDirection: 'row', alignSelf: 'center',justifyContent:"center", margin: 20 }}>
+                <View style={{ width: wp(80), flexDirection: 'row', alignSelf: 'center', justifyContent: "center", margin: 20 }}>
                     {/* <TouchableOpacity
                         style={{
                             color: Color.darkGreen,
@@ -356,7 +378,10 @@ export default InvoiceView = ({ route }) => {
                     </TouchableOpacity> */}
 
                     <TouchableOpacity
+
+                        onPress={() => generatePDF()}
                         style={{
+
                             color: Color.white,
                             fontSize: 12,
                             backgroundColor: '#8AB645',
@@ -382,11 +407,11 @@ export default InvoiceView = ({ route }) => {
                             marginTop: 2, color: '#fff'
                         }} >
 
-                            Download
+                            Download111
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
-                          onPress={() => setModalVisible(true)}
+                        onPress={() => setModalVisible(true)}
                         style={{
                             color: Color.darkGreen,
                             fontSize: 12,
@@ -418,94 +443,94 @@ export default InvoiceView = ({ route }) => {
             </ScrollView>
             <CustomBottomTab />
             <Modal
-        ///    animationType="slide"
-        // animationType="fade"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(!modalVisible);
-        }}>
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <View
-              style={{
-                flexDirection: 'row',
-                marginBottom: 20,
-                width: wp(90),
-                alignSelf: 'center',
-              }}>
-              <Text style={styles.Subheading}>Add Payment</Text>
-              <TouchableOpacity
-                onPress={() => setModalVisible(!modalVisible)}
-               // onPress={() => navigation.navigate('ContactUs')}
-              
-                style={{
-                  backgroundColor: '#8AB645',
-                  height: wp(10),
-                  width: wp(10),
-                  borderRadius: 40,
-                  position: 'absolute',
-                  right: -20,
-                  top: -45,
-                  justifyContent: 'center',
-                  alignItems: 'center',
+                ///    animationType="slide"
+                // animationType="fade"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => {
+                    setModalVisible(!modalVisible);
                 }}>
-                <Text style={{ color: '#fff' }}>X</Text>
-              </TouchableOpacity>
-            </View>
+                <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
+                        <View
+                            style={{
+                                flexDirection: 'row',
+                                marginBottom: 20,
+                                width: wp(90),
+                                alignSelf: 'center',
+                            }}>
+                            <Text style={styles.Subheading}>Add Payment</Text>
+                            <TouchableOpacity
+                                onPress={() => setModalVisible(!modalVisible)}
+                                // onPress={() => navigation.navigate('ContactUs')}
 
-            <View style={styles.formContainer}>
+                                style={{
+                                    backgroundColor: '#8AB645',
+                                    height: wp(10),
+                                    width: wp(10),
+                                    borderRadius: 40,
+                                    position: 'absolute',
+                                    right: -20,
+                                    top: -45,
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                }}>
+                                <Text style={{ color: '#fff' }}>X</Text>
+                            </TouchableOpacity>
+                        </View>
 
-            <TouchableOpacity
-                style={styles.btn}
-                onPress={() => setDatePicker(true)}>
-                  <View style={{flexDirection:"row",justifyContent:'space-between',width:wp(75)}}> 
-                  <Text style={{ fontFamily:'Poppins-SemiBold', color: '#fff', fontSize: 12 }}>
-                  Payment Date
-                  </Text>
-                {date ? (
-                  <Text style={{ fontFamily:'Poppins-SemiBold', color: '#fff', fontSize: 12 }}>
-                    {moment(date, 'MM-DD-YYYY').format('ddd,DD MMM YYYY')}
-                  </Text>
-                ) : (
-                  <Text style={{ color: '#fff', fontSize: 15 }}>Select</Text>
-                )}
-                  </View>
-                   
-              </TouchableOpacity>
+                        <View style={styles.formContainer}>
 
-              {datePicker && (
-                <DateTimePicker
-                  value={date}
-                  mode={'date'}
-                  display={Platform.OS === 'ios' ? 'spinner' : 'default'}
-                  //   is24Hour={false}
-                  onChange={onDateSelected}
-                 style={styles.datePicker}
-                />
-              )}
+                            <TouchableOpacity
+                                style={styles.btn}
+                                onPress={() => setDatePicker(true)}>
+                                <View style={{ flexDirection: "row", justifyContent: 'space-between', width: wp(75) }}>
+                                    <Text style={{ fontFamily: 'Poppins-SemiBold', color: '#fff', fontSize: 12 }}>
+                                        Payment Date
+                                    </Text>
+                                    {date ? (
+                                        <Text style={{ fontFamily: 'Poppins-SemiBold', color: '#fff', fontSize: 12 }}>
+                                            {moment(date, 'MM-DD-YYYY').format('ddd,DD MMM YYYY')}
+                                        </Text>
+                                    ) : (
+                                        <Text style={{ color: '#fff', fontSize: 15 }}>Select</Text>
+                                    )}
+                                </View>
 
-                <Dropdown
-                style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
-                placeholderStyle={styles.placeholderStyle}
-                selectedTextStyle={styles.selectedTextStyle}
-                iconStyle={styles.iconStyle}
-                data={data1}
-                maxHeight={200}
-                itemTextStyle={{ fontSize: 12, fontFamily: 'Poppins-SemiBold', color: '#5a5a5a' }} // Set the font size and other styles for dropdown items
+                            </TouchableOpacity>
 
-                labelField="label"
-                valueField="value"
-                placeholder={!isFocus ? 'Select' : 'Select'}    
-                value={value}
-                onFocus={() => setIsFocus(true)}
-              //  onBlur={() => setIsFocus(false)}
-                onBlur={handleBlur}
-                onChange={ (item) => handleDropdownChange(item)}
-              />
-             
-              <Text  style={styles.input}>{totalPriceCharged}</Text>
-              {/* <TextInput
+                            {datePicker && (
+                                <DateTimePicker
+                                    value={date}
+                                    mode={'date'}
+                                    display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+                                    //   is24Hour={false}
+                                    onChange={onDateSelected}
+                                    style={styles.datePicker}
+                                />
+                            )}
+
+                            <Dropdown
+                                style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
+                                placeholderStyle={styles.placeholderStyle}
+                                selectedTextStyle={styles.selectedTextStyle}
+                                iconStyle={styles.iconStyle}
+                                data={data1}
+                                maxHeight={200}
+                                itemTextStyle={{ fontSize: 12, fontFamily: 'Poppins-SemiBold', color: '#5a5a5a' }} // Set the font size and other styles for dropdown items
+
+                                labelField="label"
+                                valueField="value"
+                                placeholder={!isFocus ? 'Select' : 'Select'}
+                                value={value}
+                                onFocus={() => setIsFocus(true)}
+                                //  onBlur={() => setIsFocus(false)}
+                                onBlur={handleBlur}
+                                onChange={(item) => handleDropdownChange(item)}
+                            />
+
+                            <Text style={styles.input}>{totalPriceCharged}</Text>
+                            {/* <TextInput
                 style={styles.input}
                 placeholder="Payment Amount"
 
@@ -513,62 +538,64 @@ export default InvoiceView = ({ route }) => {
                value={totalPriceCharged}
               /> */}
 
-                 {value == 2 
-                 ?
-                 <>
+                            {value == 2
+                                ?
+                                <>
 
-                <TextInput
-                style={styles.input}
-                placeholder="Card Number"
+                                    <TextInput
+                                        style={styles.input}
+                                        placeholder="Card Number"
 
-              // onChangeText={onChangeText}
-              // value={text}
-              />
-               
-               <TextInput
-                style={styles.input}
-                placeholder="Card Holder Name"
+                                    // onChangeText={onChangeText}
+                                    // value={text}
+                                    />
 
-              // onChangeText={onChangeText}
-              // value={text}
-              />
-                 </>
-                  :
-                  null}    
+                                    <TextInput
+                                        style={styles.input}
+                                        placeholder="Card Holder Name"
+
+                                    // onChangeText={onChangeText}
+                                    // value={text}
+                                    />
+                                </>
+                                :
+                                null}
 
 
-                 <View style={styles.slideContainerEdit}>
-              <TextInput
-               numberOfLines={5}
-               multiline={true}
-               placeholder="Notes"
-               // placeholderTextColor={'lightgrey'}
-               style={[ {color:Color.HeaderBackground,fontFamily:'Poppins-SemiBold',   fontSize:12,
-                 padding: 10,paddingTop:10, textAlignVertical: 'top' }]}
-               // style={styles.input}
-               // placeholder="Phone"
+                            <View style={styles.slideContainerEdit}>
+                                <TextInput
+                                    numberOfLines={5}
+                                    multiline={true}
+                                    placeholder="Notes"
+                                    // placeholderTextColor={'lightgrey'}
+                                    style={[{
+                                        color: Color.HeaderBackground, fontFamily: 'Poppins-SemiBold', fontSize: 12,
+                                        padding: 10, paddingTop: 10, textAlignVertical: 'top'
+                                    }]}
+                                // style={styles.input}
+                                // placeholder="Phone"
 
-              // onChangeText={onChangeText}
-              // value={text}
-              />
-              </View>
-            
-            
-             
-              <TouchableOpacity
-                style={[styles.button, styles.buttonClose]}
-              // onPress={() => setModalVisible(!modalVisible)}
-               onPress={() => navigation.navigate('Paypal',{
-                totalPriceCharged:totalPriceCharged
+                                // onChangeText={onChangeText}
+                                // value={text}
+                                />
+                            </View>
 
-               })}
-              >
-                <Text style={styles.textStyle}>Proceed</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-      </Modal>
+
+
+                            <TouchableOpacity
+                                style={[styles.button, styles.buttonClose]}
+                                // onPress={() => setModalVisible(!modalVisible)}
+                                onPress={() => navigation.navigate('Paypal', {
+                                    totalPriceCharged: totalPriceCharged
+
+                                })}
+                            >
+                                <Text style={styles.textStyle}>Proceed</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </View>
+            </Modal>
         </View>
     );
 };
@@ -614,26 +641,26 @@ const styles = StyleSheet.create({
         // marginTop: 4
     },
 
-  dropdown: {
+    dropdown: {
         height: 40,
         borderColor: 'gray',
         backgroundColor: '#fff',
         borderWidth: 0.5,
         borderRadius: 8,
         width: wp(80),
-        marginTop:10,
-        marginBottom:10,
+        marginTop: 10,
+        marginBottom: 10,
         alignSelf: 'center',
         paddingHorizontal: 8,
-      },
+    },
 
 
-      placeholderStyle: {
+    placeholderStyle: {
         fontSize: 12,
-        fontFamily:'Poppins-SemiBold'
-      },
+        fontFamily: 'Poppins-SemiBold'
+    },
 
-      slideContainerEdit: {
+    slideContainerEdit: {
         backgroundColor: '#fff',
         width: wp(80),
         justifyContent: 'center',
@@ -642,14 +669,14 @@ const styles = StyleSheet.create({
         opacity: 2,
         paddingBottom: 20,
         borderRadius: 10,
-        marginBottom:10,
+        marginBottom: 10,
         marginTop: 10,
         // width:'62%'
-      },
-      selectedTextStyle: {
+    },
+    selectedTextStyle: {
         fontSize: 12,
-        fontFamily:'Poppins-SemiBold'
-      },
+        fontFamily: 'Poppins-SemiBold'
+    },
     divider: {
         borderBottomColor: '#ccc',
         borderBottomWidth: 1,
@@ -664,12 +691,12 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         marginTop: 10,
         backgroundColor: '#8AB645',
-       // backgroundColor: 'red',
+        // backgroundColor: 'red',
         borderRadius: 10,
         // padding: 10,
         alignItems: 'center',
         // marginRight: 10
-      },
+    },
     customerInfoContainer: {
         marginTop: 20,
     },
@@ -707,8 +734,8 @@ const styles = StyleSheet.create({
 
         width: wp(17)
     },
-    datePicker:{
-        backgroundColor:Color.white
+    datePicker: {
+        backgroundColor: Color.white
     },
     Price: {
         fontSize: 10,
@@ -842,42 +869,42 @@ const styles = StyleSheet.create({
     },
     centeredView: {
         flex: 1,
-    
+
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
         justifyContent: 'flex-end',
         // marginTop: 22,
-      },
-      modalView: {
+    },
+    modalView: {
         //margin: 20,
-    
+
         backgroundColor: 'white',
         //borderRadius: 20,
         padding: 35,
-    
+
         shadowColor: '#000',
         shadowOffset: {
-          width: 0,
-          height: 2,
+            width: 0,
+            height: 2,
         },
         shadowOpacity: 0.25,
         shadowRadius: 4,
         elevation: 5,
-      },
-      Subheading: {
+    },
+    Subheading: {
         fontSize: 16,
         color: '#000',
         paddingLeft: 20,
         fontWeight: '700',
-      },
-      formContainer: {
+    },
+    formContainer: {
         backgroundColor: '#2F4050',
         width: wp(90),
         padding: 10,
         alignSelf: 'center',
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
-      },
-      input: {
+    },
+    input: {
         height: 40,
         margin: 12,
         borderWidth: 1,
@@ -885,21 +912,21 @@ const styles = StyleSheet.create({
         padding: 10,
         width: wp(80),
         backgroundColor: '#fff',
-      },
-      buttonClose: {
+    },
+    buttonClose: {
         backgroundColor: '#8AB645',
         width: wp(80),
-      },
-      textStyle: {
+    },
+    textStyle: {
         color: 'white',
         fontWeight: 'bold',
         textAlign: 'center',
-      },
-      button: {
+    },
+    button: {
         borderRadius: 5,
         padding: 10,
         elevation: 2,
         width: 120,
         alignSelf: 'center',
-      },
+    },
 });
