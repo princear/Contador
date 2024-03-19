@@ -208,7 +208,7 @@ const HomeScreen = () => {
 
         <HeadTabs />
 
-        <View style={{ flex: 1, marginTop: 0, marginLeft: 20, }}>
+        <View style={{ flex: 1, marginTop: 10, marginLeft: 20, }}>
 
           <Carousel
             loop

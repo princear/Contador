@@ -18,7 +18,9 @@ export const dashboardlist =
           OfficeId: OfficeId,
         },
         "StartDate": "2024-02-01T09:22:46.571Z",
-        "EndDate": "2024-03-27T09:22:46.571Z"
+        // "EndDate": "2024-03-27T09:22:46.571Z"
+        "ENDDATE": "2025-12-31T10:11:13.733Z"
+
       };
       // console.log(data, 'payloadDashboard');
 
@@ -65,7 +67,7 @@ export const dashboardlist2 =
         "CLIENTTYPE": clientType,
         "CLIENTID": clientId,
         "STARTDATE": "2024-02-01T10:11:13.733Z",
-        "ENDDATE": "2024-02-29T10:11:13.733Z"
+        "ENDDATE": "2025-12-31T10:11:13.733Z"
 
       };
       // console.log(data, 'payloadDashboard');

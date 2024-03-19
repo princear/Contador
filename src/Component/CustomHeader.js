@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { View, Text, Image, SafeAreaView, TouchableOpacity } from 'react-native';
+import { View, Text, Image, Linking, SafeAreaView, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import {
   widthPercentageToDP as wp,
@@ -18,6 +18,9 @@ const CustomHeader = () => {
   let logo = require('../Assets/img/contadoramerica.png');
   let bell = require('../Assets/img/icons/bell-green.png');
   let profile = require('../Assets/img/icons/profile-green.png');
+  let chaticon = require('../Assets/img/bubble-chat.png');
+
+
 
   const dispatch = useDispatch();
   const [dashboardList, setDashboardList] = useState([]);
@@ -252,7 +255,17 @@ const CustomHeader = () => {
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          <TouchableOpacity onPress={() => navigation.navigate('MyInfo')}>
+          <TouchableOpacity onPress={() =>
+
+            Linking.openURL('whatsapp://send?text=Hello! I Would Like to Know More About Your Tax and Accounting Services in the USA.&phone=13058335457')}
+
+          >
+            {/* Hamburger icon or any other icon you prefer */}
+            <Image source={chaticon} style={{ width: 25, height: 25 }} resizeMode="contain" />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{ marginLeft: 10 }}
+            onPress={() => navigation.navigate('MyInfo')}>
             {/* Hamburger icon or any other icon you prefer */}
             <Image source={profile} style={{ width: 25, height: 25 }} />
           </TouchableOpacity>
@@ -263,29 +276,31 @@ const CustomHeader = () => {
 
             <Image source={bell} style={{ width: 25, height: 25 }} />
           </TouchableOpacity>
-          <View
-            style={{
-              position: 'absolute',
-              top: -2,
-              right: 0,
-              height: 25,
-
-              width: 25,
-              justifyContent: 'center',
-              borderWidth: 1,
-              borderColor: Color.white,
-              backgroundColor: 'red',
-              borderRadius: 50,
-            }}>
-            <Text
+          {AllUnreadNotifications > 0 ?
+            <View
               style={{
-                color: Color.white,
-                alignSelf: 'center',
-                fontSize: 12,
+                position: 'absolute',
+                top: -2,
+                right: 0,
+                height: 25,
+
+                width: 25,
+                justifyContent: 'center',
+                borderWidth: 1,
+                borderColor: Color.white,
+                backgroundColor: 'red',
+                borderRadius: 50,
               }}>
-              {AllUnreadNotifications}
-            </Text>
-          </View>
+              <Text
+                style={{
+                  color: Color.white,
+                  alignSelf: 'center',
+                  fontSize: 12,
+                }}>
+                {AllUnreadNotifications}
+              </Text>
+            </View>
+            : null}
         </View>
       </View>
     </SafeAreaView>

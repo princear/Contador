@@ -1041,30 +1041,36 @@ const HeadTabs = () => {
 
 
                                         </TouchableOpacity>
-                                        <View
-                                            style={{
-                                                position: 'absolute',
-                                                top: -2,
-                                                right: 10,
-                                                height: 20,
 
-                                                width: 20,
-                                                justifyContent: 'center',
-                                                borderWidth: 1,
-                                                borderColor: Color.white,
-                                                backgroundColor: 'red',
-                                                borderRadius: 50,
-                                            }}>
-                                            <Text
+                                        {UnreadTaxDeadCount > 0 ?
+
+
+                                            <View
                                                 style={{
-                                                    color: Color.white,
-                                                    alignSelf: 'center',
-                                                    fontFamily: 'Poppins-SemiBold',
-                                                    fontSize: 10,
+                                                    position: 'absolute',
+                                                    top: -2,
+                                                    right: 10,
+                                                    height: 20,
+
+                                                    width: 20,
+                                                    justifyContent: 'center',
+                                                    borderWidth: 1,
+                                                    borderColor: Color.green,
+                                                    backgroundColor: Color.green,
+                                                    borderRadius: 50,
                                                 }}>
-                                                {UnreadTaxDeadCount}
-                                            </Text>
-                                        </View>
+                                                <Text
+                                                    style={{
+                                                        color: Color.white,
+                                                        alignSelf: 'center',
+                                                        fontFamily: 'Poppins-SemiBold',
+                                                        fontSize: 10,
+                                                    }}>
+                                                    {UnreadTaxDeadCount}
+                                                </Text>
+                                            </View>
+
+                                            : null}
                                         <Text
                                             style={[
                                                 styles.ButtonText,
@@ -1104,30 +1110,34 @@ const HeadTabs = () => {
 
 
                                         </TouchableOpacity>
-                                        <View
-                                            style={{
-                                                position: 'absolute',
-                                                top: -2,
-                                                right: 10,
-                                                height: 20,
 
-                                                width: 20,
-                                                justifyContent: 'center',
-                                                borderWidth: 1,
-                                                borderColor: Color.white,
-                                                backgroundColor: 'red',
-                                                borderRadius: 50,
-                                            }}>
-                                            <Text
+                                        {UnreadMessagesCount > 0 ?
+                                            <View
                                                 style={{
-                                                    color: Color.white,
-                                                    alignSelf: 'center',
-                                                    fontFamily: 'Poppins-SemiBold',
-                                                    fontSize: 10,
+                                                    position: 'absolute',
+                                                    top: -2,
+                                                    right: 10,
+                                                    height: 20,
+
+                                                    width: 20,
+                                                    justifyContent: 'center',
+                                                    borderWidth: 1,
+                                                    borderColor: Color.green,
+                                                    backgroundColor: Color.green,
+                                                    borderRadius: 50,
                                                 }}>
-                                                {UnreadMessagesCount}
-                                            </Text>
-                                        </View>
+                                                <Text
+                                                    style={{
+                                                        color: Color.white,
+                                                        alignSelf: 'center',
+                                                        fontFamily: 'Poppins-SemiBold',
+                                                        fontSize: 10,
+                                                    }}>
+                                                    {UnreadMessagesCount}
+                                                </Text>
+                                            </View>
+
+                                            : null}
 
                                         <Text
                                             style={[
@@ -1168,30 +1178,33 @@ const HeadTabs = () => {
 
 
                                         </TouchableOpacity>
-                                        <View
-                                            style={{
-                                                position: 'absolute',
-                                                top: -2,
-                                                right: 10,
-                                                height: 20,
-
-                                                width: 20,
-                                                justifyContent: 'center',
-                                                borderWidth: 1,
-                                                borderColor: Color.white,
-                                                backgroundColor: 'red',
-                                                borderRadius: 50,
-                                            }}>
-                                            <Text
+                                        {UnreadHolidaysCount > 0 ?
+                                            <View
                                                 style={{
-                                                    color: Color.white,
-                                                    alignSelf: 'center',
-                                                    fontFamily: 'Poppins-SemiBold',
-                                                    fontSize: 10,
+                                                    position: 'absolute',
+                                                    top: -2,
+                                                    right: 10,
+                                                    height: 20,
+
+                                                    width: 20,
+                                                    justifyContent: 'center',
+                                                    borderWidth: 1,
+                                                    borderColor: Color.green,
+                                                    backgroundColor: Color.green,
+                                                    borderRadius: 50,
                                                 }}>
-                                                {UnreadHolidaysCount}
-                                            </Text>
-                                        </View>
+                                                <Text
+                                                    style={{
+                                                        color: Color.white,
+                                                        alignSelf: 'center',
+                                                        fontFamily: 'Poppins-SemiBold',
+                                                        fontSize: 10,
+                                                    }}>
+                                                    {UnreadHolidaysCount}
+                                                </Text>
+                                            </View>
+
+                                            : null}
                                         <Text
                                             style={[
                                                 styles.ButtonText,
@@ -1230,31 +1243,33 @@ const HeadTabs = () => {
 
 
                                         </TouchableOpacity>
-
-                                        <View
-                                            style={{
-                                                position: 'absolute',
-                                                top: -2,
-                                                right: 10,
-                                                height: 20,
-
-                                                width: 20,
-                                                justifyContent: 'center',
-                                                borderWidth: 1,
-                                                borderColor: Color.white,
-                                                backgroundColor: 'red',
-                                                borderRadius: 50,
-                                            }}>
-                                            <Text
+                                        {UnreadEventCount > 0 ?
+                                            <View
                                                 style={{
-                                                    color: Color.white,
-                                                    alignSelf: 'center',
-                                                    fontFamily: 'Poppins-SemiBold',
-                                                    fontSize: 10,
+                                                    position: 'absolute',
+                                                    top: -2,
+                                                    right: 10,
+                                                    height: 20,
+
+                                                    width: 20,
+                                                    justifyContent: 'center',
+                                                    borderWidth: 1,
+                                                    borderColor: Color.green,
+                                                    backgroundColor: Color.green,
+                                                    borderRadius: 50,
                                                 }}>
-                                                {UnreadEventCount}
-                                            </Text>
-                                        </View>
+                                                <Text
+                                                    style={{
+                                                        color: Color.white,
+                                                        alignSelf: 'center',
+                                                        fontFamily: 'Poppins-SemiBold',
+                                                        fontSize: 10,
+                                                    }}>
+                                                    {UnreadEventCount}
+                                                </Text>
+                                            </View>
+
+                                            : null}
                                         <Text
                                             style={[
                                                 styles.ButtonText,
@@ -1314,7 +1329,7 @@ const HeadTabs = () => {
                                                             : Color.headerIconBG,
                                                 },
                                             ]}>
-                                            Orders1
+                                            Orders
                                         </Text>
                                     </View>
                                     <View style={styles.TabsContainer}>
@@ -1485,7 +1500,7 @@ const HeadTabs = () => {
                                                             : Color.headerIconBG,
                                                 },
                                             ]}>
-                                            Orders2
+                                            Orders
                                         </Text>
                                     </View>
                                     <View style={styles.TabsContainer}>
@@ -1657,7 +1672,7 @@ const HeadTabs = () => {
                                                             : Color.headerIconBG,
                                                 },
                                             ]}>
-                                            Orders3
+                                            Orders
                                         </Text>
                                     </View>
                                     <View style={styles.TabsContainer}>
@@ -1815,7 +1830,7 @@ const HeadTabs = () => {
                                                             : Color.headerIconBG,
                                                 },
                                             ]}>
-                                            Orders4
+                                            Orders
                                         </Text>
                                     </View>
                                     <View style={styles.TabsContainer}>
@@ -1966,30 +1981,33 @@ const HeadTabs = () => {
 
 
                                         </TouchableOpacity>
-                                        <View
-                                            style={{
-                                                position: 'absolute',
-                                                top: -2,
-                                                right: 10,
-                                                height: 20,
-
-                                                width: 20,
-                                                justifyContent: 'center',
-                                                borderWidth: 1,
-                                                borderColor: Color.white,
-                                                backgroundColor: 'red',
-                                                borderRadius: 50,
-                                            }}>
-                                            <Text
+                                        {UnreadOrderCount > 0 ?
+                                            <View
                                                 style={{
-                                                    color: Color.white,
-                                                    alignSelf: 'center',
-                                                    fontFamily: 'Poppins-SemiBold',
-                                                    fontSize: 10,
+                                                    position: 'absolute',
+                                                    top: -2,
+                                                    right: 10,
+                                                    height: 20,
+
+                                                    width: 20,
+                                                    justifyContent: 'center',
+                                                    borderWidth: 1,
+                                                    borderColor: Color.green,
+                                                    backgroundColor: Color.green,
+                                                    borderRadius: 50,
                                                 }}>
-                                                {UnreadOrderCount}
-                                            </Text>
-                                        </View>
+                                                <Text
+                                                    style={{
+                                                        color: Color.white,
+                                                        alignSelf: 'center',
+                                                        fontFamily: 'Poppins-SemiBold',
+                                                        fontSize: 10,
+                                                    }}>
+                                                    {UnreadOrderCount}
+                                                </Text>
+                                            </View>
+
+                                            : null}
                                         <Text
                                             style={[
                                                 styles.ButtonText,
@@ -2029,31 +2047,32 @@ const HeadTabs = () => {
 
 
                                         </TouchableOpacity>
-
-                                        <View
-                                            style={{
-                                                position: 'absolute',
-                                                top: -2,
-                                                right: 10,
-                                                height: 20,
-
-                                                width: 20,
-                                                justifyContent: 'center',
-                                                borderWidth: 1,
-                                                borderColor: Color.white,
-                                                backgroundColor: 'red',
-                                                borderRadius: 50,
-                                            }}>
-                                            <Text
+                                        {UnreadTaxReturnCount > 0 ?
+                                            <View
                                                 style={{
-                                                    color: Color.white,
-                                                    alignSelf: 'center',
-                                                    fontFamily: 'Poppins-SemiBold',
-                                                    fontSize: 10,
+                                                    position: 'absolute',
+                                                    top: -2,
+                                                    right: 10,
+                                                    height: 20,
+
+                                                    width: 20,
+                                                    justifyContent: 'center',
+                                                    borderWidth: 1,
+                                                    borderColor: Color.green,
+                                                    backgroundColor: Color.green,
+                                                    borderRadius: 50,
                                                 }}>
-                                                {UnreadTaxReturnCount}
-                                            </Text>
-                                        </View>
+                                                <Text
+                                                    style={{
+                                                        color: Color.white,
+                                                        alignSelf: 'center',
+                                                        fontFamily: 'Poppins-SemiBold',
+                                                        fontSize: 10,
+                                                    }}>
+                                                    {UnreadTaxReturnCount}
+                                                </Text>
+                                            </View>
+                                            : null}
                                         <Text
                                             style={[
                                                 styles.ButtonText,
@@ -2104,30 +2123,33 @@ const HeadTabs = () => {
                       (0)
                     </Text> */}
                                         </TouchableOpacity>
-                                        <View
-                                            style={{
-                                                position: 'absolute',
-                                                top: -2,
-                                                right: 10,
-                                                height: 20,
-
-                                                width: 20,
-                                                justifyContent: 'center',
-                                                borderWidth: 1,
-                                                borderColor: Color.white,
-                                                backgroundColor: 'red',
-                                                borderRadius: 50,
-                                            }}>
-                                            <Text
+                                        {UnreadBookCount > 0 ?
+                                            <View
                                                 style={{
-                                                    color: Color.white,
-                                                    alignSelf: 'center',
-                                                    fontFamily: 'Poppins-SemiBold',
-                                                    fontSize: 10,
+                                                    position: 'absolute',
+                                                    top: -2,
+                                                    right: 10,
+                                                    height: 20,
+
+                                                    width: 20,
+                                                    justifyContent: 'center',
+                                                    borderWidth: 1,
+                                                    borderColor: Color.green,
+                                                    backgroundColor: Color.green,
+                                                    borderRadius: 50,
                                                 }}>
-                                                {UnreadBookCount}
-                                            </Text>
-                                        </View>
+                                                <Text
+                                                    style={{
+                                                        color: Color.white,
+                                                        alignSelf: 'center',
+                                                        fontFamily: 'Poppins-SemiBold',
+                                                        fontSize: 10,
+                                                    }}>
+                                                    {UnreadBookCount}
+                                                </Text>
+                                            </View>
+
+                                            : null}
                                         <Text
                                             style={[
                                                 styles.ButtonText,
@@ -2167,30 +2189,33 @@ const HeadTabs = () => {
 
 
                                         </TouchableOpacity>
-                                        <View
-                                            style={{
-                                                position: 'absolute',
-                                                top: -2,
-                                                right: 10,
-                                                height: 20,
 
-                                                width: 20,
-                                                justifyContent: 'center',
-                                                borderWidth: 1,
-                                                borderColor: Color.white,
-                                                backgroundColor: 'red',
-                                                borderRadius: 50,
-                                            }}>
-                                            <Text
+                                        {UnreadGovCount > 0 ?
+                                            <View
                                                 style={{
-                                                    color: Color.white,
-                                                    alignSelf: 'center',
-                                                    fontFamily: 'Poppins-SemiBold',
-                                                    fontSize: 10,
+                                                    position: 'absolute',
+                                                    top: -2,
+                                                    right: 10,
+                                                    height: 20,
+
+                                                    width: 20,
+                                                    justifyContent: 'center',
+                                                    borderWidth: 1,
+                                                    borderColor: Color.green,
+                                                    backgroundColor: Color.green,
+                                                    borderRadius: 50,
                                                 }}>
-                                                {UnreadGovCount}
-                                            </Text>
-                                        </View>
+                                                <Text
+                                                    style={{
+                                                        color: Color.white,
+                                                        alignSelf: 'center',
+                                                        fontFamily: 'Poppins-SemiBold',
+                                                        fontSize: 10,
+                                                    }}>
+                                                    {UnreadGovCount}
+                                                </Text>
+                                            </View>
+                                            : null}
                                         <Text
                                             style={[
                                                 styles.ButtonText,
@@ -2214,7 +2239,10 @@ const HeadTabs = () => {
                 <ScrollView
                     showsVerticalScrollIndicator={false}
                     showsHorizontalScrollIndicator={false}
-                    style={{ maxHeight: 200, }}>
+                    nestedScrollEnabled={true}
+
+                    style={{ maxHeight: 200, }}
+                >
 
                     {(() => {
                         if (showwhat1 == 'Message') {
@@ -2229,6 +2257,7 @@ const HeadTabs = () => {
                                                 backgroundColor: "#f7f9fa",
                                                 alignSelf: "center",
                                                 marginTop: 10,
+                                                marginBottom: 10,
                                                 padding: 10,
                                                 width: wp(90),
                                                 flexDirection: 'row'
@@ -3418,7 +3447,7 @@ const HeadTabs = () => {
                             );
                         }
                     })()}
-                    <View style={{ height: 50 }}></View>
+                    {/* <View style={{ height: 20 }}></View> */}
                 </ScrollView>
             </View>
         </View >
@@ -3435,11 +3464,31 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         /// height: 420,
         opacity: 2,
-        paddingBottom: 20,
+        //backgroundColor: 'green',
+        //paddingBottom: 20,
         borderRadius: 10,
+        // height: wp(40),
         // marginTop: 20,
         // width:'62%'
+        //backgroundColor: "red"
     },
+
+    // mainTab: {
+    //     // backgroundColor: '#fff',
+    //     width: wp(90),
+    //     justifyContent: 'center',
+    //     alignSelf: 'center',
+    //     /// height: 420,
+    //     opacity: 2,
+    //     //backgroundColor: 'green',
+    //     //paddingBottom: 20,
+    //     borderRadius: 10,
+    //     // height: wp(40),
+    //     // marginTop: 20,
+    //     // width:'62%'
+    //     //backgroundColor: "red"
+    // },
+
     part: {
         borderWidth: 0.5,
         borderColor: '#A7B1C2',
@@ -3451,15 +3500,16 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: "center",
         width: wp(22),
-        backgroundColor: "",
-        height: wp(20)
+        //backgroundColor: "",
+        height: wp(20),
+        //  backgroundColor: "red"
     },
     moblieSec: {
         // backgroundColor: "red",
         // height: 20,
         width: wp(90),
-        // backgroundColor: 'red',
-        //backgroundColor: 'red',
+        //  backgroundColor: Color.green,
+        // backgroundColor: Color.green,
         //  justifyContent: 'space-between',
         alignSelf: 'center',
         borderRadius: 50,
