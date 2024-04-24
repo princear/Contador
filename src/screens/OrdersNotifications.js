@@ -572,7 +572,7 @@ const OrdersNotifications = () => {
                                                 color: Color.headerIconBG,
                                                 padding: 3,
                                             }}>
-                                            Congratulations! A new project with ID # {item.sectionId} has been successfully created.
+                                            Congratulations! Your new Tax Return {item.sectionId} has been placed.
 
                                         </Text>
 
@@ -734,7 +734,7 @@ const OrdersNotifications = () => {
                                                 color: Color.headerIconBG,
                                                 padding: 3,
                                             }}>
-                                            Congratulations! A new project with ID # {item.sectionId} has been successfully created.
+                                            Congratulations! Your new BookKeeping {item.sectionId} has been placed.
 
                                         </Text>
 
@@ -901,7 +901,7 @@ const OrdersNotifications = () => {
                                                 color: Color.headerIconBG,
                                                 padding: 3,
                                             }}>
-                                            Congratulations! A new project with ID # {item.sectionId} has been successfully created.
+                                            Congratulations! Your new Gov. Payment {item.sectionId} has been placed.
 
                                         </Text>
 

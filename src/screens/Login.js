@@ -474,6 +474,7 @@ const Login = () => {
                 style={[styles.buttonContainer, styles.loginButton]}
                 onPress={() => loginWithOffice365()}>
                 <Text style={styles.loginText}>Login with Office365</Text>
+
               </TouchableOpacity>
 
               {/* <TouchableOpacity

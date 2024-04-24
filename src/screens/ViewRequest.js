@@ -224,7 +224,7 @@ const ViewRequest = ({ route }) => {
             }}>
 
 
-              Create New Action
+              Create New Request
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -255,15 +255,15 @@ const ViewRequest = ({ route }) => {
             }}>
 
 
-              Action Dashboard
+              Requests Dashboard
             </Text>
           </TouchableOpacity>
         </View>
-        <View style={{ flexDirection: "row", justifyContent: 'space-between', width: '90%', alignSelf: 'center' }}>
+        {/* <View style={{ flexDirection: "row", justifyContent: 'space-between', width: '90%', alignSelf: 'center' }}>
           <Text style={{ color: Color.darkGreen, fontSize: 12, fontFamily: 'Poppins-SemiBold', }}>Action ID #{REQUEST_INFO_BY_ID?.actionModel?.id}</Text>
           <Text style={{ color: Color.darkGreen, fontSize: 12, fontFamily: 'Poppins-SemiBold', }}>Client ID: {REQUEST_INFO_BY_ID?.actionModel?.clientId}</Text>
 
-        </View>
+        </View> */}
 
 
         <View

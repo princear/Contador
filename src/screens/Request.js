@@ -533,7 +533,8 @@ const Request = () => {
                               //     showwhat == 'Experience' ? '#2F4050' : 'lightgray',
                               // },
                             ]}
-                            onPress={() => showwhatfunc('Experience')}>
+                            // onPress={() => showwhatfunc('Experience')}>
+                            onPress={() => showwhatfunc('My Schools')}>
                             <View
                               style={{
                                 width: 35,
@@ -557,7 +558,7 @@ const Request = () => {
                             </View>
                             <Text style={styles.ButtonText}>Incomplete</Text>
                           </TouchableOpacity>
-                          <TouchableOpacity
+                          {/* <TouchableOpacity
                             style={[
                               styles.mobiletoch,
                               // {
@@ -587,7 +588,7 @@ const Request = () => {
                               />
                             </View>
                             <Text style={styles.ButtonText}>Complete</Text>
-                          </TouchableOpacity>
+                          </TouchableOpacity> */}
                         </View>
                       </View>
                     );
@@ -601,7 +602,7 @@ const Request = () => {
                             // justifyContent: 'space-between',
                             marginBottom: 20,
                           }}>
-                          <TouchableOpacity
+                          {/* <TouchableOpacity
                             style={[
                               styles.emailtoch,
                               // {
@@ -630,7 +631,7 @@ const Request = () => {
                               />
                             </View>
                             <Text style={styles.ButtonText}>Incomplete</Text>
-                          </TouchableOpacity>
+                          </TouchableOpacity> */}
                           <TouchableOpacity
                             style={[
                               styles.mobiletoch,
@@ -640,7 +641,9 @@ const Request = () => {
                               //   borderRadius: 10,
                               // },
                             ]}
-                            onPress={() => showwhatfunc('My Schools')}>
+                            //  onPress={() => showwhatfunc('My Schools')}>
+                            onPress={() => showwhatfunc('Experience')}>
+
                             <View
                               style={{
                                 width: 35,
@@ -743,7 +746,7 @@ const Request = () => {
                             // alignItems: 'center',
                           }}>
                           <Text style={{ color: Color.white, fontSize: 14, fontFamily: 'Poppins-SemiBold' }}>
-                            Action ID
+                            Request ID
                           </Text>
                         </View>
 

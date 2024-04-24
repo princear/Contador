@@ -2553,7 +2553,12 @@ const HeadTabs = () => {
                                                             </Text>
                                                         </View>
                                                     </View>
-                                                    <View
+                                                    <TouchableOpacity
+                                                        onPress={() => {
+                                                            navigation.navigate('ViewRequest', {
+                                                                actionId: item?.id
+                                                            })
+                                                        }}
                                                         style={{
                                                             width: wp(65),
                                                             //  backgroundColor:'red'
@@ -2569,7 +2574,7 @@ const HeadTabs = () => {
 
 
                                                             }}>
-                                                            Action
+                                                            Request
                                                         </Text>
                                                         <View
                                                             style={{
@@ -2578,14 +2583,7 @@ const HeadTabs = () => {
                                                                 borderBottomColor: '#e4edee',
                                                             }}
                                                         ></View>
-                                                        {/* <Text
-                                                            style={{
-                                                                fontSize: 12,
-                                                                fontFamily: 'Poppins-SemiBold',
-                                                                color: Color.headerIconBG,
-                                                                padding: 3,
-                                                            }}>
-                                                            Notification: */}
+
                                                         <Text
                                                             style={{
                                                                 fontSize: 10,
@@ -2593,7 +2591,8 @@ const HeadTabs = () => {
                                                                 color: Color.headerIconBG,
                                                                 padding: 3,
                                                             }}>
-                                                            A new action with ID #{item.id} has been created.
+                                                            {/* {item.id} */}
+                                                            Your Manager has submitted a New Request for You. Please click here to review it.
                                                         </Text>
 
                                                         <Text
@@ -2606,7 +2605,7 @@ const HeadTabs = () => {
                                                             {formatDate(item.creationDate)}
                                                         </Text>
                                                         {/* </Text> */}
-                                                    </View>
+                                                    </TouchableOpacity>
 
                                                 </View>
                                             ))
@@ -3224,7 +3223,8 @@ const HeadTabs = () => {
                                                             color: Color.headerIconBG,
                                                             padding: 3,
                                                         }}>
-                                                        Congratulations! A new project with ID # {item.sectionId} has been successfully created.
+                                                        {/* Congratulations! A new project with ID # {item.sectionId} has been successfully created. */}
+                                                        Congratulations! Your new Tax Return {item.sectionId} has been placed.
 
                                                     </Text>
 
@@ -3358,7 +3358,8 @@ const HeadTabs = () => {
                                                             color: Color.headerIconBG,
                                                             padding: 3,
                                                         }}>
-                                                        Congratulations! A new project with ID # {item.sectionId} has been successfully created.
+                                                        {/* Congratulations! A new project with ID # {item.sectionId} has been successfully created. */}
+                                                        Congratulations! Your new BookKeeping {item.sectionId} has been placed.
 
                                                     </Text>
 
@@ -3520,7 +3521,8 @@ const HeadTabs = () => {
                                                             color: Color.headerIconBG,
                                                             padding: 3,
                                                         }}>
-                                                        Congratulations! A new project with ID # {item.sectionId} has been successfully created.
+                                                        {/* Congratulations! A new project with ID # {item.sectionId} has been successfully created. */}
+                                                        Congratulations! Your new Gov. Payment {item.sectionId} has been placed.
 
                                                     </Text>
 

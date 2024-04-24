@@ -49,6 +49,7 @@ import AssoFileCabinet from '../screens/AssoFileCabinet';
 import OrdersNotifications from '../screens/OrdersNotifications';
 import ProjectNotifications from '../screens/ProjectNotifications';
 import AllNotifications from '../screens/AllNotifications';
+import HeadTabs from '../screens/HeadTabs';
 
 
 enableScreens();
@@ -434,6 +435,20 @@ function HomeScreenStack() {
         }}
       />
       <Stack.Screen
+        name="HeadTabs"
+        component={HeadTabs}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="ViewRequest"
+        component={ViewRequest}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
         name="ProjectNotifications"
         component={ProjectNotifications}
         options={{
@@ -532,6 +547,13 @@ function RequestScreenStack() {
       <Stack.Screen
         name="ContactUs"
         component={ContactUs}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="HeadTabs"
+        component={HeadTabs}
         options={{
           headerShown: false,
         }}

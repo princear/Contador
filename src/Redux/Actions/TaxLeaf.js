@@ -59,6 +59,7 @@ export const LoginUser = (email, navigation) => dispatch => {
 
       Alert.alert(response.massage);
       navigation.navigate('home');
+
     }
 
     else if (response.statusCode == 200 && response.clientSetupStatus == false) {

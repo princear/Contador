@@ -78,15 +78,15 @@ android {
     namespace "com.contador"
     defaultConfig {
       //  applicationId "com.taxleaf.taxleaf"
-        //applicationId "com.contador.contador.America"
-       applicationId "com.contador"
+        applicationId "com.contador.contador.America"
+       //applicationId "com.contador"
         manifestPlaceholders = [
       appAuthRedirectScheme: 'com.contador'
     ]
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 11
-        versionName "11.0"
+        versionCode 12
+        versionName "12.0"
     }
     signingConfigs {
         debug {

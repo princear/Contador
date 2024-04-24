@@ -906,7 +906,7 @@ const FileCabinet = () => {
                 }}>
                 {/* <Image source={usericon} style={{ width: 20, height: 20 }} /> */}
                 <Text style={{ color: Color.headerIconBG, fontSize: 20, fontFamily: 'Poppins-Bold', }}>File Cabinet</Text>
-                <Text style={styles.client}>Client ID : {ClientName}</Text>
+                {/* <Text style={styles.client}>Client ID : {ClientName}</Text> */}
               </View>
               <TouchableOpacity
                 onPress={() => setModalVisible(true)}
